@@ -1,8 +1,11 @@
 import React from 'react';
+import Header from "./Header";
 
 export default function Urgences(props) {
     return (
-        <h1>Numéros d'urgence</h1>
+        <div>
+            <Header page={'Urgences'}></Header>
+        </div>
     );
 
 }

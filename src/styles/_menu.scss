@@ -1,0 +1,61 @@
+.menu{
+  width: 80%;
+  height: 100vh;
+  background-color: $vert;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  transition: left 0.3s ease-in-out;
+
+  > img{
+    position:absolute;
+    font-size:3rem;
+    color: $blanc;
+    top: 4rem;
+    right: -15%;
+    width:8%;
+  }
+
+  .liens{
+    display: flex;
+    flex-direction: column;
+    width:90%;
+
+    a{
+      text-decoration: none;
+      padding:0 0 1rem 0;
+      margin-top:4rem;
+    }
+    a:nth-child(1) {
+      margin-top: 0;
+    }
+
+    .lien{
+      width: 90%;
+      height: 15%;
+      margin-left: 1em;
+      display: flex;
+      align-items: center;
+
+      .titre{
+        border-bottom: 0.1rem solid $blanc;
+        font-size: 2.5rem;
+        color: $blanc;
+        padding-bottom: 1rem;
+      }
+
+      i{
+        color:white;
+        font-size:2rem;
+        margin-left: 2rem;
+        padding-bottom: 1rem;
+      }
+    }
+  }
+}
+.ferme{
+  left:-80%;
+  transition: left 0.3s ease-in-out;
+}

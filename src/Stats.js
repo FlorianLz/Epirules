@@ -1,11 +1,11 @@
 import React from 'react';
 import Header from "./Header";
 
-export default function Regles(props) {
+export default function Stats(props) {
     let pays=props.match.params.pays;
     return (
         <div>
-            <Header page={'Règles'}></Header>
+            <Header page={'Statistiques'}></Header>
         </div>
 
     );
