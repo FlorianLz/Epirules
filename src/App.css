@@ -22,10 +22,11 @@ code {
   width: 90%;
   margin: 0 auto;
   height: 100%; }
-  #root > div {
-    height: 100%;
-    display: flex;
-    justify-content: center; }
+
+#root > div {
+  height: 100%;
+  display: flex;
+  justify-content: center; }
 
 .container {
   height: 100%;
@@ -132,39 +133,46 @@ code {
   display: flex;
   align-items: center;
   transition: left 0.3s ease-in-out; }
-  .menu > img {
-    position: absolute;
-    font-size: 3rem;
-    color: #FFFFFF;
-    top: 4rem;
-    right: -15%;
-    width: 8%; }
-  .menu .liens {
-    display: flex;
-    flex-direction: column;
-    width: 90%; }
-    .menu .liens a {
-      text-decoration: none;
-      padding: 0 0 1rem 0;
-      margin-top: 4rem; }
-    .menu .liens a:nth-child(1) {
-      margin-top: 0; }
-    .menu .liens .lien {
-      width: 90%;
-      height: 15%;
-      margin-left: 1em;
-      display: flex;
-      align-items: center; }
-      .menu .liens .lien .titre {
-        border-bottom: 0.1rem solid #FFFFFF;
-        font-size: 2.5rem;
-        color: #FFFFFF;
-        padding-bottom: 1rem; }
-      .menu .liens .lien i {
-        color: white;
-        font-size: 2rem;
-        margin-left: 2rem;
-        padding-bottom: 1rem; }
+
+.menu > img {
+  position: absolute;
+  font-size: 3rem;
+  color: #FFFFFF;
+  top: 4rem;
+  right: -15%;
+  width: 8%; }
+
+.menu .liens {
+  display: flex;
+  flex-direction: column;
+  width: 90%; }
+
+.menu .liens a {
+  text-decoration: none;
+  padding: 0 0 1rem 0;
+  margin-top: 4rem; }
+
+.menu .liens a:nth-child(1) {
+  margin-top: 0; }
+
+.menu .liens .lien {
+  width: 90%;
+  height: 15%;
+  margin-left: 1em;
+  display: flex;
+  align-items: center; }
+
+.menu .liens .lien .titre {
+  border-bottom: 0.1rem solid #FFFFFF;
+  font-size: 2.5rem;
+  color: #FFFFFF;
+  padding-bottom: 1rem; }
+
+.menu .liens .lien i {
+  color: white;
+  font-size: 2rem;
+  margin-left: 2rem;
+  padding-bottom: 1rem; }
 
 .ferme {
   left: -80%;
@@ -176,33 +184,38 @@ code {
   justify-content: space-around;
   height: 80%;
   padding-top: 8rem; }
-  .selectCountry h1 {
-    text-align: center; }
-  .selectCountry select {
-    width: 70%;
-    background-color: transparent;
-    color: #FFFFFF;
-    height: 5rem;
-    padding-left: 1rem;
-    padding-right: 2rem;
-    border: 0.3rem solid #56AF32;
-    border-radius: 0.8rem;
-    margin-top: 1rem; }
-  .selectCountry option {
-    background-color: #1c1c1c;
-    color: #FFFFFF; }
-  .selectCountry a {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    text-decoration: none; }
-  .selectCountry button {
-    width: 70%;
-    padding: 1rem;
-    background-color: #56AF32;
-    border: 0.3rem solid #56AF32;
-    color: #FFFFFF;
-    margin-top: 1rem; }
+
+.selectCountry h1 {
+  text-align: center; }
+
+.selectCountry select {
+  width: 70%;
+  background-color: transparent;
+  color: #FFFFFF;
+  height: 5rem;
+  padding-left: 1rem;
+  padding-right: 2rem;
+  border: 0.3rem solid #56AF32;
+  border-radius: 0.8rem;
+  margin-top: 1rem; }
+
+.selectCountry option {
+  background-color: #1c1c1c;
+  color: #FFFFFF; }
+
+.selectCountry a {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-decoration: none; }
+
+.selectCountry button {
+  width: 70%;
+  padding: 1rem;
+  background-color: #56AF32;
+  border: 0.3rem solid #56AF32;
+  color: #FFFFFF;
+  margin-top: 1rem; }
 
 .header {
   width: 100vw;
@@ -211,10 +224,15 @@ code {
   justify-content: center;
   flex-direction: column;
   align-items: center; }
-  .header img {
-    margin-top: 1rem; }
-  .header h3 {
-    color: #56AF32;
-    font-size: 2rem;
-    padding-top: 1rem;
-    margin-bottom: 2rem; }
+
+.header img {
+  margin-top: 1rem; }
+
+.header h3 {
+  color: #56AF32;
+  font-size: 2rem;
+  padding-top: 1rem;
+  margin-bottom: 2rem; }
+
+.apropos {
+  width: 90%; }
