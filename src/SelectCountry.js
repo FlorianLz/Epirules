@@ -12,6 +12,7 @@ function App() {
     const [choisi, setChoisi] = useState(false);
     const [listePays] = useState([]);
     const [cookies, setCookie] = useCookies(['pays']);
+    const [cookiesID, setCookieID] = useCookies(['idpays']);
     let jsxListePays=[];
     if (!firebase.apps.length) {
         firebase.initializeApp(config);
@@ -48,7 +49,9 @@ function App() {
 
     function actualiserChoix(e){
         let choix = e.target.options[e.target.selectedIndex].value;
+        let idpays = e.target.options[e.target.selectedIndex].id;
         setCookie('pays', choix, '/');
+        setCookieID('idpays', idpays, '/');
         setChoisi(choix);
     }
 
