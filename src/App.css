@@ -8,7 +8,7 @@ html {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #1c1c1c;
@@ -16,7 +16,7 @@ body {
   height: 100vh; }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
 
 #root {
   width: 90%;
@@ -259,3 +259,44 @@ code {
 
 .apropos .personnes_right {
   width: 50%; }
+
+.emergency {
+  margin-top: 5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto; }
+
+.emergency .partEmergency {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.8rem;
+  width: 50%;
+  margin-bottom: 5vh; }
+
+.emergency .partEmergency a {
+  text-decoration: none;
+  color: #56AF32; }
+
+.emergency .partEmergency .numero {
+  color: #56AF32;
+  width: 6rem;
+  height: 6rem;
+  border: 1px solid #56AF32;
+  border-radius: 10rem;
+  text-align: center;
+  margin-bottom: 1vh;
+  margin-left: auto;
+  margin-right: auto; }
+
+.emergency .partEmergency .numero p {
+  top: 50%;
+  transform: translateY(70%); }
+
+.emergency .nameNumero {
+  font-size: 1.4rem;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase; }

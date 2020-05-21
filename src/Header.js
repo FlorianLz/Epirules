@@ -8,7 +8,7 @@ export default function Header(props) {
                 <img src={'/images/epirules.png'} />
                 <h3>{props.page}</h3>
             </div>
-            <Menu></Menu>
+            <Menu pays={props.pays}></Menu>
         </div>
 
     );

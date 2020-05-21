@@ -1,11 +1,21 @@
 import React from 'react';
 import Header from "./Header";
+import {useCookies} from 'react-cookie';
+import {Redirect} from "react-router-dom";
 
 export default function Stats(props) {
-    let pays=props.match.params.pays;
+    const [cookies] = useCookies(['pays']);
+    let pays=cookies.pays;
+
+    if(!cookies.pays){
+        return (
+            <Redirect to='/'/>
+        );
+    }
+
     return (
         <div>
-            <Header page={'Statistiques'}></Header>
+            <Header page={'Statistiques '+pays}></Header>
         </div>
 
     );
