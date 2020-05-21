@@ -1,0 +1,30 @@
+.rules{
+
+  .mainRules{
+    margin-top: 2vh;
+    .titlePage{
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .liste{
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 2vh;
+      .onerule{
+        width: 45%;
+        margin-bottom: 2vh;
+        font-size: 1.2rem;
+      }
+      img{
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+    }
+  }
+}
