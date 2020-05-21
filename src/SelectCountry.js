@@ -4,56 +4,57 @@ import * as firebase from "firebase";
 import config from "./Config";
 import ListePays from "./ListePays";
 import {Link, Redirect} from "react-router-dom";
+import {useCookies, withCookies} from 'react-cookie';
 
 
 function App() {
-    const [pays, setPays] = useState([]);
     const [loading, setLoading] = useState(true);
     const [choisi, setChoisi] = useState(false);
+    const [listePays, setListePays] = useState([]);
+    const [cookies, setCookie] = useCookies(['pays']);
     let jsxListePays=[];
+    if (!firebase.apps.length) {
+        firebase.initializeApp(config);
+    }
+    const db = firebase.firestore();
 
     // Fonction exécutée au chargement de la page
     function getPays(){
         if(loading===true){
-            if (!firebase.apps.length) {
-                firebase.initializeApp(config);
-            }
-            //Référence de la table choisie (ici pays)
-            const ref = firebase.database().ref('pays');
-            ref.on('value', snapshot=>{
-                let data=snapshot.val();
-                update(data);
+            db.collection("pays").get().then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    console.log(doc.id, " => ", doc.data());
+                    listePays.push({
+                        id: doc.id,
+                        nom: doc.data().nom,
+                        code: doc.data().code
+                    })
+                });
+            }).then(function(){
+                setLoading(false); //On indique que le chargement est terminé
             });
         }
-
-    }
-    function update(data){
-        console.log(data);
-        setPays(data); //On crée une copie de la db dans la variable Pays
-        setLoading(false); //On indique que le chargement est terminé
     }
 
 
-    for(let i =0;i<pays.length;i++){
+    for(let i =0;i<listePays.length;i++){
         jsxListePays.push(<ListePays
             key={i}
-            id={i}
-            pays={pays[i].nom}
+            id={listePays[i].id}
+            pays={listePays[i].nom}
+            code={listePays[i].code}
         />)
     }
 
     function actualiserChoix(e){
         let choix = e.target.options[e.target.selectedIndex].value;
+        setCookie('pays', choix, '/');
         setChoisi(choix);
     }
 
     useEffect(()=>{
         getPays();
     },[])
-
-    function Validation() {
-        console.log(choisi);
-    }
 
     if (loading === false){
         return (
@@ -64,7 +65,7 @@ function App() {
                 <option value="choix" hidden>Choisissez votre pays</option>
                 {jsxListePays}
             </select>
-            {choisi ? <Link to={'/regles/'+choisi}><button onClick={e=>Validation()}>Valider</button></Link> : '' }
+            {choisi ? <Link to={'/regles'}><button>Valider</button></Link> : '' }
 
         </div>
         )

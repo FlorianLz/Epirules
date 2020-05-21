@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
+import {useCookies, withCookies} from 'react-cookie';
 
 export default function Menu(props) {
     const [visible,setVisible]=useState(false);
+    const [cookies, setCookie] = useCookies(['pays']);
+    let pays=cookies.pays;
 
     function changer() {
         if(visible === false){
@@ -17,7 +20,7 @@ export default function Menu(props) {
             <div className="menu">
                 <img src={'/images/menuouvert.png'} onClick={e=>changer()} />
                 <div className="liens">
-                    <Link to={'/'}>
+                    <Link to={'/regles'}>
                         <div className="lien">
                             <div className="titre">Accueil</div>
                             <i className="fas fa-arrow-right"></i>
