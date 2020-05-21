@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import {useCookies, withCookies} from 'react-cookie';
+import {useCookies} from 'react-cookie';
 
-export default function Menu(props) {
+export default function Menu() {
     const [visible,setVisible]=useState(false);
-    const [cookies, setCookie] = useCookies(['pays']);
-    let pays=cookies.pays;
+    const [cookies] = useCookies(['pays']);
 
     function changer() {
         if(visible === false){

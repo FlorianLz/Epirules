@@ -4,7 +4,7 @@ import {Redirect} from "react-router-dom";
 import {useCookies} from "react-cookie";
 
 export default function Faq() {
-    const [cookies, setCookie] = useCookies(['pays']);
+    const [cookies] = useCookies(['pays']);
 
     if(!cookies.pays){
         return (

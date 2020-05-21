@@ -4,7 +4,7 @@ import {useCookies} from 'react-cookie';
 import {Redirect} from "react-router-dom";
 
 export default function Stats(props) {
-    const [cookies, setCookie] = useCookies(['pays']);
+    const [cookies] = useCookies(['pays']);
     let pays=cookies.pays;
 
     if(!cookies.pays){
