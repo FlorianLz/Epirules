@@ -24,4 +24,4 @@ yarn-error.log*
 
 .idea
 
-src/App.css
+/src/App.css
