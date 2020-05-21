@@ -10,7 +10,7 @@ import {useCookies} from 'react-cookie';
 function App() {
     const [loading, setLoading] = useState(true);
     const [choisi, setChoisi] = useState(false);
-    const [listePays, setListePays] = useState([]);
+    const [listePays] = useState([]);
     const [cookies, setCookie] = useCookies(['pays']);
     let jsxListePays=[];
     if (!firebase.apps.length) {
@@ -23,7 +23,7 @@ function App() {
         if(loading===true){
             db.collection("pays").get().then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
-                    console.log(doc.id, " => ", doc.data());
+                    //console.log(doc.id, " => ", doc.data());
                     listePays.push({
                         id: doc.id,
                         nom: doc.data().nom,
@@ -54,7 +54,7 @@ function App() {
 
     useEffect(()=>{
         getPays();
-    },[])
+    })
 
     if (loading === false){
         return (
@@ -73,14 +73,14 @@ function App() {
         return(
             <div className={"content"}>
                 <div className="lds-roller">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
                 </div>
             </div>
         )

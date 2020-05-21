@@ -3,7 +3,7 @@ import Header from "./Header";
 import {useCookies} from "react-cookie";
 import {Redirect} from "react-router-dom";
 
-export default function Urgences(props) {
+export default function Urgences() {
     const [cookies] = useCookies(['pays']);
     let pays=cookies.pays;
 
@@ -15,7 +15,7 @@ export default function Urgences(props) {
 
     return (
         <div>
-            <Header page={'Urgences '+pays}></Header>
+            <Header page={'Urgences '+pays}> </Header>
             <div className="emergency">
                 <div className="partEmergency">
                     <div className="numero">

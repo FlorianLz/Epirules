@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Header from "./Header";
 import {useCookies} from 'react-cookie';
 import {Redirect} from "react-router-dom";
@@ -15,7 +15,7 @@ export default function Regles() {
 
     return (
         <div>
-            <Header page={'Règles '+pays}></Header>
+            <Header page={'Règles '+pays}> </Header>
         </div>
 
     );

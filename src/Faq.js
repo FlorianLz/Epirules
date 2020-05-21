@@ -13,7 +13,7 @@ export default function Faq() {
     }
     return (
         <div>
-            <Header page={'FAQ'}></Header>
+            <Header page={'FAQ'}> </Header>
         </div>
 
     );

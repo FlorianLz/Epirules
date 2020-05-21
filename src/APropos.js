@@ -3,7 +3,7 @@ import Header from "./Header";
 import {Redirect} from "react-router-dom";
 import {useCookies} from "react-cookie";
 
-export default function APropos(props) {
+export default function APropos() {
     const [cookies] = useCookies(['pays']);
 
     if(!cookies.pays){
@@ -14,7 +14,7 @@ export default function APropos(props) {
 
     return (
         <div>
-            <Header page={'À propos de nous'}></Header>
+            <Header page={'À propos de nous'}> </Header>
             <div className="apropos">
                 <div>
                     <h1>The internationals & InProgress Teams</h1>
