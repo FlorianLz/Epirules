@@ -1,10 +1,21 @@
 import React from 'react';
 import Header from "./Header";
+import {useCookies} from "react-cookie";
+import {Redirect} from "react-router-dom";
 
 export default function Urgences(props) {
+    const [cookies] = useCookies(['pays']);
+    let pays=cookies.pays;
+
+    if(!cookies.pays){
+        return (
+            <Redirect to='/'/>
+        );
+    }
+
     return (
         <div>
-            <Header page={'Urgences'}></Header>
+            <Header page={'Urgences '+pays}></Header>
             <div className="emergency">
                 <div className="partEmergency">
                     <div className="numero">
