@@ -64,8 +64,7 @@ export default function Categorie(props) {
 
         return (
             <div>
-                <Header page={'Catégorie'}> </Header>
-                {categorie}
+                <Header page={categorie}> </Header>
                 <div className="">
                     {jsxListeRulesCat}
                 </div>
