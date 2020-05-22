@@ -2,7 +2,7 @@
 
   .mainRules{
     margin-top: 2vh;
-    .titlePage{
+    .titlePart{
       text-align: center;
       text-transform: uppercase;
     }
@@ -24,6 +24,29 @@
         margin-left: auto;
         margin-right: auto;
         display: block;
+      }
+    }
+  }
+  .categories{
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+    .titlePart{
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .liste{
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 2vh;
+      a{
+        text-decoration: none;
+        color: $blanc;
+        text-align: center;
+        font-size: 1.4rem;
+      }
+      .link{
+        margin-top: 1vh;
       }
     }
   }
