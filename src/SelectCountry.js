@@ -10,9 +10,10 @@ import {useCookies} from 'react-cookie';
 function App() {
     const [loading, setLoading] = useState(true);
     const [choisi, setChoisi] = useState(false);
-    const [listePays] = useState([]);
+    const [listePays, setListePays] = useState([]);
     const [cookies, setCookie] = useCookies(['pays']);
     const [cookiesID, setCookieID] = useCookies(['idpays']);
+    let tab = [];
     let jsxListePays=[];
     if (!firebase.apps.length) {
         firebase.initializeApp(config);
@@ -21,19 +22,34 @@ function App() {
 
     // Fonction exécutée au chargement de la page
     function getPays(){
+        console.log(navigator.language);
         if(loading===true){
-            db.collection("pays").get().then(function(querySnapshot) {
+            db.collection("pays").onSnapshot(function(querySnapshot) {
+                let tab=[];
                 querySnapshot.forEach(function(doc) {
                     //console.log(doc.id, " => ", doc.data());
-                    listePays.push({
+                    tab.push({
                         id: doc.id,
                         nom: doc.data().nom,
                         code: doc.data().code
                     })
+
                 });
-            }).then(function(){
                 setLoading(false); //On indique que le chargement est terminé
-            });
+                setListePays(tab);
+
+                const translate = require('translate-api');
+
+                let transUrl = 'https://nodejs.org/en/';
+                translate.getPage(transUrl).then(function(htmlStr){
+                    console.log(htmlStr.length)
+                });
+
+                let transText = 'hello world!';
+                translate.getText(transText,{to: 'zh-CN'}).then(function(text){
+                    console.log(text)
+                });
+            })
         }
     }
 
