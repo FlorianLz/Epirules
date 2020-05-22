@@ -6,14 +6,10 @@
   align-items: center;
   position:fixed;
   left:0;
+  z-index:2;
+  height:6rem;
   img{
     margin-top: 1rem;
-  }
-  img.imgmenu{
-    position:absolute;
-    left: 1rem;
-    width:3rem;
-    margin-top:0.8rem;
   }
   h3{
     color: $vert;
@@ -23,7 +19,7 @@
   }
 
   &_titre{
-    padding-top: 6rem;
+    padding-top:6rem;
     .vague{
       position:relative;
 
