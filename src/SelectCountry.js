@@ -3,7 +3,7 @@ import './App.scss';
 import * as firebase from "firebase";
     import config from "./Config";
 import ListePays from "./ListePays";
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useCookies} from 'react-cookie';
 
 
@@ -14,7 +14,6 @@ function App() {
     const [cookies, setCookie, removeCookie] = useCookies(['pays']);
     const [cookiesID, setCookieID, removeCookieID] = useCookies(['idpays']);
     const [cookiesCodePays, setCookieCodePays, removeCookieCodePays] = useCookies(['codepays']);
-    let tab = [];
     let jsxListePays=[];
     if (!firebase.apps.length) {
         firebase.initializeApp(config);

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Header from "./Header";
 import {useCookies} from "react-cookie";
 import {Redirect} from "react-router-dom";
@@ -8,8 +8,8 @@ import ListeNumeros from "./ListeNumeros";
 
 export default function Urgences() {
     const [cookies] = useCookies(['pays']);
-    const [cookiesID, setCookieID] = useCookies(['idpays']);
-    const [listeNumeros, setListeNumeros] = useState([]);
+    const [cookiesID] = useCookies(['idpays']);
+    const [listeNumeros] = useState([]);
     const [loading, setLoading] = useState(true);
     let jsxListeNumeros = [];
     let pays=cookies.pays;

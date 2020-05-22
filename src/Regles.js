@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import Header from "./Header";
 import {useCookies} from 'react-cookie';
-import {Link, Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import * as firebase from "firebase";
 import ListeRules from "./ListeRules";
 import config from "./Config";
-import ListeNumeros from "./ListeNumeros";
 
 export default function Regles() {
     const [cookies] = useCookies(['pays']);
     const [cookiesID] = useCookies(['idpays']);
-    const [listeRules, setListeRules] = useState([]);
+    const [listeRules] = useState([]);
     const [loading, setLoading] = useState(true);
     let jsxListeRules = [];
     let pays=cookies.pays;
