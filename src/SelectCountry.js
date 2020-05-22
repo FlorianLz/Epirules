@@ -77,7 +77,7 @@ function App() {
                 <option value="choix" hidden>Choisissez votre pays</option>
                 {jsxListePays}
             </select>
-            {choisi ? <Link to={'/regles'}><button>Valider</button></Link> : '' }
+            {choisi ? <Link to={'/regles'}><button>Valider</button></Link> : <Link to={'/regles'}><button className={'masque'}>Valider</button></Link> }
 
         </div>
         )

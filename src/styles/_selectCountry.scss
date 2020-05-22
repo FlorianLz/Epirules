@@ -39,5 +39,10 @@
     border: 0.3rem solid $vert;
     color: $blanc;
     margin-top: 1rem;
+    visibility: visible;
+
+    &.masque{
+      visibility: hidden;
+    }
   }
 }
