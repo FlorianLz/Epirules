@@ -3,7 +3,7 @@ import './App.scss';
 import * as firebase from "firebase";
     import config from "./Config";
 import ListePays from "./ListePays";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {useCookies} from 'react-cookie';
 
 
@@ -11,9 +11,9 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [choisi, setChoisi] = useState(false);
     const [listePays, setListePays] = useState([]);
-    const [cookies, setCookie] = useCookies(['pays']);
-    const [cookiesID, setCookieID] = useCookies(['idpays']);
-    const [cookiesCodePays, setCookieCodePays] = useCookies(['codepays']);
+    const [cookies, setCookie, removeCookie] = useCookies(['pays']);
+    const [cookiesID, setCookieID, removeCookieID] = useCookies(['idpays']);
+    const [cookiesCodePays, setCookieCodePays, removeCookieCodePays] = useCookies(['codepays']);
     let tab = [];
     let jsxListePays=[];
     if (!firebase.apps.length) {
@@ -56,6 +56,9 @@ function App() {
         let choix = e.target.options[e.target.selectedIndex].value;
         let idpays = e.target.options[e.target.selectedIndex].id;
         let codepays = e.target.options[e.target.selectedIndex].getAttribute('data-code');
+        removeCookie('pays');
+        removeCookieID('idpays');
+        removeCookieCodePays('codepays');
         setCookie('pays', choix, '/');
         setCookieID('idpays', idpays, '/');
         setCookieCodePays('codepays', codepays, '/');
