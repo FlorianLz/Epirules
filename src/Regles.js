@@ -87,7 +87,7 @@ export default function Regles() {
                     <div className="categories">
                         <h2 className="titlePart"> Sélectionner une catégorie </h2>
                         <div className="liste">
-                            <div>
+                            <div style={{backgroundImage: "url('/images/vague-cat.png')"}}>
                                 {jsxListeRules}
                             </div>
                         </div>
