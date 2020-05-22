@@ -13,6 +13,7 @@ function App() {
     const [listePays, setListePays] = useState([]);
     const [cookies, setCookie] = useCookies(['pays']);
     const [cookiesID, setCookieID] = useCookies(['idpays']);
+    const [cookiesCodePays, setCookieCodePays] = useCookies(['codepays']);
     let tab = [];
     let jsxListePays=[];
     if (!firebase.apps.length) {
@@ -54,8 +55,10 @@ function App() {
     function actualiserChoix(e){
         let choix = e.target.options[e.target.selectedIndex].value;
         let idpays = e.target.options[e.target.selectedIndex].id;
+        let codepays = e.target.options[e.target.selectedIndex].getAttribute('data-code');
         setCookie('pays', choix, '/');
         setCookieID('idpays', idpays, '/');
+        setCookieCodePays('codepays', codepays, '/');
         setChoisi(choix);
     }
 
