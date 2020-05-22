@@ -1,0 +1,81 @@
+.questions{
+  padding-top: 2rem;
+  width: 80%;
+  margin: 0 auto;
+
+  .recherche{
+    input{
+      background-color: transparent;
+      border: 0;
+      border-bottom: 0.1rem solid $jaune;
+      width: 100%;
+      padding: 1rem;
+    }
+    ::placeholder {
+      color: $blanc;
+    }
+  }
+
+  .demande{
+    padding-top: 2rem;
+    text-align: center;
+    button{
+      background-color: $vert;
+      padding: 1rem;
+      color: $blanc;
+      border: 0;
+    }
+  }
+
+  &_liste{
+    padding-top: 2rem;
+    >div{
+      display: flex;
+      flex-direction: column;
+    }
+    .question{
+      position: relative;
+      width:max-content;
+      p{
+        font-size: 1.5rem;
+      }
+
+      &:after{
+        position: absolute;
+        content: "";
+        border-bottom: solid 0.8rem $vert;
+        width: 120%;
+        left:0;
+        bottom:-0.5rem;
+      }
+    }
+    .reponse{
+      overflow: hidden;
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+      height: 0;
+      margin-bottom: 0;
+      transition: height 1s ease-in;
+      >p{
+        opacity: 0;
+      }
+    }
+    .reponse.visible{
+      overflow: hidden;
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      border: 0.1rem solid $vert;
+      border-radius: 0.7rem;
+      padding: 1rem;
+      height: max-content;
+      transition: height 1s ease-in;
+      margin-bottom: 1rem;
+      >p{
+        opacity: 1;
+      }
+    }
+  }
+}
