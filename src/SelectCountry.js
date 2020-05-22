@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.scss';
 import * as firebase from "firebase";
-import config from "./Config";
+    import config from "./Config";
 import ListePays from "./ListePays";
 import {Link} from "react-router-dom";
 import {useCookies} from 'react-cookie';
@@ -22,7 +22,7 @@ function App() {
 
     // Fonction exécutée au chargement de la page
     function getPays(){
-        console.log(navigator.language);
+        //console.log(navigator.language);
         if(loading===true){
             db.collection("pays").onSnapshot(function(querySnapshot) {
                 let tab=[];
@@ -37,18 +37,6 @@ function App() {
                 });
                 setLoading(false); //On indique que le chargement est terminé
                 setListePays(tab);
-
-                const translate = require('translate-api');
-
-                let transUrl = 'https://nodejs.org/en/';
-                translate.getPage(transUrl).then(function(htmlStr){
-                    console.log(htmlStr.length)
-                });
-
-                let transText = 'hello world!';
-                translate.getText(transText,{to: 'zh-CN'}).then(function(text){
-                    console.log(text)
-                });
             })
         }
     }
