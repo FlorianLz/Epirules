@@ -48,6 +48,9 @@
       .link{
         margin-top: 1vh;
       }
+      .title::first-letter{
+          text-transform: uppercase;
+      }
     }
   }
 }
