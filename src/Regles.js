@@ -88,7 +88,9 @@ export default function Regles() {
                     <div className="categories">
                         <h2 className="titlePart"> Sélectionner une catégorie </h2>
                         <div className="liste">
-                            {jsxListeRules}
+                            <div>
+                                {jsxListeRules}
+                            </div>
                         </div>
                     </div>
                 </div>

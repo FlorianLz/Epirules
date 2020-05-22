@@ -29,28 +29,40 @@
   }
   .categories{
     margin-top: 4vh;
-    margin-bottom: 4vh;
     .titlePart{
       text-align: center;
       text-transform: uppercase;
     }
     .liste{
-      width: 80%;
-      margin-left: auto;
-      margin-right: auto;
+      width: 100%;
       margin-top: 2vh;
-      a{
-        text-decoration: none;
-        color: $blanc;
-        text-align: center;
-        font-size: 1.4rem;
-      }
-      .link{
-        margin-top: 1vh;
-      }
-      .title::first-letter{
+      position: relative;
+      >div{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        padding: 5rem 0 2rem 0;
+        background-image: url(/images/vague-cat.png);
+        a{
+          text-decoration: none;
+          color: $blanc;
+          text-align: center;
+          font-size: 2rem;
+          margin-bottom: 0.8rem;
+        }
+        .link{
+          margin-top: 1vh;
+        }
+        .title::first-letter{
           text-transform: uppercase;
+        }
       }
+
+
     }
   }
 }
