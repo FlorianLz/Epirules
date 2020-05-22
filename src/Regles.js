@@ -65,7 +65,7 @@ export default function Regles() {
                 <div className="rules">
                     <div className="mainRules">
                         <h2 className="titlePart"> Main rules </h2>
-                        {jsxListeRules}
+
                         <div className="liste">
                             <div className="onerule">
                                 <img src={'/images/main.png'} alt={'Fermer le menu'}/>
@@ -88,41 +88,7 @@ export default function Regles() {
                     <div className="categories">
                         <h2 className="titlePart"> Sélectionner une catégorie </h2>
                         <div className="liste">
-                            <Link to={'/regles/'}>
-                                <div className="link">
-                                    <div className="title"> Travail </div>
-                                </div>
-                            </Link>
-                            <Link to={'/regles/'}>
-                                <div className="link">
-                                    <div className="title"> Vie sociale </div>
-                                </div>
-                            </Link>
-                            <Link to={'/regles/'}>
-                                <div className="link">
-                                    <div className="title"> Transport </div>
-                                </div>
-                            </Link>
-                            <Link to={'/regles/'}>
-                                <div className="link">
-                                    <div className="title"> Santé </div>
-                                </div>
-                            </Link>
-                            <Link to={'/regles/'}>
-                                <div className="link">
-                                    <div className="title"> École </div>
-                                </div>
-                            </Link>
-                            <Link to={'/regles/'}>
-                                <div className="link">
-                                    <div className="title"> Magasins </div>
-                                </div>
-                            </Link>
-                            <Link to={'/regles/'}>
-                                <div className="link">
-                                    <div className="title"> Infrastructure </div>
-                                </div>
-                            </Link>
+                            {jsxListeRules}
                         </div>
                     </div>
                 </div>
