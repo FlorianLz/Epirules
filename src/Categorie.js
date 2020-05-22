@@ -4,14 +4,20 @@ import {Redirect} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import * as firebase from "firebase";
 import config from "./Config";
-import ListeRulesCat from "./ListeRulesCat";
+import ListeRulesCan from "./ListeRulesCan";
+import ListeRulesMust from "./ListeRulesMust";
+import ListeRulesMustnot from "./ListeRulesMustnot";
 
 export default function Categorie(props) {
     const [cookies] = useCookies(['pays']);
     const [cookiesID] = useCookies(['idpays']);
-    const [listeRulesCat, setListeRulesCat] = useState([]);
+    const [listeRulesCan, setListeRulesCan] = useState([]);
+    const [listeRulesMust, setListeRulesMust] = useState([]);
+    const [listeRulesMustnot, setListeRulesMustnot] = useState([]);
     const [loading, setLoading] = useState(true);
-    let jsxListeRulesCat = [];
+    let jsxListeRulesCan = [];
+    let jsxListeRulesMust = [];
+    let jsxListeRulesMustnot = [];
     let pays=cookies.pays;
     let idpays=cookiesID.idpays;
     let categorie = props.match.params.categorie;
@@ -27,14 +33,32 @@ export default function Categorie(props) {
             querySnapshot.forEach(function(doc) {
                 // doc.data() is never undefined for query doc snapshots
                 //console.log(doc.id, " => ", doc.data());
-                if (doc.data().idpays === idpays && doc.data().name === categorie){
-                    listeRulesCat.push({
-                        idpays: doc.data().idpays,
-                        name: doc.data().name,
-                        must: doc.data().must,
-                        can: doc.data().can,
-                        mustnot: doc.data().mustnot
-                    })
+                if (doc.data().idpays === idpays && doc.data().namecategorie === categorie){
+                    if(doc.data().type === "must"){
+                        listeRulesMust.push({
+                            idpays: doc.data().idpays,
+                            name: doc.data().name,
+                            desc: doc.data().desc,
+                            type: doc.data().type
+                        })
+                    }
+                    if(doc.data().type === "can"){
+                        listeRulesCan.push({
+                            idpays: doc.data().idpays,
+                            name: doc.data().name,
+                            desc: doc.data().desc,
+                            type: doc.data().type
+                        })
+                    }
+                    if(doc.data().type === "mustnot"){
+                        listeRulesMustnot.push({
+                            idpays: doc.data().idpays,
+                            name: doc.data().name,
+                            desc: doc.data().desc,
+                            type: doc.data().type
+                        })
+                    }
+
                 }
             });
         }).then(()=>setLoading(false));
@@ -50,25 +74,56 @@ export default function Categorie(props) {
 
 
     if(loading === false){
-        for(let i =0;i<listeRulesCat.length;i++){
-            jsxListeRulesCat.push(<ListeRulesCat
+        for(let i =0;i<listeRulesCan.length;i++){
+            jsxListeRulesCan.push(<ListeRulesCan
                 key={i}
-                idpays={listeRulesCat[i].idpays}
-                name={listeRulesCat[i].name}
-                must={listeRulesCat[i].must}
-                can={listeRulesCat[i].can}
-                mustnot={listeRulesCat[i].mustnot}
+                idpays={listeRulesCan[i].idpays}
+                name={listeRulesCan[i].name}
+                desc={listeRulesCan[i].desc}
+                type={listeRulesCan[i].type}
+
+            />)
+        }
+
+        for(let i =0;i<listeRulesMust.length;i++){
+            jsxListeRulesMust.push(<ListeRulesMust
+                key={i}
+                idpays={listeRulesMust[i].idpays}
+                name={listeRulesMust[i].name}
+                desc={listeRulesMust[i].desc}
+                type={listeRulesMust[i].type}
+
+            />)
+        }
+
+        for(let i =0;i<listeRulesMustnot.length;i++){
+            jsxListeRulesMustnot.push(<ListeRulesMustnot
+                key={i}
+                idpays={listeRulesMustnot[i].idpays}
+                name={listeRulesMustnot[i].name}
+                desc={listeRulesMustnot[i].desc}
+                type={listeRulesMustnot[i].type}
 
             />)
         }
 
         return (
             <div>
-                <Header page={categorie}> </Header>
+                <Header page={"Catégorie : "+categorie}> </Header>
                 <div className="">
-                    {jsxListeRulesCat}
+                    <div>
+                        <h2> JE DOIS </h2>
+                        {jsxListeRulesMust}
+                    </div>
+                    <div>
+                        <h2> JE NE DOIS PAS </h2>
+                        {jsxListeRulesMustnot}
+                    </div>
+                    <div>
+                        <h2> JE PEUX </h2>
+                        {jsxListeRulesCan}
+                    </div>
                 </div>
-
             </div>
 
         );
