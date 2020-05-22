@@ -5,6 +5,7 @@ import {Link, Redirect} from "react-router-dom";
 import * as firebase from "firebase";
 import ListeRules from "./ListeRules";
 import config from "./Config";
+import ListeNumeros from "./ListeNumeros";
 
 export default function Regles() {
     const [cookies] = useCookies(['pays']);
@@ -15,23 +16,16 @@ export default function Regles() {
     let pays=cookies.pays;
     let idpays=cookiesID.idpays;
 
-    if(!cookies.pays){
-        return (
-            <Redirect to='/'/>
-        );
-    }
-
     if (!firebase.apps.length) {
         firebase.initializeApp(config);
     }
-
     const db = firebase.firestore();
 
     function getRules(){
-        db.collection("regles").get().then(function(querySnapshot) {
+        db.collection("regles").orderBy("desc","asc").get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 // doc.data() is never undefined for query doc snapshots
-                console.log(doc.id, " => ", doc.data());
+                //console.log(doc.id, " => ", doc.data());
                 if (doc.data().idpays === idpays){
                     listeRules.push({
                         idpays: doc.data().idpays,
@@ -45,16 +39,24 @@ export default function Regles() {
 
     getRules();
 
+    if(!cookies.pays){
+        return (
+            <Redirect to='/'/>
+        );
+    }
+
+
     if(loading === false){
         for(let i =0;i<listeRules.length;i++){
             jsxListeRules.push(<ListeRules
                 key={i}
-                desc={listeRules[i].desc}
                 idpays={listeRules[i].idpays}
                 name={listeRules[i].name}
+                desc={listeRules[i].desc}
 
             />)
         }
+
 
         return (
             <div>

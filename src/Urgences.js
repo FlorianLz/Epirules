@@ -4,7 +4,6 @@ import {useCookies} from "react-cookie";
 import {Redirect} from "react-router-dom";
 import * as firebase from "firebase";
 import config from "./Config";
-import ListePays from "./ListePays";
 import ListeNumeros from "./ListeNumeros";
 
 export default function Urgences() {
