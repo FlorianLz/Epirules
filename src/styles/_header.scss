@@ -27,6 +27,10 @@
     .vague{
       position:relative;
 
+      img{
+        width:100vw;
+        max-width:700px;
+      }
       h2{
         position:absolute;
         top: 50%;
