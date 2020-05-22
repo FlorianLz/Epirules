@@ -33,7 +33,7 @@ export default function Stats() {
                 <div className="intro">
                     <h2>Ici vous pouvez retrouver les statistiques du pays que vous avez sélectionné</h2>
                 </div>
-                <p className={pays}>Pays sélectionné : {pays}</p>
+                <p className={'pays'}>Pays sélectionné : {pays}</p>
                 <p>Nombre de cas : {confirmed}</p>
                 <p>Nombre de morts : {deaths}</p>
             </div>
