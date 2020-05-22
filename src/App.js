@@ -7,6 +7,7 @@ import Urgences from "./Urgences";
 import Faq from "./Faq";
 import Stats from "./Stats";
 import APropos from "./APropos";
+import Categorie from "./Categorie";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
               <Switch>
                   <Route exact={true} path="/" component={Pays} />
                   <Route exact={true} path="/regles" component={Regles} />
+                  <Route exact={true} path="/regles/:categorie" component={Categorie} />
                   <Route exact={true} path="/urgences" component={Urgences} />
                   <Route exact={true} path="/faq" component={Faq} />
                   <Route exact={true} path="/stats" component={Stats} />
