@@ -2,7 +2,7 @@
   width: 80%;
   height: 100vh;
   background-color: $vert;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   display: flex;
@@ -11,12 +11,13 @@
   z-index: 10;
 
   > img{
-    position:absolute;
+    position:fixed;
     font-size:3rem;
     color: $blanc;
-    top: 4rem;
-    right: -15%;
-    width:8%;
+    top: 2rem;
+    left: 85%;
+    width:3rem;
+    transition: left 0.3s ease-in-out;
   }
 
   .liens{
@@ -59,4 +60,8 @@
 .ferme{
   left:-80%;
   transition: left 0.3s ease-in-out;
+  >img{
+    left:5%;
+    transition: left 0.3s ease-in-out;
+  }
 }
