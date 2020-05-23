@@ -10,7 +10,8 @@ export default function Stats() {
     const [deaths,setDeaths] = useState('0');
     const [confirmed,setConfirmed] = useState('0');
     const [recovered,setRecovered] = useState('0');
-    const [population,setPopulation] = useState('0');
+    const [population,setPopulation] = useState('');
+    const [populationGlobale,setPopulationGlobale] = useState('');
     const [globalDeaths,setGlobalDeaths] = useState('0');
     const [globalConfirmed,setGlobalConfirmed] = useState('0');
     const [globalRecovered,setGlobalRecovered] = useState('0');
@@ -84,7 +85,7 @@ export default function Stats() {
                     setSlug(data.Countries[i].Slug);
                     getHistory(data.Countries[i].Slug);
                     getGlobal();
-                    getPopulation(data.Countries[i].Slug,data.Countries[i].TotalConfirmed);
+                    getPopulation(data.Countries[i].Slug,data.Countries[i].TotalConfirmed,data.Global.TotalConfirmed);
                 }
             }
             setLoading(false);
@@ -160,12 +161,18 @@ export default function Stats() {
         </LineChart>);
     }
 
-    async function getPopulation(s,c){
+    async function getPopulation(s,c,t){
         await axios.get('https://restcountries.eu/rest/v2/name/'+s).then(function (response) {
             let p = response.data[0].population;
             let percent = c*100/p;
             //console.log(percent)
-            setPopulation(percent.toFixed(2)+'%');
+            setPopulation('Population touchée : '+percent.toFixed(2)+'%');
+        })
+        //Pour le monde
+        await axios.get('https://d6wn6bmjj722w.population.io/1.0/population/World/today-and-tomorrow/').then(function (response) {
+            let mondiale = response.data.total_population[0].population;
+            let percent = c*100/t;
+            setPopulationGlobale('Population touchée : '+percent.toFixed(2)+'%');
         })
     }
 
@@ -216,7 +223,7 @@ export default function Stats() {
                     <p>Nombre de cas : {confirmed}</p>
                     <p>Nombre de morts : {deaths}</p>
                     <p>Nombre de guéris : {recovered}</p>
-                    <p>Population touchée : {population}</p>
+                    <p>{population}</p>
                 </div>
                 {h}
                 <div className="stats">
@@ -228,6 +235,7 @@ export default function Stats() {
                     <p>Nombre de cas : {globalConfirmed}</p>
                     <p>Nombre de morts : {globalDeaths}</p>
                     <p>Nombre de guéris : {globalRecovered}</p>
+                    <p>{populationGlobale}</p>
                 </div>
                 {g}
             </div>
