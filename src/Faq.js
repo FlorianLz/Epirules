@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Header from "./Header";
-import {Redirect} from "react-router-dom";
+import {Redirect, Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import * as firebase from "firebase";
 import config from "./Config";
@@ -78,7 +78,7 @@ export default function Faq() {
                     <input type="text" placeholder={'Recherche...'} />
                 </div>
                 <div className="demande">
-                    <button>Poser une question</button>
+                    <Link to={'/faq/demande'}><button>Poser une question</button></Link>
                 </div>
                 <div className="questions_liste">
                     { //Check if message failed

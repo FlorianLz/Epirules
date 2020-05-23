@@ -1,0 +1,84 @@
+a{
+  text-decoration: none;
+  color:$blanc;
+}
+.retour{
+  position: absolute;
+  top: 1.8rem;
+  font-size: 2.3rem;
+  right: 1.5rem;
+  z-index: 3;
+  &.cache{
+    display: none;
+  }
+}
+.question{
+  form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5rem;
+
+    >div{
+      display: flex;
+      justify-content: space-between;
+      width: 85%;
+      margin-bottom: 2rem;
+      input{
+        width: 48%;
+      }
+    }
+
+    input, textarea{
+      border: 0;
+      border-bottom: 0.4rem solid $jaune;
+      background-color: transparent;
+      color:$blanc;
+
+      &::placeholder{
+        color: $blanc;
+      }
+
+      &:focus{
+        border-bottom: 0.4rem solid $vert;
+      }
+    }
+
+    >input{
+      margin: 2rem 0;
+      width: 85%;
+    }
+
+    textarea{
+      width:85%;
+      height: 40vw;
+    }
+
+    .infos{
+      width:85%;
+      margin: 0 auto;
+      flex-direction: column;
+      padding: 2rem 0;
+      font-size: 1.2rem;
+      font-style: italic;
+      text-align: center;
+
+      a{
+        text-decoration: none;
+        color: $vert;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+    }
+
+    input[type='submit']{
+      background-color: $vert;
+      padding: 1rem;
+      color: $blanc;
+      border: 0;
+      width: min-content;
+    }
+  }
+}

@@ -8,6 +8,7 @@ import Faq from "./Faq";
 import Stats from "./Stats";
 import APropos from "./APropos";
 import Categorie from "./Categorie";
+import Question from "./Question";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
                   <Route exact={true} path="/regles/:categorie" component={Categorie} />
                   <Route exact={true} path="/urgences" component={Urgences} />
                   <Route exact={true} path="/faq" component={Faq} />
+                  <Route exact={true} path="/faq/demande" component={Question} />
                   <Route exact={true} path="/stats" component={Stats} />
                   <Route exact={true} path="/a-propos" component={APropos} />
                   <Route path="*" component={() => <p>404 not found</p>} />

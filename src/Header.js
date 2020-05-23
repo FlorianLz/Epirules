@@ -7,8 +7,14 @@ export default function Header(props) {
     function changer() {
         if(visible === false){
             setVisible(true);
+            if(document.getElementById('retour')){
+                document.getElementById('retour').classList.add('cache');
+            }
         }else{
             setVisible(false);
+            if(document.getElementById('retour')){
+                document.getElementById('retour').classList.remove('cache');
+            }
         }
     }
 
