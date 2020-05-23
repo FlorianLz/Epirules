@@ -3,7 +3,7 @@
   margin: 0 auto;
   text-align: center;
   .intro{
-    padding-top: 5rem;
+    padding-top: 4rem;
     padding-bottom: 2rem;
     h2{
       position: relative;
@@ -26,4 +26,22 @@
   p.pays{
     padding-bottom: 1.5rem;
   }
+}
+.recharts-wrapper{
+  text-align: center;
+  width:98vw!important;
+  margin: 3rem 0 0 0;
+  svg{
+    width:95vw;
+    margin: 0 auto;
+  }
+  .recharts-legend-wrapper{
+    width:98vw!important;
+  }
+  .recharts-tooltip-label{
+    color: $noir;
+  }
+}
+.globalstats div:last-child{
+  margin-bottom: 3rem;
 }
