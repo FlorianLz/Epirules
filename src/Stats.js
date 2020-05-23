@@ -10,6 +10,7 @@ export default function Stats() {
     const [deaths,setDeaths] = useState('0');
     const [confirmed,setConfirmed] = useState('0');
     const [recovered,setRecovered] = useState('0');
+    const [population,setPopulation] = useState('0');
     const [globalDeaths,setGlobalDeaths] = useState('0');
     const [globalConfirmed,setGlobalConfirmed] = useState('0');
     const [globalRecovered,setGlobalRecovered] = useState('0');
@@ -83,6 +84,7 @@ export default function Stats() {
                     setSlug(data.Countries[i].Slug);
                     getHistory(data.Countries[i].Slug);
                     getGlobal();
+                    getPopulation(data.Countries[i].Slug,data.Countries[i].TotalConfirmed);
                 }
             }
             setLoading(false);
@@ -158,6 +160,15 @@ export default function Stats() {
         </LineChart>);
     }
 
+    async function getPopulation(s,c){
+        await axios.get('https://restcountries.eu/rest/v2/name/'+s).then(function (response) {
+            let p = response.data[0].population;
+            let percent = c*100/p;
+            //console.log(percent)
+            setPopulation(percent.toFixed(2)+'%');
+        })
+    }
+
 
     useEffect(()=>{
         getData(codepays);
@@ -205,6 +216,7 @@ export default function Stats() {
                     <p>Nombre de cas : {confirmed}</p>
                     <p>Nombre de morts : {deaths}</p>
                     <p>Nombre de guéris : {recovered}</p>
+                    <p>Population touchée : {population}</p>
                 </div>
                 {h}
                 <div className="stats">
