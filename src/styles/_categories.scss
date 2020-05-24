@@ -1,0 +1,37 @@
+.listeRegles{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  .indicationRegle{
+    margin-top: 2vh;
+    margin-bottom: 4vh;
+    ul{
+      margin-top: 2vh;
+      list-style-position: inside;
+      font-size: 1.2rem;
+    }
+    .must{
+      list-style-type: "\2714";
+    }
+    .mustnot{
+      list-style-type: "\2716";
+    }
+    .can{
+      list-style-type: "\2713";
+
+    }
+  }
+  .titleCat{
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+  }
+  .titleCat::after{
+    position: absolute;
+    content: "";
+    border-bottom: solid 0.5rem $vert;
+    width: 25%;
+    left: 38%;
+    bottom: 0;
+  }
+}
