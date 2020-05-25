@@ -36,6 +36,11 @@ export default function Regles() {
         }).then(()=>setLoading(false));
     }
 
+    useEffect(()=>{
+        getCategories();
+    })
+
+
     if(!cookies.pays){
         return (
             <Redirect to='/'/>
@@ -52,9 +57,6 @@ export default function Regles() {
          console.log(choix);
     }
 
-    useEffect(()=>{
-        getCategories();
-    },[])
 
     if (loading === false){
         for(let i =0;i<listeCategories.length;i++){
