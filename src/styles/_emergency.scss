@@ -47,3 +47,37 @@
   }
 
 }
+
+//Add urgences
+.addurgences{
+  width: 80%;
+  margin: 0 auto;
+  .partEmergency{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 1.7rem;
+    padding-bottom: 1rem;
+    .numero{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20%;
+      padding: 1.5rem;
+      height:auto;
+      border: 0.4rem solid $vert;
+      border-radius: 4rem;
+    }
+    .nameNumero{
+      font-size: 1.5rem;
+      margin-left: 2rem;
+      width: 75%;
+    }
+    .suppr{
+      font-size: 1.5rem;
+      margin-left: 2rem;
+      width: 5%;
+    }
+
+  }
+}

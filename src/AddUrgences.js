@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from "./Header";
 import {Link, Redirect} from "react-router-dom";
 import {useCookies} from "react-cookie";
@@ -12,7 +12,7 @@ export default function AddUrgences() {
     const [cookiesID] = useCookies(['idpays']);
     const [pseudo,setPseudo] = useState([]);
     const [loading,setLoading] = useState(true);
-    const [listeNumeros] = useState([]);
+    const [listeNumeros,setListeNumeros] = useState([]);
     let pays=cookies.pays;
     let idpays=cookies.idpays;
     let jsxListeNumeros = [];
@@ -21,19 +21,6 @@ export default function AddUrgences() {
         firebase.initializeApp(config);
     }
     const db = firebase.firestore();
-
-    if(!cookies.pays ){
-        return (
-            <Redirect to='/'/>
-        );
-    }
-    if(cookies.login){
-        getVerif(cookies.login);
-    }else{
-        return (
-            <Redirect to='/login'/>
-        );
-    }
 
     //On vérifie que la personne connectée est bien admin dans la bdd
     function getVerif(uid) {
@@ -86,34 +73,63 @@ export default function AddUrgences() {
     }
 
     function getNumeros(){
-        db.collection("numeros").orderBy("numero","asc").onSnapshot(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                // doc.data() is never undefined for query doc snapshots
-                //console.log(doc.id, " => ", doc.data());
-                if (doc.data().idpays === idpays){
-                    listeNumeros.push({
-                        idpays: doc.data().idpays,
-                        numero: doc.data().numero,
-                        desc: doc.data().desc
-                    })
-                }
-            });
-            setLoading(false)
-        })
+        if(loading === true){
+            db.collection("numeros").orderBy("numero","asc").onSnapshot(function(querySnapshot) {
+                let tab=[];
+                querySnapshot.forEach(function(doc) {
+                    // doc.data() is never undefined for query doc snapshots
+                    //console.log(doc.id, " => ", doc.data());
+                    if (doc.data().idpays === idpays){
+                        tab.push({
+                            idpays: doc.data().idpays,
+                            numero: doc.data().numero,
+                            desc: doc.data().desc,
+                            suppr: doc.id
+                        })
+                    }
+                });
+                setListeNumeros(tab)
+                setLoading(false)
+            })
+        }
+    }
+    useEffect(()=>{
+        getNumeros();
+    })
+
+    if(!cookies.pays ){
+        return (
+            <Redirect to='/'/>
+        );
+    }
+    if(cookies.login){
+        getVerif(cookies.login);
+    }else{
+        return (
+            <Redirect to='/login'/>
+        );
     }
 
-    getNumeros();
+    function supprimer(id) {
+        //console.log(id)
+        db.collection("numeros").doc(id).delete().then(function() {
+            //console.log("Document successfully deleted!");
+        }).catch(function(error) {
+            //console.error("Error removing document: ", error);
+        });
+    }
 
-    if(loading === false){
-        for(let i =0;i<listeNumeros.length;i++){
-            jsxListeNumeros.push(<ListeNumeros
-                key={i}
-                idpays={listeNumeros[i].idpays}
-                numero={listeNumeros[i].numero}
-                desc={listeNumeros[i].desc}
+    for(let i =0;i<listeNumeros.length;i++){
+        //console.log(listeNumeros[i].suppr)
+        jsxListeNumeros.push(<ListeNumeros
+            key={i}
+            idpays={listeNumeros[i].idpays}
+            numero={listeNumeros[i].numero}
+            desc={listeNumeros[i].desc}
+            suppr={listeNumeros[i].suppr}
+            onSuppr={e=>supprimer(listeNumeros[i].suppr)}
 
-            />)
-        }
+        />)
     }
 
     return (
@@ -126,7 +142,9 @@ export default function AddUrgences() {
                 <p className="status_ok"> </p>
                 <input type="submit" value={'Ajouter le numéro'}/>
             </form>
-            {jsxListeNumeros}
+            <div className={"addurgences"}>
+                {jsxListeNumeros}
+            </div>
         </div>
 
     );
