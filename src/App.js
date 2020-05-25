@@ -10,6 +10,7 @@ import APropos from "./APropos";
 import Categorie from "./Categorie";
 import Question from "./Question";
 import Login from "./Login";
+import AjoutRegles from "./AjoutRegles";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
                   <Route exact={true} path="/" component={Pays} />
                   <Route exact={true} path="/regles" component={Regles} />
                   <Route exact={true} path="/regles/:categorie" component={Categorie} />
+                  <Route exact={true} path="/nouvelle/regles" component={AjoutRegles} />
                   <Route exact={true} path="/urgences" component={Urgences} />
                   <Route exact={true} path="/faq" component={Faq} />
                   <Route exact={true} path="/faq/demande" component={Question} />
