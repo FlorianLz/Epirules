@@ -12,6 +12,7 @@ import Question from "./Question";
 import Login from "./Login";
 import AjoutRegles from "./AjoutRegles";
 import Admin from "./Admin";
+import AddUrgences from "./AddUrgences";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                   <Route exact={true} path="/regles/:categorie" component={Categorie} />
                   <Route exact={true} path="/nouvelle/regles" component={AjoutRegles} />
                   <Route exact={true} path="/urgences" component={Urgences} />
+                  <Route exact={true} path="/urgences/add" component={AddUrgences} />
                   <Route exact={true} path="/faq" component={Faq} />
                   <Route exact={true} path="/faq/demande" component={Question} />
                   <Route exact={true} path="/stats" component={Stats} />

@@ -9,6 +9,7 @@ export default function Admin() {
     const [cookies] = useCookies(['pays']);
     const [cookieLogin,setCookieLogin,removeCookieLogin] = useCookies(['login']);
     const [pseudo,setPseudo] = useState([])
+    let pays=cookies.pays;
 
     if (!firebase.apps.length) {
         firebase.initializeApp(config);
@@ -61,8 +62,12 @@ export default function Admin() {
                     <p>Bienvenue {pseudo}</p>
                     <button onClick={()=>deconnexion()}>Déconnexion</button>
                 </div>
+                <p>Pays : {cookies.pays}</p>
                 <div className={'ajoutregle'}>
                     <Link to={'/nouvelle/regles'}><button>Ajouter une nouvelle règle</button></Link>
+                </div>
+                <div className={'ajoutregle'}>
+                    <Link to={'/urgences/add'}><button>Ajouter numéro d'urgence</button></Link>
                 </div>
                 <div className={'ajoutregle'}>
                     <Link to={'/'}><button>Ajouter une question</button></Link>

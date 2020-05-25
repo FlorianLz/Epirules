@@ -21,7 +21,7 @@ export default function Urgences() {
     const db = firebase.firestore();
 
     function getNumeros(){
-        db.collection("numeros").orderBy("place","asc").get().then(function(querySnapshot) {
+        db.collection("numeros").orderBy("numero","asc").get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 // doc.data() is never undefined for query doc snapshots
                 //console.log(doc.id, " => ", doc.data());
