@@ -32,8 +32,12 @@
     border: 0;
     width: min-content;
   }
-  .status{
-    color: red;
+}
+.status{
+  color: red;
+  font-size: 1.5rem;
+  &_ok{
+    color: $vert;
     font-size: 1.5rem;
   }
 }
