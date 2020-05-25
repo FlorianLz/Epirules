@@ -11,6 +11,7 @@ import Categorie from "./Categorie";
 import Question from "./Question";
 import Login from "./Login";
 import AjoutRegles from "./AjoutRegles";
+import Admin from "./Admin";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                   <Route exact={true} path="/stats" component={Stats} />
                   <Route exact={true} path="/a-propos" component={APropos} />
                   <Route exact={true} path="/login" component={Login} />
+                  <Route exact={true} path="/admin" component={Admin} />
                   <Route path="*" component={() => <p>404 not found</p>} />
               </Switch>
           </div>

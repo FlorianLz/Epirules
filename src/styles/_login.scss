@@ -1,0 +1,39 @@
+.formlogin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5rem;
+
+  input {
+    border: 0;
+    border-bottom: 0.1rem solid $jaune;
+    background-color: transparent;
+    color: $blanc;
+
+    &::placeholder {
+      color: $blanc;
+    }
+  }
+
+  > input {
+    margin: 2rem 0;
+    width: 85%;
+  }
+
+  textarea {
+    width: 85%;
+    height: 40vw;
+  }
+  input[type='submit']{
+    background-color: $vert;
+    padding: 1rem;
+    color: $blanc;
+    border: 0;
+    width: min-content;
+  }
+  .status{
+    color: red;
+    font-size: 1.5rem;
+  }
+}
