@@ -1,0 +1,41 @@
+.ajouterCategorie{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  >h3{
+    text-align: center;
+    font-size: 1.8rem;
+  }
+  .newCategorie{
+    margin-top: 3vh;
+    input{
+      background-color: transparent;
+      color: $blanc;
+      border: none;
+      border-bottom: 2px solid $jaune;
+      width: 100%;
+      margin-top: 1vh;
+    }
+  }
+  .validateCategorie{
+    margin-top: 4vh;
+    color: $blanc;
+    background-color: $vert;
+    border: none;
+    padding: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  .listeCategories{
+    margin-top: 3vh;
+    h3{
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 1vh;
+    }
+    p{
+      font-size: 1.4rem;
+    }
+  }
+}
