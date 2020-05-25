@@ -5,6 +5,7 @@ import {Link, Redirect} from "react-router-dom";
 import * as firebase from "firebase";
 import config from "./Config";
 import ListeCategories from "./ListeCategories";
+import ListePays from "./ListePays";
 
 export default function Regles() {
     const [loading, setLoading] = useState(true);
@@ -22,24 +23,24 @@ export default function Regles() {
     const db = firebase.firestore();
 
     function getCategories(){
+        //console.log(navigator.language);
         if(loading===true){
             db.collection("categories").onSnapshot(function(querySnapshot) {
                 let tab=[];
                 querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    //console.log(doc.id, " => ", doc.data());
-                    if (doc.data().idpays === idpays){
+                    if(doc.data().idpays === idpays){
                         tab.push({
                             id: doc.id,
-                            name: doc.data().name
+                            name: doc.data().name,
                         })
                     }
-                    setLoading(false);
-                    setListeCategories(tab);
                 });
+                setLoading(false); //On indique que le chargement est terminé
+                setListeCategories(tab);
             })
         }
     }
+
 
     for(let i =0;i<listeCategories.length;i++){
         jsxListeCategories.push(<ListeCategories
@@ -82,7 +83,7 @@ export default function Regles() {
                         </select>
                         <div className="selectType">
                             <h3> Sélectionner le type de règle </h3>
-                            <input type="radio" id="must" name="type" value="must" checked/>
+                            <input type="radio" id="must" name="type" value="must" />
                             <label htmlFor="type"> Je dois </label>
                             <input type="radio" id="mustnot" name="type" value="mustnot"/>
                             <label htmlFor="type"> Je ne dois pas </label>
