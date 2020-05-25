@@ -124,7 +124,7 @@ export default function AddUrgences() {
                 <input type='text' name="desc" placeholder={'Description...'}/>
                 <p className="status"> </p>
                 <p className="status_ok"> </p>
-                <input type="submit" value={'Se connecter'}/>
+                <input type="submit" value={'Ajouter le numéro'}/>
             </form>
             {jsxListeNumeros}
         </div>
