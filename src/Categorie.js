@@ -110,18 +110,24 @@ export default function Categorie(props) {
         return (
             <div>
                 <Header page={"Catégorie : "+categorie}> </Header>
-                <div className="">
-                    <div>
-                        <h2> JE DOIS </h2>
-                        {jsxListeRulesMust}
+                <div className="listeRegles">
+                    <div className="indicationRegle">
+                        <h2 className="titleCat"> Je dois </h2>
+                        <ul className="must">
+                            {jsxListeRulesMust}
+                        </ul>
                     </div>
-                    <div>
-                        <h2> JE NE DOIS PAS </h2>
-                        {jsxListeRulesMustnot}
+                    <div className="indicationRegle">
+                        <h2 className="titleCat"> Je ne dois pas </h2>
+                        <ul className="mustnot">
+                            {jsxListeRulesMustnot}
+                        </ul>
                     </div>
-                    <div>
-                        <h2> JE PEUX </h2>
-                        {jsxListeRulesCan}
+                    <div className="indicationRegle">
+                        <h2 className="titleCat"> Je peux </h2>
+                        <ul className="can">
+                            {jsxListeRulesCan}
+                        </ul>
                     </div>
                 </div>
             </div>
