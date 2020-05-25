@@ -31,7 +31,7 @@ export default function Question() {
                     <input type='email' placeholder={'Email...'}/>
                     <textarea placeholder={'Question...'}></textarea>
                     <div className="infos">
-                        <p>Nous vous enverrons un email lorsque nous aurons répondus à votre question. Si vous ne recevez aucune réponse d'ici 3 semaines, cela signifie que la question à déjà été posée sur la page <Link>FAQ</Link>.</p>
+                        <p>Nous vous enverrons un email lorsque nous aurons répondus à votre question. Si vous ne recevez aucune réponse d'ici 3 semaines, cela signifie que la question à déjà été posée sur la page <Link to={'/faq'}>FAQ</Link>.</p>
                     </div>
                     <input type="submit" value={'Poser ma question'}/>
                 </form>

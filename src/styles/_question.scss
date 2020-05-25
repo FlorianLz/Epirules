@@ -32,16 +32,12 @@ a{
 
     input, textarea{
       border: 0;
-      border-bottom: 0.4rem solid $jaune;
+      border-bottom: 0.1rem solid $jaune;
       background-color: transparent;
       color:$blanc;
 
       &::placeholder{
         color: $blanc;
-      }
-
-      &:focus{
-        border-bottom: 0.4rem solid $vert;
       }
     }
 

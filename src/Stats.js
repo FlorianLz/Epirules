@@ -191,7 +191,7 @@ export default function Stats() {
     if(loading === true){
         return (
             <div>
-                <Header page={'Statistiques '+pays}> </Header>
+                <Header page={'Statistiques'}> </Header>
                 <div className="stats">
                     <div className="intro">
                         <h2>Ici vous pouvez retrouver les statistiques du pays que vous avez sélectionné</h2>
@@ -213,7 +213,7 @@ export default function Stats() {
     }else{
         return (
             <div className={'globalstats'}>
-                <Header page={'Statistiques '+pays}> </Header>
+                <Header page={'Statistiques'}> </Header>
                 <div className="stats">
                     <div className="intro">
                         <h2>Ici vous pouvez retrouver les statistiques du pays que vous avez sélectionné</h2>
