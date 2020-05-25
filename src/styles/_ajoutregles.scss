@@ -1,0 +1,55 @@
+.ajouterRegles{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2vh;
+  >h3{
+    text-align: center;
+  }
+  .listeCategories{
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    select{
+      background-color: transparent;
+      border: 0.2rem solid $jaune;
+      border-radius: 0.6rem;
+      height: 4rem;
+      padding-left: 1rem;
+      padding-right: 2rem;
+      color: $blanc;
+      width: 70%;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+    option{
+      background-color: $noir;
+      color: $blanc;
+    }
+    option::first-letter{
+      text-transform: uppercase;
+    }
+  }
+  .listeType{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3vh;
+  }
+  .descRegle{
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid $jaune;
+    width: 100%;
+  }
+  .validateRule{
+    margin-top: 4vh;
+    color: $blanc;
+    background-color: $vert;
+    border: none;
+    padding: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+}
