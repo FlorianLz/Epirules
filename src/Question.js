@@ -44,7 +44,7 @@ export default function Question() {
                 traite: false
             })
                 .then(function(docRef) {
-                    console.log("Document written with ID: ", docRef.id);
+                    //console.log("Document written with ID: ", docRef.id);
                     document.querySelector("form[name='formquestion']").reset();
                     document.querySelector('p.status').innerHTML = '';
                     document.querySelector('p.status_ok').innerHTML = 'Votre question a bien été envoyée !';

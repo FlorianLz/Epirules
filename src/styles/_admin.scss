@@ -1,0 +1,21 @@
+.admin{
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
+  padding-top: 2rem;
+  .infos{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 1.5rem;
+  }
+  button{
+    background-color: transparent;
+    padding: 0.7rem;
+    border: 0.1rem solid $vert;
+    color: $blanc;
+  }
+  .ajoutregle{
+    padding-top: 3rem;
+  }
+}

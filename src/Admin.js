@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Header from "./Header";
 import {Link, Redirect} from "react-router-dom";
 import {useCookies} from "react-cookie";
@@ -8,6 +8,7 @@ import config from "./Config";
 export default function Admin() {
     const [cookies] = useCookies(['pays']);
     const [cookieLogin,setCookieLogin,removeCookieLogin] = useCookies(['login']);
+    const [pseudo,setPseudo] = useState([])
 
     if (!firebase.apps.length) {
         firebase.initializeApp(config);
@@ -38,6 +39,8 @@ export default function Admin() {
                     if (data.admin !== true){
                         removeCookieLogin('login');
                         window.location.href='/login';
+                    }else{
+                        setPseudo(doc.data().pseudo)
                     }
                 }
             });
@@ -53,7 +56,21 @@ export default function Admin() {
     return (
         <div>
             <Header page={'Panel admin'}> </Header>
-            <button onClick={()=>deconnexion()}>Déconnexion</button>
+            <div className={'admin'}>
+                <div className={'infos'}>
+                    <p>Bienvenue {pseudo}</p>
+                    <button onClick={()=>deconnexion()}>Déconnexion</button>
+                </div>
+                <div className={'ajoutregle'}>
+                    <Link to={'/nouvelle/regles'}><button>Ajouter une nouvelle règle</button></Link>
+                </div>
+                <div className={'ajoutregle'}>
+                    <Link to={'/'}><button>Ajouter une question</button></Link>
+                </div>
+                <div className={'ajoutregle'}>
+                    <Link to={'/'}><button>Voir les questions reçues</button></Link>
+                </div>
+            </div>
         </div>
 
     );
