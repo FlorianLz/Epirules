@@ -22,24 +22,42 @@ export default function Regles() {
     const db = firebase.firestore();
 
     function getCategories(){
-        db.collection("categories").get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                // doc.data() is never undefined for query doc snapshots
-                //console.log(doc.id, " => ", doc.data());
-                if (doc.data().idpays === idpays){
-                    listeCategories.push({
-                        id: doc.id,
-                        name: doc.data().name
-                    })
-                }
-            });
-        }).then(()=>setLoading(false));
+        if(loading===true){
+            db.collection("categories").onSnapshot(function(querySnapshot) {
+                let tab=[];
+                querySnapshot.forEach(function(doc) {
+                    // doc.data() is never undefined for query doc snapshots
+                    //console.log(doc.id, " => ", doc.data());
+                    if (doc.data().idpays === idpays){
+                        tab.push({
+                            id: doc.id,
+                            name: doc.data().name
+                        })
+                    }
+                    setLoading(false);
+                    setListeCategories(tab);
+                });
+            })
+        }
+    }
+
+    for(let i =0;i<listeCategories.length;i++){
+        jsxListeCategories.push(<ListeCategories
+            key={i}
+            id={listeCategories[i].id}
+            name={listeCategories[i].name}
+        />)
+    }
+
+    function actualiserChoix(e) {
+        let choix = e.target.options[e.target.selectedIndex].value;
+        setChoisi(choix);
+        console.log(choix);
     }
 
     useEffect(()=>{
         getCategories();
     })
-
 
     if(!cookies.pays){
         return (
@@ -51,22 +69,7 @@ export default function Regles() {
         e.preventDefault();
     }
 
-    function actualiserChoix(e) {
-        let choix = e.target.options[e.target.selectedIndex].value;
-        setChoisi(choix);
-         console.log(choix);
-    }
-
-
     if (loading === false){
-        for(let i =0;i<listeCategories.length;i++){
-            jsxListeCategories.push(<ListeCategories
-                key={i}
-                id={listeCategories[i].id}
-                name={listeCategories[i].name}
-            />)
-        }
-
         return (
             <div>
                 <Header page={'Ajouter une règle '}> </Header>
@@ -117,8 +120,5 @@ export default function Regles() {
             </div>
         )
     }
-
-
-
 
 }
