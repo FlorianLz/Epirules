@@ -46,11 +46,13 @@ export default function Question() {
                 .then(function(docRef) {
                     console.log("Document written with ID: ", docRef.id);
                     document.querySelector("form[name='formquestion']").reset();
+                    document.querySelector('p.status').innerHTML = '';
                     document.querySelector('p.status_ok').innerHTML = 'Votre question a bien été envoyée !';
 
                 })
                 .catch(function(error) {
-                    console.error("Error adding document: ", error);
+                    document.querySelector('p.status').innerHTML = 'Erreur lors de l\'envoi de la question';
+                    document.querySelector('p.status_ok').innerHTML = '';
                 });
         }
 
