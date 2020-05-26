@@ -70,10 +70,10 @@ export default function Admin() {
                     <Link to={'/urgences/add'}><button>Ajouter numéro d'urgence</button></Link>
                 </div>
                 <div className={'ajoutregle'}>
-                    <Link to={'/'}><button>Ajouter une question</button></Link>
+                    <Link to={'/faq/ajout'}><button>Ajouter une question</button></Link>
                 </div>
                 <div className={'ajoutregle'}>
-                    <Link to={'/'}><button>Voir les questions reçues</button></Link>
+                    <Link to={'/faq/recues'}><button>Voir les questions reçues</button></Link>
                 </div>
             </div>
         </div>

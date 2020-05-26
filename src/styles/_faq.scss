@@ -78,5 +78,37 @@
         opacity: 1;
       }
     }
+
+    .form-admin{
+      margin-top: 1rem;
+      input{
+        background-color: transparent;
+        border: 0;
+        border-bottom: 0.1rem solid $jaune;
+        width: 100%;
+        padding: 1rem;
+        color: $blanc;
+
+        &[type="submit"]{
+          background-color: $vert;
+          padding: 1rem;
+          color: $blanc;
+          border: 0;
+        }
+      }
+      ::placeholder {
+        color: $blanc;
+      }
+      textarea{
+        width: 100%;
+        margin-top: 1rem;
+        border: 0;
+        border-bottom: 0.1rem solid #FEEB15;
+        background-color: transparent;
+        color: #FFFFFF;
+        height: 10rem;
+        padding: 1rem;
+      }
+    }
   }
 }

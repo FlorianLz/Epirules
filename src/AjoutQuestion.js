@@ -8,7 +8,7 @@ import ListeNumeros from "./ListeNumeros";
 import ListeQuestions from "./ListeQuestion";
 import ListeQuestionsRecues from "./ListeQuestionsrecues";
 
-export default function QuestionsRecues() {
+export default function AjoutQuestion() {
     const [cookies] = useCookies(['pays']);
     const [cookieLogin,setCookieLogin,removeCookieLogin] = useCookies(['login']);
     const [cookiesID] = useCookies(['idpays']);
