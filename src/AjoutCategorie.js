@@ -4,8 +4,7 @@ import {useCookies} from 'react-cookie';
 import {Link, Redirect} from "react-router-dom";
 import * as firebase from "firebase";
 import config from "./Config";
-import ListeCategories from "./ListeCategoriesAdd";
-import ListePays from "./ListePays";
+import ListeCategories from "./ListeCategories";
 
 export default function AjoutCategorie() {
     const [loading, setLoading] = useState(true);
