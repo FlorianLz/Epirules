@@ -10,7 +10,7 @@ import ListeQuestions from "./ListeQuestion";
 export default function Faq() {
     const [cookies] = useCookies(['pays']);
     const [cookiesID] = useCookies(['idpays']);
-    const [listeQuestions] = useState([]);
+    const [listeQuestions, setListeQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     let pays=cookies.pays;
     let idpays=cookiesID.idpays;
@@ -22,20 +22,25 @@ export default function Faq() {
     const db = firebase.firestore();
 
     function getQuestions(){
-        db.collection("questions").orderBy("ordre","asc").get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                // doc.data() is never undefined for query doc snapshots
-                //console.log(doc.id, " => ", doc.data());
-                if (doc.data().idpays === idpays){
-                    listeQuestions.push({
-                        idpays: doc.data().idpays,
-                        question: doc.data().question,
-                        reponse: doc.data().reponse,
-                        id: doc.id
-                    })
-                }
-            });
-        }).then(()=>setLoading(false));
+        if (loading === true){
+            db.collection("questions").orderBy("timestamp","desc").onSnapshot(function(querySnapshot) {
+                let tab=[];
+                querySnapshot.forEach(function(doc) {
+                    // doc.data() is never undefined for query doc snapshots
+                    //console.log(doc.id, " => ", doc.data());
+                    if (doc.data().idpays === idpays){
+                        tab.push({
+                            idpays: doc.data().idpays,
+                            question: doc.data().question,
+                            reponse: doc.data().reponse,
+                            id: doc.id
+                        })
+                    }
+                });
+                setListeQuestions(tab)
+                setLoading(false)
+            })
+        }
     }
 
     getQuestions();
@@ -51,18 +56,16 @@ export default function Faq() {
         reponse.classList.toggle('visible');
     }
 
-    if(loading === false){
-        for(let i =0;i<listeQuestions.length;i++){
-            jsxListeQuestions.push(<ListeQuestions
-                key={i}
-                idpays={listeQuestions[i].idpays}
-                question={listeQuestions[i].question}
-                reponse={listeQuestions[i].reponse}
-                clic={e=>toggleRep(e)}
-                id={listeQuestions[i].id}
+    for(let i =0;i<listeQuestions.length;i++){
+        jsxListeQuestions.push(<ListeQuestions
+            key={i}
+            idpays={listeQuestions[i].idpays}
+            question={listeQuestions[i].question}
+            reponse={listeQuestions[i].reponse}
+            clic={e=>toggleRep(e)}
+            id={listeQuestions[i].id}
 
-            />)
-        }
+        />)
     }
 
     if(!cookies.pays){

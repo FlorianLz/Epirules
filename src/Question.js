@@ -41,6 +41,7 @@ export default function Question() {
                 prenom: prenom,
                 email: email,
                 question: question,
+                idpays: idpays,
                 traite: false
             })
                 .then(function(docRef) {
