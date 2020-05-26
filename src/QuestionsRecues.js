@@ -46,7 +46,7 @@ export default function QuestionsRecues() {
 
     function getQuestions(){
         if(loading === true){
-            db.collection("demandes").where("traite",'==',false).onSnapshot(function(querySnapshot) {
+            db.collection("demandes").where("traite",'==',false).where("idpays",'==',idpays).onSnapshot(function(querySnapshot) {
                 let tab=[];
                 querySnapshot.forEach(function(doc) {
                     // doc.data() is never undefined for query doc snapshots
@@ -104,7 +104,7 @@ export default function QuestionsRecues() {
         let iddocument = document.querySelector("input[name='document']").value;
         console.log(iddocument)
         if(question === '' || reponse === ''){
-            console.log('pas ok')
+            //console.log('pas ok')
         }else{
             db.collection("questions").add({
                 idpays: idpays,
@@ -118,13 +118,13 @@ export default function QuestionsRecues() {
                     //document.querySelector('p.status').innerHTML = '';
                     //document.querySelector('p.status_ok').innerHTML = 'Votre question a bien été envoyée !';
                     let reponse=document.getElementById('r-'+iddocument);
-                    console.log(iddocument)
+                    //console.log(iddocument)
                     reponse.classList.remove('visible');
                     db.collection("demandes").doc(iddocument).update({
                         traite: true
                     })
                         .then(function() {
-                            console.log("Terminé");
+                            //console.log("Terminé");
                         })
                         .catch(function(error) {
                             // The document probably doesn't exist.
@@ -135,7 +135,7 @@ export default function QuestionsRecues() {
                 .catch(function(error) {
                     //document.querySelector('p.status').innerHTML = 'Erreur lors de l\'envoi de la question';
                     //document.querySelector('p.status_ok').innerHTML = '';
-                    console.log(error)
+                    //console.log(error)
                 });
         }
 
