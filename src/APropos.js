@@ -17,7 +17,7 @@ export default function APropos() {
             <Header page={'À propos de nous'}> </Header>
             <div className="apropos">
                 <div>
-                    <h1>The internationals & InProgress Teams</h1>
+                    <h3> The internationals & InProgress </h3>
                     <p>
                         First, The Internationales is a group of international students who are participating in the BUSIT week. The subject is "Design and create an innovative mobile application useful during a massive virus outbreak." and mixt different nationality : Belgian, French, Spanish, Finnish and Irish people.
                         It has come to our attention that nobody really knows what the rules are during an epidemic and if we enter a new phase it is often not really clear what the new rules have become.
@@ -30,7 +30,7 @@ export default function APropos() {
 
                 <div className="personnes">
                     <div className="personnes_left">
-                        Idea of : <br />
+                        L'idée de : <br />
                         Achacortabarria Andoni <br />
                         Van Tilborgh Liam <br />
                         Paluch Loïc <br />
@@ -39,7 +39,7 @@ export default function APropos() {
                         Troumelen Morgane <br />
                     </div>
                     <div className="personnes_right">
-                        Developt by : <br />
+                        Développé par : <br />
                         Paluch Loïc <br />
                         Vittu Lydie <br />
                         Troumelen Morgane <br />
