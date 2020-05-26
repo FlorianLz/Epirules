@@ -39,3 +39,19 @@
     }
   }
 }
+
+//Supp categorie
+.lineCategorie{
+  display: flex;
+  p{
+    margin-bottom: 1.5vh;
+  }
+  p::first-letter{
+    text-transform: uppercase;
+  }
+  .suppr{
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    width: 5%;
+  }
+}
