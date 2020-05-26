@@ -28,28 +28,6 @@ export default function Header(props) {
         }
     }
 
-    //On vérifie que la personne connectée est bien admin dans la bdd
-    function getVerif(uid) {
-        db.collection("users").get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                // doc.data() is never undefined for query doc snapshots
-                //console.log(doc.id, " => ", doc.data());
-                if (doc.data().id === uid ){
-                    let data = doc.data();
-                    if (data.admin !== true){
-                        removeCookieLogin('login');
-                        window.location.href='/login';
-                        setAdmin(false)
-                    }else{
-                        setAdmin(true)
-                    }
-                }
-            });
-        });
-    }
-
-    getVerif();
-
     return (
         <div>
             <div className={'header'}>
@@ -100,7 +78,7 @@ export default function Header(props) {
                             <i className="fas fa-arrow-right"> </i>
                         </div>
                     </Link>
-                    {admin ? <Link to={'/admin'}>
+                    {cookieLogin.login ? <Link to={'/admin'}>
                         <div className="lien">
                             <div className="titre">Admin</div>
                             <i className="fas fa-arrow-right"> </i>
