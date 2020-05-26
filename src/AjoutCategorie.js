@@ -104,6 +104,7 @@ export default function AjoutCategorie() {
         return (
             <div>
                 <Header page={'Ajouter une règle '}> </Header>
+                <Link to={'/admin'}><i id={'retour'} className="fas fa-arrow-left retour"> </i></Link>
                 <div className="ajouterCategorie">
                     <h3> Pays sélectionné : {pays}</h3>
                     <form onSubmit={e => addCategorie(e)} name={"formCategorie"} id={"formCategorie"}>

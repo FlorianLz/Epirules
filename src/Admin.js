@@ -64,6 +64,9 @@ export default function Admin() {
                 </div>
                 <p>Pays : {cookies.pays}</p>
                 <div className={'ajoutregle'}>
+                    <Link to={'/nouvelle/categorie'}><button>Ajouter une catégorie</button></Link>
+                </div>
+                <div className={'ajoutregle'}>
                     <Link to={'/nouvelle/regles'}><button>Ajouter une nouvelle règle</button></Link>
                 </div>
                 <div className={'ajoutregle'}>
