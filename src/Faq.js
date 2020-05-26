@@ -11,7 +11,9 @@ export default function Faq() {
     const [cookies] = useCookies(['pays']);
     const [cookiesID] = useCookies(['idpays']);
     const [listeQuestions, setListeQuestions] = useState([]);
+    const [cookieLogin,setCookieLogin,removeCookieLogin] = useCookies(['login']);
     const [loading, setLoading] = useState(true);
+    const [admin, setAdmin] = useState(false);
     let pays=cookies.pays;
     let idpays=cookiesID.idpays;
     let jsxListeQuestions=[];
@@ -23,7 +25,7 @@ export default function Faq() {
 
     function getQuestions(){
         if (loading === true){
-            db.collection("questions").orderBy("timestamp","desc").onSnapshot(function(querySnapshot) {
+            db.collection("questions").orderBy("timestamp","desc").get().then(function(querySnapshot) {
                 let tab=[];
                 querySnapshot.forEach(function(doc) {
                     // doc.data() is never undefined for query doc snapshots
@@ -33,7 +35,8 @@ export default function Faq() {
                             idpays: doc.data().idpays,
                             question: doc.data().question,
                             reponse: doc.data().reponse,
-                            id: doc.id
+                            id: doc.id,
+                            admin: admin
                         })
                     }
                 });
@@ -42,8 +45,6 @@ export default function Faq() {
             })
         }
     }
-
-    getQuestions();
 
     function toggleRep(id){
         let reponses=document.getElementsByClassName('reponse');
@@ -64,9 +65,61 @@ export default function Faq() {
             reponse={listeQuestions[i].reponse}
             clic={e=>toggleRep(e)}
             id={listeQuestions[i].id}
+            admin={listeQuestions[i].admin}
 
         />)
     }
+
+    if(admin === true){
+        let questions = document.querySelectorAll('.majquestion');
+        let reponses = document.querySelectorAll('.majreponses');
+        [].forEach.call(questions, function(question) {
+            question.addEventListener('input',function (e) {
+                let iddoc  = e.target.getAttribute('data-id');
+                let newquestion = document.querySelector('.q-'+iddoc).innerText;
+                db.collection("questions").doc(iddoc).update({
+                    question: newquestion
+                })
+
+
+            })
+        });
+
+        [].forEach.call(reponses, function(reponse) {
+            reponse.addEventListener('input',function (e) {
+                let iddoc  = e.target.getAttribute('data-id');
+                let newreponse = document.querySelector('.r-'+iddoc).innerText;
+                db.collection("questions").doc(iddoc).update({
+                    reponse: newreponse
+                })
+
+
+            })
+        });
+
+
+    }
+
+    //On vérifie que la personne connectée est bien admin dans la bdd
+    function getVerif(uid) {
+        db.collection("users").get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                // doc.data() is never undefined for query doc snapshots
+                //console.log(doc.id, " => ", doc.data());
+                if (doc.data().id === uid ){
+                    let data = doc.data();
+                    if (data.admin === true){
+                        setAdmin(true);
+                    }else{
+                        removeCookieLogin('login');
+                    }
+                }
+            });
+        });
+        getQuestions();
+    }
+
+    getVerif(cookies.login);
 
     if(!cookies.pays){
         return (
@@ -82,6 +135,7 @@ export default function Faq() {
                 </div>
                 <div className="demande">
                     <Link to={'/faq/demande'}><button>Poser une question</button></Link>
+                    {admin ? <Link to={'/faq/ajout'} class={'ajoutadmin'}><button>Ajouter une question</button></Link> : ''}
                 </div>
                 <div className="questions_liste">
                     { //Check if message failed
