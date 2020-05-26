@@ -8,7 +8,7 @@ html{
 }
 body {
   margin: 0;
- // font-family: 'Luciole';
+  font-family: 'Luciole';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $noir;
@@ -43,10 +43,10 @@ code {
 @font-face {
   font-family: 'Luciole';
   font-style: normal;
-  //src: url('../fonts/Luciole-Regular.ttf');
+  src: url('../fonts/Luciole-Regular.ttf');
 }
 @font-face {
   font-family: 'LucioleB';
   font-style: normal;
-  //src: url('../fonts/Luciole-Bold.ttf');
+  src: url('../fonts/Luciole-Bold.ttf');
 }
