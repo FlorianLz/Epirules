@@ -4,14 +4,12 @@ import {useCookies} from 'react-cookie';
 import {Link, Redirect} from "react-router-dom";
 import * as firebase from "firebase";
 import config from "./Config";
-import ListeCategories from "./ListeCategoriesAdd";
-import ListePays from "./ListePays";
+import ListeCategories from "./ListeCategories";
 
 export default function AjoutCategorie() {
     const [loading, setLoading] = useState(true);
     const [cookies] = useCookies(['pays']);
     const [cookiesID] = useCookies(['idpays']);
-    const [choisi, setChoisi] = useState(false);
     const [listeCategories, setListeCategories] = useState([]);
     let pays=cookies.pays;
     let idpays=cookiesID.idpays;
@@ -32,6 +30,7 @@ export default function AjoutCategorie() {
                         tab.push({
                             id: doc.id,
                             name: doc.data().name,
+                            suppr: doc.id
                         })
                     }
                 });
@@ -42,18 +41,23 @@ export default function AjoutCategorie() {
         }
     }
 
+    function supprimer(id) {
+        //console.log(id)
+        db.collection("categories").doc(id).delete().then(function() {
+            console.log("Document successfully deleted!");
+        }).catch(function(error) {
+            console.error("Error removing document: ", error);
+        });
+    }
 
     for(let i =0;i<listeCategories.length;i++){
         jsxListeCategories.push(<ListeCategories
             key={i}
             id={listeCategories[i].id}
             name={listeCategories[i].name}
+            suppr={listeCategories[i].suppr}
+            onSuppr={e=>supprimer(listeCategories[i].suppr)}
         />)
-    }
-
-    function actualiserChoix(e) {
-        let choix = e.target.options[e.target.selectedIndex].value;
-        setChoisi(choix);
     }
 
     useEffect(()=>{
