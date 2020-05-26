@@ -8,7 +8,10 @@
     ul{
       margin-top: 2vh;
       list-style-position: inside;
-      font-size: 1.2rem;
+      li{
+        font-size: 1.2rem;
+        margin-bottom: 1vh;
+      }
     }
     .must{
       list-style-type: "\2714";
@@ -25,6 +28,7 @@
     text-align: center;
     text-transform: uppercase;
     position: relative;
+    font-size: 1.4rem;
   }
   .titleCat::after{
     position: absolute;
@@ -42,7 +46,10 @@
     .suppr{
       position: absolute;
       top: 0;
-      right: 0;
+      right: -1.5rem;
+      i{
+        font-size: 1.3rem;
+      }
     }
   }
 }
