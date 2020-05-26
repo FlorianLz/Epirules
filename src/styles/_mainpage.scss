@@ -46,6 +46,8 @@
         flex-direction: column;
         justify-content: space-evenly;
         padding: 5rem 0 2rem 0;
+        background-repeat: no-repeat;
+        background-size: cover;
         a{
           text-decoration: none;
           color: $blanc;
@@ -60,8 +62,20 @@
           text-transform: uppercase;
         }
       }
+    }
 
-
+    //suppr categorie
+    .elementCategorie{
+      display: flex;
+      justify-content: center;
+      position: relative;
+      .suppr{
+        position: absolute;
+        right: 4rem;
+        i{
+          font-size: 1.6rem;
+        }
+      }
     }
   }
 }

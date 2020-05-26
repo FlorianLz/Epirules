@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from "./Header";
 import {useCookies} from 'react-cookie';
 import {Redirect} from "react-router-dom";
@@ -8,8 +8,10 @@ import config from "./Config";
 
 export default function Regles() {
     const [cookies] = useCookies(['pays']);
+    const [cookieLogin,setCookieLogin,removeCookieLogin] = useCookies(['login']);
     const [cookiesID] = useCookies(['idpays']);
-    const [listeRules] = useState([]);
+    const [pseudo,setPseudo] = useState([]);
+    const [listeRules, setListeRules] = useState([]);
     const [loading, setLoading] = useState(true);
     let jsxListeRules = [];
     let pays=cookies.pays;
@@ -21,21 +23,48 @@ export default function Regles() {
     const db = firebase.firestore();
 
     function getRules(){
-        db.collection("categories").orderBy("name","asc").get().then(function(querySnapshot) {
+        if(loading ===true){
+            db.collection("categories").orderBy("name","asc").onSnapshot(function(querySnapshot)  {
+                let tab = [];
+                querySnapshot.forEach(function(doc) {
+                    // doc.data() is never undefined for query doc snapshots
+                    //console.log(doc.id, " => ", doc.data());
+                    if (doc.data().idpays === idpays){
+                        tab.push({
+                            idpays: doc.data().idpays,
+                            name: doc.data().name,
+                            id: doc.id,
+                            log: false
+                        })
+                    }
+                });
+                setListeRules(tab);
+                setLoading(false);
+            })
+        }
+    }
+
+    useEffect(()=>{
+        getRules();
+    });
+
+    function getVerif(uid) {
+        db.collection("users").get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 // doc.data() is never undefined for query doc snapshots
                 //console.log(doc.id, " => ", doc.data());
-                if (doc.data().idpays === idpays){
-                    listeRules.push({
-                        idpays: doc.data().idpays,
-                        name: doc.data().name
-                    })
+                if (doc.data().id === uid ){
+                    let data = doc.data();
+                    if (data.admin !== true){
+                        removeCookieLogin('login');
+                        window.location.href='/login';
+                    }else{
+                        setPseudo(doc.data().pseudo)
+                    }
                 }
             });
-        }).then(()=>setLoading(false));
+        });
     }
-
-    getRules();
 
     if(!cookies.pays){
         return (
@@ -43,17 +72,43 @@ export default function Regles() {
         );
     }
 
+    function supprimer(id) {
+        console.log(id)
+        db.collection("categories").doc(id).delete().then(function() {
+            console.log("Document successfully deleted!");
+        }).catch(function(error) {
+            console.error("Error removing document: ", error);
+        });
+    }
+
 
     if(loading === false){
-        for(let i =0;i<listeRules.length;i++){
-            jsxListeRules.push(<ListeRules
-                key={i}
-                idpays={listeRules[i].idpays}
-                name={listeRules[i].name}
+        if(cookies.login){
+            getVerif(cookies.login);
+            for(let i =0;i<listeRules.length;i++){
+                jsxListeRules.push(<ListeRules
+                    key={i}
+                    idpays={listeRules[i].idpays}
+                    name={listeRules[i].name}
+                    id={listeRules[i].id}
+                    log={true}
+                    onSuppr={e=>supprimer(listeRules[i].id)}
 
-            />)
+                />)
+            }
+        } else {
+            for(let i =0;i<listeRules.length;i++){
+                jsxListeRules.push(<ListeRules
+                    key={i}
+                    idpays={listeRules[i].idpays}
+                    name={listeRules[i].name}
+                    id={listeRules[i].id}
+                    log={false}
+
+                />)
+            }
+
         }
-
 
         return (
             <div>
