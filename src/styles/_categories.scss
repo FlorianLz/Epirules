@@ -35,4 +35,14 @@
     bottom: 0;
     z-index: -1;
   }
+
+  //supp regle
+  .suppRegle{
+    position: relative;
+    .suppr{
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
 }
