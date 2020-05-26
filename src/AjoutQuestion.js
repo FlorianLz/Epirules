@@ -45,8 +45,8 @@ export default function AjoutQuestion() {
 
 
     function getQuestions(){
-        if(loading === true){
-            db.collection("demandes").where("traite",'==',false).onSnapshot(function(querySnapshot) {
+        if (loading === true){
+            db.collection("questions").orderBy("timestamp","desc").onSnapshot(function(querySnapshot) {
                 let tab=[];
                 querySnapshot.forEach(function(doc) {
                     // doc.data() is never undefined for query doc snapshots
@@ -54,23 +54,18 @@ export default function AjoutQuestion() {
                     if (doc.data().idpays === idpays){
                         tab.push({
                             idpays: doc.data().idpays,
-                            nom: doc.data().nom,
-                            prenom: doc.data().prenom,
-                            email: doc.data().email,
                             question: doc.data().question,
+                            reponse: doc.data().reponse,
                             id: doc.id
                         })
                     }
                 });
                 setListeQuestions(tab)
                 setLoading(false)
-                //console.log(tab)
             })
         }
     }
-    useEffect(()=>{
-        getQuestions();
-    })
+    getQuestions();
 
     if(!cookies.pays ){
         return (
@@ -85,7 +80,7 @@ export default function AjoutQuestion() {
         );
     }
 
-    function toggleForm(id) {
+    function toggleRep(id){
         let reponses=document.getElementsByClassName('reponse');
         [].forEach.call(reponses,function (elmt) {
             if (elmt.id !== 'r-'+id){
@@ -96,16 +91,17 @@ export default function AjoutQuestion() {
         reponse.classList.toggle('visible');
     }
 
-    function poster(e,id) {
+
+    function poser(e) {
         e.preventDefault();
-        //On récupère les différents champs
-        let question = document.querySelector("input[name='question']").value;
-        let reponse = document.querySelector("textarea[name='reponse']").value;
-        let iddocument = document.querySelector("input[name='document']").value;
-        console.log(iddocument)
+        let question = document.querySelector('input[name="question"]').value;
+        let reponse = document.querySelector('textarea[name="reponse"]').value;
+        //console.log(question,reponse)
+
         if(question === '' || reponse === ''){
-            console.log('pas ok')
-        }else{
+            document.querySelector('p.status_ok').innerHTML = '';
+            document.querySelector('p.status').innerHTML = 'Merci de remplir tous les champs.';
+        } else {
             db.collection("questions").add({
                 idpays: idpays,
                 question: question,
@@ -114,66 +110,52 @@ export default function AjoutQuestion() {
             })
                 .then(function(docRef) {
                     //console.log("Document written with ID: ", docRef.id);
-                    ///document.querySelector("form[name='formquestion']").reset();
-                    //document.querySelector('p.status').innerHTML = '';
-                    //document.querySelector('p.status_ok').innerHTML = 'Votre question a bien été envoyée !';
-                    let reponse=document.getElementById('r-'+iddocument);
-                    console.log(iddocument)
-                    reponse.classList.remove('visible');
-                    db.collection("demandes").doc(iddocument).update({
-                        traite: true
-                    })
-                        .then(function() {
-                            console.log("Terminé");
-                        })
-                        .catch(function(error) {
-                            // The document probably doesn't exist.
-                            console.error("Error updating document: ", error);
-                        });
+                    document.querySelector("form[name='formquestion']").reset();
+                    document.querySelector('p.status').innerHTML = '';
+                    document.querySelector('p.status_ok').innerHTML = 'Question ajoutée !';
 
                 })
                 .catch(function(error) {
-                    //document.querySelector('p.status').innerHTML = 'Erreur lors de l\'envoi de la question';
-                    //document.querySelector('p.status_ok').innerHTML = '';
-                    console.log(error)
+                    //console.log(error);
+                    document.querySelector('p.status').innerHTML = 'Erreur lors de l\'ajout de la question.';
+                    document.querySelector('p.status_ok').innerHTML = '';
                 });
+
         }
 
     }
 
     for(let i =0;i<listeQuestions.length;i++){
-        jsxListeQuestions.push(<ListeQuestionsRecues
+        jsxListeQuestions.push(<ListeQuestions
             key={i}
             idpays={listeQuestions[i].idpays}
-            nom={listeQuestions[i].nom}
-            prenom={listeQuestions[i].prenom}
-            email={listeQuestions[i].email}
             question={listeQuestions[i].question}
-            clic={e=>toggleForm(e)}
-            poster={e=>poster(e)}
+            reponse={listeQuestions[i].reponse}
+            clic={e=>toggleRep(e)}
             id={listeQuestions[i].id}
+
         />)
     }
 
     return (
         <div>
-            <Header page={'Questions reçues'}> </Header>
-            <div className="questions">
-                <div className="questions_liste">
-                    { //Check if message failed
-                        (loading === false)
-                            ? <div>{jsxListeQuestions}</div>
-                            : <div className="lds-roller">
-                                <div> </div>
-                                <div> </div>
-                                <div> </div>
-                                <div> </div>
-                                <div> </div>
-                                <div> </div>
-                                <div> </div>
-                                <div> </div>
-                            </div>
-                    }
+            <Header page={'Ajouter une nouvelle question'}> </Header>
+            <Link to={'/admin'}><i id={'retour'} className="fas fa-arrow-left retour"> </i></Link>
+            <div className={'question'}>
+                <form onSubmit={e=>poser(e)} name={'formquestion'}>
+                    <p>Pays sélectionné : {pays}</p>
+                    <input type='text' name={'question'} placeholder={'Question...'}/>
+                    <textarea name={'reponse'} placeholder={'Réponse...'}></textarea>
+                    <p className="status ptop"></p>
+                    <p className="status_ok ptop"></p>
+                    <input type="submit" value={'Publier la question'} className={'no-margin'}/>
+                </form>
+                <div className="questions">
+                    <div className="question">
+                        <div className="questions_liste">
+                            {jsxListeQuestions}
+                        </div>
+                    </div>
                 </div>
 
             </div>

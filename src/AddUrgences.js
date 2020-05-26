@@ -135,6 +135,7 @@ export default function AddUrgences() {
     return (
         <div>
             <Header page={'Panel admin'}> </Header>
+            <Link to={'/admin'}><i id={'retour'} className="fas fa-arrow-left retour"> </i></Link>
             <form className={'formnumero'} name={'formnumero'} onSubmit={e=>addNumero(e)}>
                 <input type="number" name="numero" placeholder={'Numéro...'} />
                 <input type='text' name="desc" placeholder={'Description...'}/>

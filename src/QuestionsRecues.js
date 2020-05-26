@@ -158,6 +158,7 @@ export default function QuestionsRecues() {
     return (
         <div>
             <Header page={'Questions reçues'}> </Header>
+            <Link to={'/admin'}><i id={'retour'} className="fas fa-arrow-left retour"> </i></Link>
             <div className="questions">
                 <div className="questions_liste">
                     { //Check if message failed

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Header from "./Header";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import * as firebase from "firebase";
 import config from "./Config";
@@ -210,6 +210,7 @@ export default function Categorie(props) {
         return (
             <div>
                 <Header page={"Catégorie : "+categorie}> </Header>
+                <Link to={'/regles'}><i id={'retour'} className="fas fa-arrow-left retour"> </i></Link>
                 <div className="listeRegles">
                     <div className="indicationRegle">
                         <h2 className="titleCat"> Je dois </h2>
