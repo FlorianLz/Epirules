@@ -116,7 +116,7 @@ export default function Regles() {
 
                 <div className="rules">
                     <div className="mainRules">
-                        <h2 className="titlePart"> Main rules </h2>
+                        <h2 className="titlePart"> Règles principales </h2>
 
                         <div className="liste">
                             <div className="onerule">
