@@ -21,15 +21,14 @@ export default function Regles() {
     const db = firebase.firestore();
 
     function getRules(){
-        db.collection("categories").orderBy("idorder","asc").get().then(function(querySnapshot) {
+        db.collection("categories").orderBy("name","asc").get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 // doc.data() is never undefined for query doc snapshots
                 //console.log(doc.id, " => ", doc.data());
                 if (doc.data().idpays === idpays){
                     listeRules.push({
                         idpays: doc.data().idpays,
-                        name: doc.data().name,
-                        idorder: doc.data().idorder
+                        name: doc.data().name
                     })
                 }
             });
@@ -51,7 +50,6 @@ export default function Regles() {
                 key={i}
                 idpays={listeRules[i].idpays}
                 name={listeRules[i].name}
-                idorder={listeRules[i].idorder}
 
             />)
         }
