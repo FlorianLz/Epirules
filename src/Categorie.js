@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from "./Header";
 import {Redirect} from "react-router-dom";
 import {useCookies} from "react-cookie";
@@ -10,7 +10,9 @@ import ListeRulesMustnot from "./ListeRulesMustnot";
 
 export default function Categorie(props) {
     const [cookies] = useCookies(['pays']);
+    const [cookieLogin,setCookieLogin,removeCookieLogin] = useCookies(['login']);
     const [cookiesID] = useCookies(['idpays']);
+    const [pseudo,setPseudo] = useState([]);
     const [listeRulesCan, setListeRulesCan] = useState([]);
     const [listeRulesMust, setListeRulesMust] = useState([]);
     const [listeRulesMustnot, setListeRulesMustnot] = useState([]);
@@ -21,7 +23,6 @@ export default function Categorie(props) {
     let pays=cookies.pays;
     let idpays=cookiesID.idpays;
     let categorie = props.match.params.categorie;
-    console.log(categorie);
 
     if (!firebase.apps.length) {
         firebase.initializeApp(config);
@@ -29,42 +30,78 @@ export default function Categorie(props) {
     const db = firebase.firestore();
 
     function getRulesinfo(){
-        db.collection("regles").get().then(function(querySnapshot) {
+      if(loading===true){
+          db.collection("regles").onSnapshot(function(querySnapshot) {
+              let tabMust = [];
+              let tabCan = [];
+              let tabMustnot = [];
+              querySnapshot.forEach(function(doc) {
+                  // doc.data() is never undefined for query doc snapshots
+                  //console.log(doc.id, " => ", doc.data());
+                  if (doc.data().idpays === idpays && doc.data().namecategorie === categorie){
+                      if(doc.data().type === "must"){
+                          tabMust.push({
+                              idpays: doc.data().idpays,
+                              id: doc.id,
+                              name: doc.data().name,
+                              desc: doc.data().desc,
+                              type: doc.data().type,
+                              log: false
+                          })
+                      }
+                      if(doc.data().type === "can"){
+                          tabCan.push({
+                              idpays: doc.data().idpays,
+                              id: doc.id,
+                              name: doc.data().name,
+                              desc: doc.data().desc,
+                              type: doc.data().type,
+                              log: false
+                          })
+                      }
+                      if(doc.data().type === "mustnot"){
+                          tabMustnot.push({
+                              idpays: doc.data().idpays,
+                              id: doc.id,
+                              name: doc.data().name,
+                              desc: doc.data().desc,
+                              type: doc.data().type,
+                              log: false
+                          })
+                      }
+
+                  }
+              });
+              setListeRulesCan(tabCan);
+              setListeRulesMust(tabMust);
+              setListeRulesMustnot(tabMustnot);
+              setLoading(false);
+          })
+      }
+    }
+
+    useEffect(()=>{
+        getRulesinfo();
+    });
+
+    //On vérifie que la personne connectée est bien admin dans la bdd
+    function getVerif(uid) {
+        db.collection("users").get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 // doc.data() is never undefined for query doc snapshots
                 //console.log(doc.id, " => ", doc.data());
-                if (doc.data().idpays === idpays && doc.data().namecategorie === categorie){
-                    if(doc.data().type === "must"){
-                        listeRulesMust.push({
-                            idpays: doc.data().idpays,
-                            name: doc.data().name,
-                            desc: doc.data().desc,
-                            type: doc.data().type
-                        })
+                if (doc.data().id === uid ){
+                    let data = doc.data();
+                    if (data.admin !== true){
+                        removeCookieLogin('login');
+                        window.location.href='/login';
+                    }else{
+                        setPseudo(doc.data().pseudo)
                     }
-                    if(doc.data().type === "can"){
-                        listeRulesCan.push({
-                            idpays: doc.data().idpays,
-                            name: doc.data().name,
-                            desc: doc.data().desc,
-                            type: doc.data().type
-                        })
-                    }
-                    if(doc.data().type === "mustnot"){
-                        listeRulesMustnot.push({
-                            idpays: doc.data().idpays,
-                            name: doc.data().name,
-                            desc: doc.data().desc,
-                            type: doc.data().type
-                        })
-                    }
-
                 }
             });
-        }).then(()=>setLoading(false));
+        });
     }
-
-    getRulesinfo();
 
     if(!cookies.pays){
         return (
@@ -72,39 +109,102 @@ export default function Categorie(props) {
         );
     }
 
+    function supprimer(id) {
+        //console.log(id)
+        db.collection("regles").doc(id).delete().then(function() {
+            //console.log("Document successfully deleted!");
+        }).catch(function(error) {
+            //console.error("Error removing document: ", error);
+        });
+    }
+
 
     if(loading === false){
-        for(let i =0;i<listeRulesCan.length;i++){
-            jsxListeRulesCan.push(<ListeRulesCan
-                key={i}
-                idpays={listeRulesCan[i].idpays}
-                name={listeRulesCan[i].name}
-                desc={listeRulesCan[i].desc}
-                type={listeRulesCan[i].type}
 
-            />)
-        }
+        if(cookies.login){
+            getVerif(cookies.login);
+            for(let i =0;i<listeRulesCan.length;i++){
+                jsxListeRulesCan.push(<ListeRulesCan
+                    key={i}
+                    idpays={listeRulesCan[i].idpays}
+                    id={listeRulesCan[i].id}
+                    name={listeRulesCan[i].name}
+                    desc={listeRulesCan[i].desc}
+                    type={listeRulesCan[i].type}
+                    log={true}
+                    onSuppr={e=>supprimer(listeRulesCan[i].id)}
 
-        for(let i =0;i<listeRulesMust.length;i++){
-            jsxListeRulesMust.push(<ListeRulesMust
-                key={i}
-                idpays={listeRulesMust[i].idpays}
-                name={listeRulesMust[i].name}
-                desc={listeRulesMust[i].desc}
-                type={listeRulesMust[i].type}
+                />)
+            }
 
-            />)
-        }
+            for(let i =0;i<listeRulesMust.length;i++){
+                jsxListeRulesMust.push(<ListeRulesMust
+                    key={i}
+                    idpays={listeRulesMust[i].idpays}
+                    id={listeRulesMust[i].id}
+                    name={listeRulesMust[i].name}
+                    desc={listeRulesMust[i].desc}
+                    type={listeRulesMust[i].type}
+                    log={true}
+                    onSuppr={e=>supprimer(listeRulesMust[i].id)}
 
-        for(let i =0;i<listeRulesMustnot.length;i++){
-            jsxListeRulesMustnot.push(<ListeRulesMustnot
-                key={i}
-                idpays={listeRulesMustnot[i].idpays}
-                name={listeRulesMustnot[i].name}
-                desc={listeRulesMustnot[i].desc}
-                type={listeRulesMustnot[i].type}
+                />)
+            }
 
-            />)
+            for(let i =0;i<listeRulesMustnot.length;i++){
+                jsxListeRulesMustnot.push(<ListeRulesMustnot
+                    key={i}
+                    idpays={listeRulesMustnot[i].idpays}
+                    id={listeRulesMustnot[i].id}
+                    name={listeRulesMustnot[i].name}
+                    desc={listeRulesMustnot[i].desc}
+                    type={listeRulesMustnot[i].type}
+                    log={true}
+                    onSuppr={e=>supprimer(listeRulesMustnot[i].id)}
+
+                />)
+            }
+
+        }else{
+            for(let i =0;i<listeRulesCan.length;i++){
+                jsxListeRulesCan.push(<ListeRulesCan
+                    key={i}
+                    idpays={listeRulesCan[i].idpays}
+                    id={listeRulesCan[i].id}
+                    name={listeRulesCan[i].name}
+                    desc={listeRulesCan[i].desc}
+                    type={listeRulesCan[i].type}
+                    log={false}
+
+                />)
+            }
+
+            for(let i =0;i<listeRulesMust.length;i++){
+                jsxListeRulesMust.push(<ListeRulesMust
+                    key={i}
+                    idpays={listeRulesMust[i].idpays}
+                    id={listeRulesMust[i].id}
+                    name={listeRulesMust[i].name}
+                    desc={listeRulesMust[i].desc}
+                    type={listeRulesMust[i].type}
+                    log={false}
+
+                />)
+            }
+
+            for(let i =0;i<listeRulesMustnot.length;i++){
+                jsxListeRulesMustnot.push(<ListeRulesMustnot
+                    key={i}
+                    idpays={listeRulesMustnot[i].idpays}
+                    id={listeRulesMustnot[i].id}
+                    name={listeRulesMustnot[i].name}
+                    desc={listeRulesMustnot[i].desc}
+                    type={listeRulesMustnot[i].type}
+                    log={false}
+
+                />)
+            }
+
         }
 
         return (
@@ -131,8 +231,8 @@ export default function Categorie(props) {
                     </div>
                 </div>
             </div>
-
         );
+
     }else{
         return(
             <div className={"content"}>
