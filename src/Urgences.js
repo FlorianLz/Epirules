@@ -65,18 +65,22 @@ export default function Urgences() {
         )
     }else{
         return(
-            <div className={"content"}>
-                <div className="lds-roller">
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
+            <div>
+                <Header page={'Urgences '+pays}> </Header>
+                <div className={"content"}>
+                    <div className="lds-roller">
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                    </div>
                 </div>
             </div>
+
         )
     }
 

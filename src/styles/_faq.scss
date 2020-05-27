@@ -39,7 +39,8 @@
     }
     .question{
       position: relative;
-      width:max-content;
+      width: max-content;
+      max-width: 100%;
       p{
         font-size: 1.5rem;
       }
@@ -48,7 +49,7 @@
         position: absolute;
         content: "";
         border-bottom: solid 0.8rem $vert;
-        width: 120%;
+        width: 100%;
         left:0;
         bottom:-0.5rem;
       }
@@ -77,6 +78,7 @@
       height: max-content;
       transition: height 1s ease-in;
       margin-bottom: 1rem;
+      background-color: $noir;
       >p{
         opacity: 1;
       }

@@ -64,7 +64,7 @@ export default function Admin() {
                 ? <div className={'admin'}>
                         <div className={'infos'}>
                             <p>Bienvenue {pseudo}</p>
-                            <button onClick={()=>deconnexion()}>Déconnexion</button>
+                            <button className={'deconnexion'} onClick={()=>deconnexion()}>Déconnexion</button>
                         </div>
                         <p>Pays : {cookies.pays}</p>
                         <div className={'ajoutregle'}>

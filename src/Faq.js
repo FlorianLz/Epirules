@@ -171,12 +171,38 @@ export default function Faq() {
         );
     }
 
+    function recherche(e) {
+        console.log(e.target.value)
+        let recherche  = e.target.value;
+        if(admin === true){
+            db.collection("questions").where('question','==',"%"+recherche+"%").get().then(function(querySnapshot) {
+                let tab=[];
+                querySnapshot.forEach(function(doc) {
+                    // doc.data() is never undefined for query doc snapshots
+                    //console.log(doc.id, " => ", doc.data());
+                    if (doc.data().idpays === idpays){
+                        tab.push({
+                            idpays: doc.data().idpays,
+                            question: doc.data().question,
+                            reponse: doc.data().reponse,
+                            id: doc.id,
+                            admin: admin
+                        })
+                    }
+                });
+                setListeQuestions(tab);
+                setLoading(false);
+                setNoReload(true)
+            })
+        }
+    }
+
     return (
         <div>
             <Header page={'FAQ'}> </Header>
             <div className="questions">
                 <div className="recherche">
-                    <input type="text" placeholder={'Recherche...'} />
+                    <input type="search" placeholder={'Recherche...'} onKeyUp={e=>recherche(e)}/>
                 </div>
                 <div className="demande">
                     <Link to={'/faq/demande'}><button>Poser une question</button></Link>

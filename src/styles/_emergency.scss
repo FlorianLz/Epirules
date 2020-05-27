@@ -20,17 +20,16 @@
       color: $vert;
       width: 6rem;
       height: 6rem;
-      border: 1px solid $vert;
+      border: 0.1rem solid $vert;
       border-radius: 10rem;
       text-align: center;
       margin-bottom: 1vh;
       margin-left: auto;
       margin-right: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-      p{
-        top: 50%;
-        transform: translateY(50%);
-      }
     }
   }
   .nameNumero{
@@ -55,16 +54,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 20%;
-      padding: 1.5rem;
-      height:auto;
-      border: 0.4rem solid $vert;
+      width: 6rem;
+      height: 6rem;
+      border: 0.1rem solid $vert;
       border-radius: 4rem;
+      background-color: $noir;
     }
     .nameNumero{
       font-size: 1.5rem;
       margin-left: 2rem;
-      width: 75%;
+      width: 60%;
     }
     .suppr{
       font-size: 1.5rem;
