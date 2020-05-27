@@ -121,3 +121,16 @@
 .no-margin{
   margin: 0!important;
 }
+
+//suppresion
+.listeQuestions{
+  position: relative;
+  .suppr{
+    position: absolute;
+    top: 0;
+    right: -1rem;
+    i{
+      font-size: 1.4rem;
+    }
+  }
+}
