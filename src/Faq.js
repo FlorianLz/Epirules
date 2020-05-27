@@ -145,7 +145,7 @@ export default function Faq() {
                 </div>
                 <div className="demande">
                     <Link to={'/faq/demande'}><button>Poser une question</button></Link>
-                    {admin ? <Link to={'/faq/ajout'} class={'ajoutadmin'}><button>Ajouter une question</button></Link> : ''}
+                    {admin ? <Link to={'/faq/ajout'} className={'ajoutadmin'}><button>Ajouter une question</button></Link> : ''}
                 </div>
                 <div className="questions_liste">
                     { //Check if message failed
