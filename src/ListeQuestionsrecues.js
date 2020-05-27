@@ -10,9 +10,12 @@ function ListeQuestionsRecues(props) {
                 <p>Posée par {props.prenom} {props.nom}</p>
                 <p>({props.email})</p>
                 <form onSubmit={e=>props.poster(e)} className={'form-admin'}>
-                    <input type={'text'} name={'question'} defaultValue={props.question}/>
-                    <input type={'hidden'} name={'document'} value={props.id}/>
-                    <textarea name="reponse" placeholder={'Réponse...'}></textarea>
+                    <input type={'text'} name={'question-'+props.id} defaultValue={props.question}/>
+                    <input type={'hidden'} name={'document-'+props.id} value={props.id}/>
+                    <input type={'hidden'} name={'email-'+props.id} value={props.email}/>
+                    <input type={'hidden'} name={'prenom-'+props.id} value={props.prenom}/>
+                    <input type={'hidden'} name={'nom-'+props.id} value={props.nom}/>
+                    <textarea name={'reponse-'+props.id} placeholder={'Réponse...'}></textarea>
                     <input type="submit" value="Valider" />
                 </form>
             </div>

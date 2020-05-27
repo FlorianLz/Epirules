@@ -99,18 +99,22 @@ export default function QuestionsRecues() {
     function poster(e,id) {
         e.preventDefault();
         //On récupère les différents champs
-        let question = document.querySelector("input[name='question']").value;
-        let reponse = document.querySelector("textarea[name='reponse']").value;
-        let iddocument = document.querySelector("input[name='document']").value;
-        console.log(iddocument)
-        if(question === '' || reponse === ''){
-            //console.log('pas ok')
-        }else{
+        let question = document.querySelector("input[name='question-"+id+"']").value;
+        let reponse = document.querySelector("textarea[name='reponse-"+id+"']").value;
+        let iddocument = document.querySelector("input[name='document-"+id+"']").value;
+        let emailDemande = document.querySelector("input[name='email-"+id+"']").value;
+        let prenomDemande = document.querySelector("input[name='prenom-"+id+"']").value;
+        let nomDemande = document.querySelector("input[name='nom-"+id+"']").value;
+
+        if(question !== '' && reponse !== ''){
             db.collection("questions").add({
                 idpays: idpays,
                 question: question,
                 reponse: reponse,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                emailDemande: emailDemande,
+                prenomDemande: prenomDemande,
+                nomDemande: nomDemande
             })
                 .then(function(docRef) {
                     //console.log("Document written with ID: ", docRef.id);
@@ -150,7 +154,7 @@ export default function QuestionsRecues() {
             email={listeQuestions[i].email}
             question={listeQuestions[i].question}
             clic={e=>toggleForm(e)}
-            poster={e=>poster(e)}
+            poster={e=>poster(e,listeQuestions[i].id)}
             id={listeQuestions[i].id}
         />)
     }
