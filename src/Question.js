@@ -8,9 +8,7 @@ import config from "./Config";
 export default function Question() {
     const [cookies] = useCookies(['pays']);
     const [cookiesID] = useCookies(['idpays']);
-    const [listeQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
-    let pays=cookies.pays;
     let idpays=cookiesID.idpays;
 
     if (!firebase.apps.length) {

@@ -167,11 +167,11 @@ export default function Stats() {
             let percent = c*100/p;
             //console.log(percent)
             setPopulation('Population touchée : '+percent.toFixed(2)+'%');
-        })
+        });
         //Pour le monde
         await axios.get('https://d6wn6bmjj722w.population.io/1.0/population/World/today-and-tomorrow/').then(function (response) {
             let mondiale = response.data.total_population[0].population;
-            let percent = c*100/t;
+            let percent = t*100/mondiale;
             setPopulationGlobale('Population touchée : '+percent.toFixed(2)+'%');
         })
     }
@@ -179,7 +179,7 @@ export default function Stats() {
 
     useEffect(()=>{
         getData(codepays);
-    },[])
+    },[]);
 
 
     if(!cookies.pays){

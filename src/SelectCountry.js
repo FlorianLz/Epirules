@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.scss';
 import * as firebase from "firebase";
-    import config from "./Config";
+import config from "./Config";
 import ListePays from "./ListePays";
 import {Link} from "react-router-dom";
 import {useCookies} from 'react-cookie';
@@ -15,6 +15,7 @@ function App() {
     const [cookiesID, setCookieID, removeCookieID] = useCookies(['idpays']);
     const [cookiesCodePays, setCookieCodePays, removeCookieCodePays] = useCookies(['codepays']);
     let jsxListePays=[];
+
     if (!firebase.apps.length) {
         firebase.initializeApp(config);
     }
@@ -41,7 +42,6 @@ function App() {
         }
     }
 
-
     for(let i =0;i<listePays.length;i++){
         jsxListePays.push(<ListePays
             key={i}
@@ -66,7 +66,7 @@ function App() {
 
     useEffect(()=>{
         getPays();
-    })
+    });
 
     if (loading === false){
         return (
@@ -83,7 +83,6 @@ function App() {
         )
     }else{
         return(
-
             <div className={"content"}>
                 <div className="lds-roller">
                     <div> </div>

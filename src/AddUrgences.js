@@ -13,8 +13,7 @@ export default function AddUrgences() {
     const [pseudo,setPseudo] = useState([]);
     const [loading,setLoading] = useState(true);
     const [listeNumeros,setListeNumeros] = useState([]);
-    let pays=cookies.pays;
-    let idpays=cookies.idpays;
+    let idpays=cookiesID.idpays;
     let jsxListeNumeros = [];
 
     if (!firebase.apps.length) {
@@ -95,7 +94,7 @@ export default function AddUrgences() {
     }
     useEffect(()=>{
         getNumeros();
-    })
+    });
 
     if(!cookies.pays ){
         return (
