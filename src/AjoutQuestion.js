@@ -48,7 +48,7 @@ export default function AjoutQuestion() {
 
     function getQuestions(){
         if (loading === true){
-            db.collection("questions").orderBy("timestamp","desc").onSnapshot(function(querySnapshot) {
+            db.collection("questions").orderBy("timestamp","desc").get().then(function(querySnapshot) {
                 let tab=[];
                 querySnapshot.forEach(function(doc) {
                     // doc.data() is never undefined for query doc snapshots
@@ -81,6 +81,36 @@ export default function AjoutQuestion() {
         return (
             <Redirect to='/login'/>
         );
+    }
+
+    if(admin === true){
+        let questions = document.querySelectorAll('.majquestion');
+        let reponses = document.querySelectorAll('.majreponses');
+        [].forEach.call(questions, function(question) {
+            question.addEventListener('input',function (e) {
+                let iddoc  = e.target.getAttribute('data-id');
+                let newquestion = document.querySelector('.q-'+iddoc).innerText;
+                db.collection("questions").doc(iddoc).update({
+                    question: newquestion
+                })
+
+
+            })
+        });
+
+        [].forEach.call(reponses, function(reponse) {
+            reponse.addEventListener('input',function (e) {
+                let iddoc  = e.target.getAttribute('data-id');
+                let newreponse = document.querySelector('.r-'+iddoc).innerText;
+                db.collection("questions").doc(iddoc).update({
+                    reponse: newreponse
+                })
+
+
+            })
+        });
+
+
     }
 
     function toggleRep(id){
@@ -128,6 +158,17 @@ export default function AjoutQuestion() {
 
     }
 
+    function supprimer(id) {
+        //console.log(id)
+        db.collection("questions").doc(id).delete().then(function() {
+            //console.log("Document successfully deleted!");
+            setLoading(true)
+            getQuestions()
+        }).catch(function(error) {
+            console.error("Error removing document: ", error);
+        });
+    }
+
     for(let i =0;i<listeQuestions.length;i++){
         jsxListeQuestions.push(<ListeQuestions
             key={i}
@@ -137,6 +178,7 @@ export default function AjoutQuestion() {
             clic={e=>toggleRep(e)}
             id={listeQuestions[i].id}
             admin={listeQuestions[i].admin}
+            onSuppr={e=>supprimer(listeQuestions[i].id)}
 
         />)
     }

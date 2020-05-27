@@ -13,6 +13,7 @@ export default function Faq() {
     const [listeQuestions, setListeQuestions] = useState([]);
     const [cookieLogin,setCookieLogin,removeCookieLogin] = useCookies(['login']);
     const [loading, setLoading] = useState(true);
+    const [noReaload, setNoReload] = useState(false);
     const [admin, setAdmin] = useState(false);
     let pays=cookies.pays;
     let idpays=cookiesID.idpays;
@@ -46,6 +47,30 @@ export default function Faq() {
         }
     }
 
+    function getQuestionsAdmin(){
+        if (loading === true){
+            db.collection("questions").orderBy("timestamp","desc").get().then(function(querySnapshot) {
+                let tab=[];
+                querySnapshot.forEach(function(doc) {
+                    // doc.data() is never undefined for query doc snapshots
+                    //console.log(doc.id, " => ", doc.data());
+                    if (doc.data().idpays === idpays){
+                        tab.push({
+                            idpays: doc.data().idpays,
+                            question: doc.data().question,
+                            reponse: doc.data().reponse,
+                            id: doc.id,
+                            admin: admin
+                        })
+                    }
+                });
+                setListeQuestions(tab);
+                setLoading(false);
+                setNoReload(true)
+            })
+        }
+    }
+
     function toggleRep(id){
         let reponses=document.getElementsByClassName('reponse');
         [].forEach.call(reponses,function (elmt) {
@@ -60,7 +85,9 @@ export default function Faq() {
     function supprimer(id) {
         //console.log(id)
         db.collection("questions").doc(id).delete().then(function() {
-            console.log("Document successfully deleted!");
+            //console.log("Document successfully deleted!");
+            setLoading(true)
+            getQuestionsAdmin()
         }).catch(function(error) {
             console.error("Error removing document: ", error);
         });
@@ -80,39 +107,42 @@ export default function Faq() {
         />)
     }
 
-    if(admin === true){
-        let questions = document.querySelectorAll('.majquestion');
-        let reponses = document.querySelectorAll('.majreponses');
-        [].forEach.call(questions, function(question) {
-            question.addEventListener('input',function (e) {
-                let iddoc  = e.target.getAttribute('data-id');
-                let newquestion = document.querySelector('.q-'+iddoc).innerText;
-                db.collection("questions").doc(iddoc).update({
-                    question: newquestion
+    if(loading === false){
+        if(admin === true){
+            let questions = document.querySelectorAll('.majquestion');
+            let reponses = document.querySelectorAll('.majreponses');
+            [].forEach.call(questions, function(question) {
+                question.addEventListener('input',function (e) {
+                    let iddoc  = e.target.getAttribute('data-id');
+                    let newquestion = document.querySelector('.q-'+iddoc).innerText;
+                    db.collection("questions").doc(iddoc).update({
+                        question: newquestion
+                    })
+
+
                 })
+            });
+
+            [].forEach.call(reponses, function(reponse) {
+                reponse.addEventListener('input',function (e) {
+                    let iddoc  = e.target.getAttribute('data-id');
+                    let newreponse = document.querySelector('.r-'+iddoc).innerText;
+                    db.collection("questions").doc(iddoc).update({
+                        reponse: newreponse
+                    })
 
 
-            })
-        });
-
-        [].forEach.call(reponses, function(reponse) {
-            reponse.addEventListener('input',function (e) {
-                let iddoc  = e.target.getAttribute('data-id');
-                let newreponse = document.querySelector('.r-'+iddoc).innerText;
-                db.collection("questions").doc(iddoc).update({
-                    reponse: newreponse
                 })
+            });
 
 
-            })
-        });
-
-
+        }
     }
 
     //On vérifie que la personne connectée est bien admin dans la bdd
     function getVerif(uid) {
         db.collection("users").get().then(function(querySnapshot) {
+            let autorisation = false;
             querySnapshot.forEach(function(doc) {
                 // doc.data() is never undefined for query doc snapshots
                 //console.log(doc.id, " => ", doc.data());
@@ -120,13 +150,17 @@ export default function Faq() {
                     let data = doc.data();
                     if (data.admin === true){
                         setAdmin(true);
-                    }else{
-                        removeCookieLogin('login');
+                        autorisation = true;
                     }
                 }
             });
+            console.log(autorisation)
+            if (autorisation === true){
+                getQuestionsAdmin()
+            }else{
+                getQuestions()
+            }
         });
-        getQuestions();
     }
 
     getVerif(cookies.login);
@@ -136,6 +170,7 @@ export default function Faq() {
             <Redirect to='/'/>
         );
     }
+
     return (
         <div>
             <Header page={'FAQ'}> </Header>
@@ -149,7 +184,8 @@ export default function Faq() {
                 </div>
                 <div className="questions_liste">
                     { //Check if message failed
-                        (loading === false)
+                        (noReaload === false)
+                            ? (loading === false)
                             ? <div>{jsxListeQuestions}</div>
                             : <div className="lds-roller">
                                 <div> </div>
@@ -161,6 +197,7 @@ export default function Faq() {
                                 <div> </div>
                                 <div> </div>
                             </div>
+                            : <div>{jsxListeQuestions}</div>
                     }
                 </div>
 
