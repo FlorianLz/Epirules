@@ -41,6 +41,7 @@
       position: relative;
       width: max-content;
       max-width: 100%;
+      margin-bottom: 3vh;
       p{
         font-size: 1.5rem;
       }
@@ -56,7 +57,6 @@
     }
     .reponse{
       overflow: hidden;
-      margin-top: 2rem;
       font-size: 1.3rem;
       border: 0;
       border-radius: 0;
@@ -77,7 +77,7 @@
       padding: 1rem;
       height: max-content;
       transition: height 1s ease-in;
-      margin-bottom: 1rem;
+      margin-bottom: 4vh;
       background-color: $noir;
       >p{
         opacity: 1;
