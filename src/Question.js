@@ -40,7 +40,8 @@ export default function Question() {
                 email: email,
                 question: question,
                 idpays: idpays,
-                traite: false
+                traite: false,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             })
                 .then(function(docRef) {
                     //console.log("Document written with ID: ", docRef.id);
