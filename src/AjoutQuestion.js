@@ -147,7 +147,7 @@ export default function AjoutQuestion() {
             <Link to={'/admin'}><i id={'retour'} className="fas fa-arrow-left retour"> </i></Link>
             <div className={'question'}>
                 <form onSubmit={e=>poser(e)} name={'formquestion'}>
-                    <p>Pays sélectionné : {pays}</p>
+                    <h3>Pays sélectionné : {pays}</h3>
                     <input type='text' name={'question'} placeholder={'Question...'}/>
                     <textarea name={'reponse'} placeholder={'Réponse...'}></textarea>
                     <p className="status ptop"></p>
