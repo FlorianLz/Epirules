@@ -14,6 +14,8 @@ body {
   background-color: $noir;
   color: $blanc;
   height: 100vh;
+  background-image: url("/images/fond.png");
+  background-size: contain;
 }
 
 code {
