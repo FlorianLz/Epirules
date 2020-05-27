@@ -122,24 +122,24 @@ export default function Regles() {
                             </select>
                         </div>
                         <div className="selectType">
-                            <h3> Sélectionner le type de règle </h3>
+                            <h3 className="titlePartie"> Sélectionner le type de règle </h3>
                             <div className="listeType">
-                                <div>
+                                <div className="unType">
                                     <input type="radio" id="must" name="type" value="must"/>
                                     <label htmlFor="type"> Je dois </label>
                                 </div>
-                                <div>
+                                <div className="unType">
                                     <input type="radio" id="mustnot" name="type" value="mustnot"/>
                                     <label htmlFor="type"> Je ne dois pas </label>
                                 </div>
-                                <div>
+                                <div className="unType">
                                     <input type="radio" id="can" name="type" value="can"/>
                                     <label htmlFor="type"> Je peux </label>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <h3> Écrire la règle </h3>
+                            <h3 className="titlePartie"> Écrire la règle </h3>
                             <input type="text" name="regle" placeholder="La règle..." id="desc" className="descRegle"/>
                         </div>
                         <div>
