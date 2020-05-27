@@ -175,11 +175,13 @@ export default function Faq() {
         console.log(e.target.value)
         let recherche  = e.target.value;
         if(admin === true){
-            db.collection("questions").where('question','==',"%"+recherche+"%").get().then(function(querySnapshot) {
+            db.collection("questions").orderBy('question').startAt(recherche).endAt(recherche+'\uf8ff').get().then(function(querySnapshot) {
                 let tab=[];
+                //console.log(querySnapshot.docs)
                 querySnapshot.forEach(function(doc) {
                     // doc.data() is never undefined for query doc snapshots
                     //console.log(doc.id, " => ", doc.data());
+                    //console.log(doc.data())
                     if (doc.data().idpays === idpays){
                         tab.push({
                             idpays: doc.data().idpays,
