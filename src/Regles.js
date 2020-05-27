@@ -59,7 +59,7 @@ export default function Regles() {
                         removeCookieLogin('login');
                         window.location.href='/login';
                     }else{
-                        setPseudo(doc.data().pseudo)
+                        setPseudo(doc.data().pseudo);
                     }
                 }
             });
@@ -147,7 +147,6 @@ export default function Regles() {
                     </div>
                 </div>
             </div>
-
         );
     }else{
         return(
@@ -170,7 +169,4 @@ export default function Regles() {
 
         )
     }
-
-
-
 }
