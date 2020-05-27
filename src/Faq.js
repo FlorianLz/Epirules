@@ -4,8 +4,8 @@ import {Redirect, Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import * as firebase from "firebase";
 import config from "./Config";
-import ListeRules from "./ListeRules";
 import ListeQuestions from "./ListeQuestion";
+import ListeCategories from "./ListeCategories";
 
 export default function Faq() {
     const [cookies] = useCookies(['pays']);
@@ -25,7 +25,7 @@ export default function Faq() {
 
     function getQuestions(){
         if (loading === true){
-            db.collection("questions").orderBy("timestamp","desc").get().then(function(querySnapshot) {
+            db.collection("questions").orderBy("timestamp","desc").onSnapshot(function(querySnapshot) {
                 let tab=[];
                 querySnapshot.forEach(function(doc) {
                     // doc.data() is never undefined for query doc snapshots
@@ -40,8 +40,8 @@ export default function Faq() {
                         })
                     }
                 });
-                setListeQuestions(tab)
-                setLoading(false)
+                setListeQuestions(tab);
+                setLoading(false);
             })
         }
     }
@@ -52,9 +52,18 @@ export default function Faq() {
             if (elmt.id !== 'r-'+id){
                 elmt.classList.remove('visible')
             }
-        })
+        });
         let reponse=document.getElementById('r-'+id);
         reponse.classList.toggle('visible');
+    }
+
+    function supprimer(id) {
+        //console.log(id)
+        db.collection("questions").doc(id).delete().then(function() {
+            console.log("Document successfully deleted!");
+        }).catch(function(error) {
+            console.error("Error removing document: ", error);
+        });
     }
 
     for(let i =0;i<listeQuestions.length;i++){
@@ -66,6 +75,7 @@ export default function Faq() {
             clic={e=>toggleRep(e)}
             id={listeQuestions[i].id}
             admin={listeQuestions[i].admin}
+            onSuppr={e=>supprimer(listeQuestions[i].id)}
 
         />)
     }

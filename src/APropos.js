@@ -17,34 +17,37 @@ export default function APropos() {
             <Header page={'À propos de nous'}> </Header>
             <div className="apropos">
                 <div>
-                    <h3> The internationals & InProgress </h3>
-                    <p>
-                        First, The Internationales is a group of international students who are participating in the BUSIT week. The subject is "Design and create an innovative mobile application useful during a massive virus outbreak." and mixt different nationality : Belgian, French, Spanish, Finnish and Irish people.
-                        It has come to our attention that nobody really knows what the rules are during an epidemic and if we enter a new phase it is often not really clear what the new rules have become.
-                        With this app we hope to clear up any misunderstandings about the rules and make the world a safer place.
-
-                        After this week, with a French team, we have to develop this application and create a communication campaign.
-
+                    <h3> The Internationals & InProgress </h3>
+                    <p className="desc">
+                        Tout d'abord, The Internationals est un groupe d'étudiants internationaux qui ont participé au projet BUSIT.
+                        Le sujet était : "Designer et créer une application mobile innovante utile durant une période d'épidemie." en mixant les nationalités : Belges, Français, Espagnol, Finlandais et Irlandais.
+                        Notre attention s'est porté sur le fait que personne ne connaît vraiment toutes les règles qui existent durant une période d'épidemie et quand l'on rentre dans une nouvelle phase, les nouvelles règles ne sont jamais très claires.
+                        Avec cette application, on espère dissiper tout malentendu sur les règles et faire du monde un endroit plus sûr.
+                        Après ce projet, l'équipe InProgress, composé d'étudiants français, a developpé cette application et a créé une campagne de communication.
                     </p>
                 </div>
 
                 <div className="personnes">
-                    <div className="personnes_left">
-                        L'idée de : <br />
-                        Achacortabarria Andoni <br />
-                        Van Tilborgh Liam <br />
-                        Paluch Loïc <br />
-                        Hendrickx Luka <br />
-                        Vittu Lydie <br />
-                        Troumelen Morgane <br />
+                    <div className="theInternationals">
+                        <p className="title"> L'idée de l'application est venue de : </p>
+                        <div className="names">
+                            <p> Achacortabarria Andoni </p>
+                            <p> Van Tilborgh Liam </p>
+                            <p> Paluch Loïc </p>
+                            <p> Hendrickx Luka </p>
+                            <p> Vittu Lydie </p>
+                            <p> Troumelen Morgane </p>
+                        </div>
                     </div>
-                    <div className="personnes_right">
-                        Développé par : <br />
-                        Paluch Loïc <br />
-                        Vittu Lydie <br />
-                        Troumelen Morgane <br />
-                        Laignez Florian <br />
-                        Tournemaine Tiphaine
+                    <div className="inProgress">
+                        <p className="title"> L'application a été développé par: </p>
+                        <div className="names">
+                            <p> Paluch Loïc </p>
+                            <p> Vittu Lydie </p>
+                            <p> Troumelen Morgane </p>
+                            <p> Laignez Florian </p>
+                            <p> Tournemaine Tiphaine </p>
+                        </div>
                     </div>
                 </div>
             </div>

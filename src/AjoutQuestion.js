@@ -4,7 +4,6 @@ import {Link, Redirect} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import * as firebase from "firebase";
 import config from "./Config";
-import ListeNumeros from "./ListeNumeros";
 import ListeQuestions from "./ListeQuestion";
 import ListeQuestionsRecues from "./ListeQuestionsrecues";
 
@@ -14,6 +13,7 @@ export default function AjoutQuestion() {
     const [cookiesID] = useCookies(['idpays']);
     const [pseudo,setPseudo] = useState([]);
     const [loading,setLoading] = useState(true);
+    const [admin, setAdmin] = useState(false);
     const [listeQuestions,setListeQuestions] = useState([]);
     let pays=cookies.pays;
     let idpays=cookies.idpays;
@@ -36,11 +36,13 @@ export default function AjoutQuestion() {
                         removeCookieLogin('login');
                         window.location.href='/login';
                     }else{
-                        setPseudo(doc.data().pseudo)
+                        setPseudo(doc.data().pseudo);
+                        setAdmin(true);
                     }
                 }
             });
         });
+        getQuestions();
     }
 
 
@@ -56,16 +58,17 @@ export default function AjoutQuestion() {
                             idpays: doc.data().idpays,
                             question: doc.data().question,
                             reponse: doc.data().reponse,
-                            id: doc.id
+                            id: doc.id,
+                            admin: admin
                         })
                     }
                 });
-                setListeQuestions(tab)
-                setLoading(false)
+                setListeQuestions(tab);
+                setLoading(false);
             })
         }
     }
-    getQuestions();
+
 
     if(!cookies.pays ){
         return (
@@ -133,6 +136,7 @@ export default function AjoutQuestion() {
             reponse={listeQuestions[i].reponse}
             clic={e=>toggleRep(e)}
             id={listeQuestions[i].id}
+            admin={listeQuestions[i].admin}
 
         />)
     }
