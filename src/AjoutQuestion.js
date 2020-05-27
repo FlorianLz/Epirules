@@ -146,6 +146,8 @@ export default function AjoutQuestion() {
                     document.querySelector("form[name='formquestion']").reset();
                     document.querySelector('p.status').innerHTML = '';
                     document.querySelector('p.status_ok').innerHTML = 'Question ajoutée !';
+                    setLoading(true)
+                    getQuestions()
 
                 })
                 .catch(function(error) {
