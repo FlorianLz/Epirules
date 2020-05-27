@@ -5,7 +5,6 @@ import {useCookies} from "react-cookie";
 import * as firebase from "firebase";
 import config from "./Config";
 import ListeQuestions from "./ListeQuestion";
-import ListeQuestionsRecues from "./ListeQuestionsrecues";
 
 export default function AjoutQuestion() {
     const [cookies] = useCookies(['pays']);

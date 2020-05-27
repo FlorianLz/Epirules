@@ -20,7 +20,6 @@ export default function Categorie(props) {
     let jsxListeRulesCan = [];
     let jsxListeRulesMust = [];
     let jsxListeRulesMustnot = [];
-    let pays=cookies.pays;
     let idpays=cookiesID.idpays;
     let categorie = props.match.params.categorie;
 
