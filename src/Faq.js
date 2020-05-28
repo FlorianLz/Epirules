@@ -171,7 +171,7 @@ export default function Faq() {
     }
 
     function recherche(e) {
-        console.log(e.target.value)
+        //console.log(e.target.value)
         let recherche  = e.target.value;
         if(admin === true){
             db.collection("questions").orderBy('question').startAt(recherche).endAt(recherche+'\uf8ff').get().then(function(querySnapshot) {
