@@ -44,7 +44,7 @@ export default function AjoutCategorie() {
     function supprimer(id) {
         //console.log(id)
         db.collection("categories").doc(id).delete().then(function() {
-            console.log("Document successfully deleted!");
+           // console.log("Document successfully deleted!");
         }).catch(function(error) {
             console.error("Error removing document: ", error);
         });
@@ -62,7 +62,7 @@ export default function AjoutCategorie() {
 
     useEffect(()=>{
         getCategories();
-    })
+    });
 
     if(!cookies.pays){
         return (
@@ -79,7 +79,6 @@ export default function AjoutCategorie() {
             document.querySelector('p.status').innerHTML = 'Merci de remplir tous les champs.';
         } else {
             db.collection("categories").add({
-                idorder: "12",
                 idpays: idpays,
                 name: name
             })
