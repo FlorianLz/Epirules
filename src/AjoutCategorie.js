@@ -62,7 +62,7 @@ export default function AjoutCategorie() {
 
     useEffect(()=>{
         getCategories();
-    })
+    });
 
     if(!cookies.pays){
         return (
@@ -79,7 +79,6 @@ export default function AjoutCategorie() {
             document.querySelector('p.status').innerHTML = 'Merci de remplir tous les champs.';
         } else {
             db.collection("categories").add({
-                idorder: "12",
                 idpays: idpays,
                 name: name
             })
