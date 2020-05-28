@@ -46,7 +46,7 @@ export default function QuestionsRecues() {
 
     function getQuestions(){
         if(loading === true){
-            db.collection("demandes").where("traite",'==',false).where("idpays",'==',idpays).onSnapshot(function(querySnapshot) {
+            db.collection("demandes").where("traite",'==',false).where("idpays",'==',idpays).orderBy('timestamp','desc').onSnapshot(function(querySnapshot) {
                 let tab=[];
                 querySnapshot.forEach(function(doc) {
                     // doc.data() is never undefined for query doc snapshots
