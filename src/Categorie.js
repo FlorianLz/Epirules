@@ -16,20 +16,39 @@ export default function Categorie(props) {
     const [listeRulesCan, setListeRulesCan] = useState([]);
     const [listeRulesMust, setListeRulesMust] = useState([]);
     const [listeRulesMustnot, setListeRulesMustnot] = useState([]);
+    const [nameCategorie, setNameCategorie] = useState([]);
     const [loading, setLoading] = useState(true);
     let jsxListeRulesCan = [];
     let jsxListeRulesMust = [];
     let jsxListeRulesMustnot = [];
     let idpays=cookiesID.idpays;
     let categorie = props.match.params.categorie;
+    let nameCat = "";
 
     if (!firebase.apps.length) {
         firebase.initializeApp(config);
     }
     const db = firebase.firestore();
 
+    function getName(){
+        db.collection("categories").onSnapshot(function(querySnapshot)  {
+            let tab = [];
+            querySnapshot.forEach(function(doc) {
+                if (doc.data().idpays === idpays && doc.id === categorie){
+                    tab.push({
+                        idpays: doc.data().idpays,
+                        name: doc.data().name,
+                        id: doc.id
+                    })
+                }
+            });
+            setNameCategorie(tab);
+        })
+    }
+
     function getRulesinfo(){
       if(loading===true){
+          getName();
           db.collection("regles").onSnapshot(function(querySnapshot) {
               let tabMust = [];
               let tabCan = [];
@@ -37,7 +56,7 @@ export default function Categorie(props) {
               querySnapshot.forEach(function(doc) {
                   // doc.data() is never undefined for query doc snapshots
                   //console.log(doc.id, " => ", doc.data());
-                  if (doc.data().idpays === idpays && doc.data().namecategorie === categorie){
+                  if (doc.data().idpays === idpays && doc.data().idcategorie === categorie){
                       if(doc.data().type === "must"){
                           tabMust.push({
                               idpays: doc.data().idpays,
@@ -119,6 +138,7 @@ export default function Categorie(props) {
 
 
     if(loading === false){
+        nameCat = nameCategorie[0].name;
 
         if(cookies.login){
             getVerif(cookies.login);
@@ -208,7 +228,7 @@ export default function Categorie(props) {
 
         return (
             <div>
-                <Header page={"Catégorie : "+categorie}> </Header>
+                <Header page={"Catégorie : "+nameCat}> </Header>
                 <Link to={'/regles'}><i id={'retour'} className="fas fa-arrow-left retour"> </i></Link>
                 <div className="listeRegles">
                     <div className="indicationRegle">

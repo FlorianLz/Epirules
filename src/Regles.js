@@ -73,9 +73,9 @@ export default function Regles() {
     }
 
     function supprimer(id) {
-        console.log(id)
+        //console.log(id);
         db.collection("categories").doc(id).delete().then(function() {
-            console.log("Document successfully deleted!");
+            //console.log("Document successfully deleted!");
         }).catch(function(error) {
             console.error("Error removing document: ", error);
         });
