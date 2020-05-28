@@ -154,7 +154,6 @@ export default function Faq() {
                     }
                 }
             });
-            console.log(autorisation)
             if (autorisation === true){
                 getQuestionsAdmin()
             }else{
