@@ -5,13 +5,13 @@ import {Link, Redirect} from "react-router-dom";
 import * as firebase from "firebase";
 import config from "./Config";
 import ListeCategories from "./ListeCategories";
-import ListePays from "./ListePays";
 
 export default function Regles() {
     const [loading, setLoading] = useState(true);
     const [cookies] = useCookies(['pays']);
     const [cookiesID] = useCookies(['idpays']);
     const [choisi, setChoisi] = useState(false);
+    const [choisiId, setChoisiId] = useState(false);
     const [listeCategories, setListeCategories] = useState([]);
     let pays=cookies.pays;
     let idpays=cookiesID.idpays;
@@ -23,7 +23,6 @@ export default function Regles() {
     const db = firebase.firestore();
 
     function getCategories(){
-        //console.log(navigator.language);
         if(loading===true){
             db.collection("categories").onSnapshot(function(querySnapshot) {
                 let tab=[];
@@ -52,12 +51,14 @@ export default function Regles() {
 
     function actualiserChoix(e) {
         let choix = e.target.options[e.target.selectedIndex].value;
+        let idchoix = e.target.options[e.target.selectedIndex].id;
         setChoisi(choix);
+       setChoisiId(idchoix);
     }
 
     useEffect(()=>{
         getCategories();
-    })
+    });
 
     if(!cookies.pays){
         return (
@@ -71,6 +72,7 @@ export default function Regles() {
         let radios = document.querySelectorAll("input[name='type']");
         let type = "";
         let categorie = choisi;
+        let categorieId = choisiId;
 
         //verif pour les boutons radios
         for(let i=0; i < radios.length; i++){
@@ -85,6 +87,7 @@ export default function Regles() {
         } else {
             db.collection("regles").add({
                 desc: regle,
+                idcategorie: categorieId,
                 idpays: idpays,
                 namecategorie: categorie,
                 type: type
