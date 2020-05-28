@@ -6,7 +6,7 @@ function ListeRules(props) {
     if(props.log){
         return (
             <div className="elementCategorie">
-                <Link to={'/regles/'+name}>
+                <Link to={'/regles/'+props.id}>
                     <div className="link">
                         <div className="title">  {name} </div>
                     </div>
