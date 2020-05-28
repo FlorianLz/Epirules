@@ -18,7 +18,7 @@
   }
 
   .demande{
-    padding-top: 2rem;
+    padding-top: 5vh;
     text-align: center;
     button{
       background-color: $vert;
@@ -32,7 +32,7 @@
   }
 
   &_liste{
-    padding-top: 2rem;
+    margin-top: 5vh;
     >div{
       display: flex;
       flex-direction: column;
@@ -40,8 +40,8 @@
     .question{
       position: relative;
       width: max-content;
-      max-width: 100%;
-      margin-bottom: 3vh;
+      max-width: 80%;
+      margin-bottom: 4vh;
       p{
         font-size: 1.5rem;
       }
