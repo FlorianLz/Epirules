@@ -23,6 +23,15 @@ export default function Stats() {
     const [global,setGlobal] = useState([]);
     const [g,setG] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [ici1,setIci1] = useState('Ici vous pouvez retrouver les statistiques du pays que vous avez sélectionné');
+    const [ici2,setIci2] = useState('Ici vous pouvez retrouver les statistiques globales de l\'épidémie');
+    const [msgCas,setMsgCas] = useState('Nombre de cas');
+    const [msgDeces,setMsgDeces] = useState('Nombre de morts');
+    const [msgGueris,setMsgGueris] = useState('Nombre de guéris');
+    const [popTouchee,setPopTouchee] = useState('Population touchée');
+    const [paysSelectionne,setPaysSelectionne] = useState('Pays sélectionné');
+    const [monde,setMonde] = useState('Monde');
+    const [nomPage,setNomPage] = useState('');
 
     let pays=cookies.pays;
     let codepays=cookies.codepays;
@@ -88,7 +97,32 @@ export default function Stats() {
                     getPopulation(data.Countries[i].Slug,data.Countries[i].TotalConfirmed,data.Global.TotalConfirmed);
                 }
             }
-            setLoading(false);
+            async function translate() {
+                console.log(navigator.language.split('-')[0])
+
+                let [u1, u2, u3, u4, u5, u6, u7, u8, u9] = await Promise.all([
+                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+ici1+'&lang='+navigator.language.split('-')[0]),
+                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+ici2+'&lang='+navigator.language.split('-')[0]),
+                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+msgCas+'&lang='+navigator.language.split('-')[0]),
+                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+msgDeces+'&lang='+navigator.language.split('-')[0]),
+                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+msgGueris+'&lang='+navigator.language.split('-')[0]),
+                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+popTouchee+'&lang='+navigator.language.split('-')[0]),
+                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+paysSelectionne+'&lang='+navigator.language.split('-')[0]),
+                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+monde+'&lang='+navigator.language.split('-')[0]),
+                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text=Statistiques&lang='+navigator.language.split('-')[0]),
+                ]);
+                setIci1(u1.data.text)
+                setIci2(u2.data.text)
+                setMsgCas(u3.data.text)
+                setMsgDeces(u4.data.text)
+                setMsgGueris(u5.data.text)
+                setPopTouchee(u6.data.text)
+                setPaysSelectionne(u7.data.text)
+                setMonde(u8.data.text)
+                setNomPage(u9.data.text)
+                setLoading(false);
+            }
+            translate()
         }).catch(function (erreur) {
             if(erreur){
                 getData(codepays)
@@ -110,9 +144,9 @@ export default function Stats() {
             }
             global.push({
                 data: day + '/'+ month+ '/' +date.getFullYear(),
-                confirmes: data[i].Infection,
-                morts: data[i].Deces,
-                gueris: data[i].Guerisons
+                Confirmés: data[i].Infection,
+                Décédés: data[i].Deces,
+                Guéris: data[i].Guerisons
             })
         }
         global.reverse();
@@ -123,9 +157,9 @@ export default function Stats() {
             <CartesianGrid strokeDasharray="3 3"/>
             <Tooltip/>
             <Legend />
-            <Line type="monotone" dataKey="confirmes" stroke="#8884d8" strokeWidth={3}/>
-            <Line type="monotone" dataKey="morts" stroke="red" strokeWidth={3}/>
-            <Line type="monotone" dataKey="gueris" stroke="#82ca9d" strokeWidth={3}/>
+            <Line type="monotone" dataKey="Confirmés" stroke="#8884d8" strokeWidth={3}/>
+            <Line type="monotone" dataKey="Décédés" stroke="red" strokeWidth={3}/>
+            <Line type="monotone" dataKey="Guéris" stroke="#82ca9d" strokeWidth={3}/>
         </LineChart>);
     }
 
@@ -143,9 +177,9 @@ export default function Stats() {
             }
             history.push({
                 data: day + '/'+ month+ '/' +date.getFullYear(),
-                confirmes: data[i].Confirmed,
-                morts: data[i].Deaths,
-                gueris: data[i].Recovered
+                Confirmés: data[i].Confirmed,
+                Décédés: data[i].Deaths,
+                Guéris: data[i].Recovered
             })
         }
         //console.log(history);
@@ -155,9 +189,9 @@ export default function Stats() {
             <CartesianGrid strokeDasharray="3 3"/>
             <Tooltip/>
             <Legend />
-            <Line type="monotone" dataKey="confirmes" stroke="#8884d8" strokeWidth={3}/>
-            <Line type="monotone" dataKey="morts" stroke="red" strokeWidth={3}/>
-            <Line type="monotone" dataKey="gueris" stroke="#82ca9d" strokeWidth={3}/>
+            <Line type="monotone" dataKey="Confirmés" stroke="#8884d8" strokeWidth={3}/>
+            <Line type="monotone" dataKey="Décédés" stroke="red" strokeWidth={3}/>
+            <Line type="monotone" dataKey="Guéris" stroke="#82ca9d" strokeWidth={3}/>
         </LineChart>);
     }
 
@@ -166,13 +200,13 @@ export default function Stats() {
             let p = response.data[0].population;
             let percent = c*100/p;
             //console.log(percent)
-            setPopulation('Population touchée : '+percent.toFixed(2)+'%');
+            setPopulation(percent.toFixed(2)+'%');
         });
         //Pour le monde
         await axios.get('https://d6wn6bmjj722w.population.io/1.0/population/World/today-and-tomorrow/').then(function (response) {
             let mondiale = response.data.total_population[0].population;
             let percent = t*100/mondiale;
-            setPopulationGlobale('Population touchée : '+percent.toFixed(2)+'%');
+            setPopulationGlobale(percent.toFixed(2)+'%');
         })
     }
 
@@ -191,11 +225,8 @@ export default function Stats() {
     if(loading === true){
         return (
             <div>
-                <Header page={'Statistiques'}> </Header>
+                <Header page={nomPage}> </Header>
                 <div className="stats">
-                    <div className="intro">
-                        <h2>Ici vous pouvez retrouver les statistiques du pays que vous avez sélectionné</h2>
-                    </div>
                     <div className="lds-roller">
                         <div> </div>
                         <div> </div>
@@ -213,29 +244,29 @@ export default function Stats() {
     }else{
         return (
             <div className={'globalstats'}>
-                <Header page={'Statistiques'}> </Header>
+                <Header page={nomPage}> </Header>
                 <div className="stats">
                     <div className="intro">
-                        <h2>Ici vous pouvez retrouver les statistiques du pays que vous avez sélectionné</h2>
+                        <h2>{ici1}</h2>
                     </div>
-                    <p>Pays sélectionné : {pays}</p>
-                    <p className={'pays'}>MAJ : {jsxDate}</p>
-                    <p>Nombre de cas : {confirmed}</p>
-                    <p>Nombre de morts : {deaths}</p>
-                    <p>Nombre de guéris : {recovered}</p>
-                    <p>{population}</p>
+                    <p>{paysSelectionne} : {pays}</p>
+                    <p className={'pays'}>{jsxDate}</p>
+                    <p>{msgCas} : {confirmed}</p>
+                    <p>{msgDeces} : {deaths}</p>
+                    <p>{msgGueris} : {recovered}</p>
+                    <p>{popTouchee} : {population}</p>
                 </div>
                 {h}
                 <div className="stats">
                     <div className="intro">
-                        <h2>Ici vous pouvez retrouver les statistiques globales de l'épidémie</h2>
+                        <h2>{ici2}</h2>
                     </div>
-                    <p>Monde</p>
-                    <p className={'pays'}>MAJ : {jsxDateGlobal}</p>
-                    <p>Nombre de cas : {globalConfirmed}</p>
-                    <p>Nombre de morts : {globalDeaths}</p>
-                    <p>Nombre de guéris : {globalRecovered}</p>
-                    <p>{populationGlobale}</p>
+                    <p>{monde}</p>
+                    <p className={'pays'}>{jsxDateGlobal}</p>
+                    <p>{msgCas} : {globalConfirmed}</p>
+                    <p>{msgDeces} : {globalDeaths}</p>
+                    <p>{msgGueris} : {globalRecovered}</p>
+                    <p>{popTouchee} : {populationGlobale}</p>
                 </div>
                 {g}
             </div>

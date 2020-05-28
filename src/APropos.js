@@ -16,19 +16,23 @@ export default function APropos() {
     const [description, setDescription] = useState(desc);
     const [idee, setIdee] = useState(idea);
     const [creation, setCreation] = useState(create);
-    const [loading,setLoading] = useState(true)
+    const [loading,setLoading] = useState(true);
+    const [nomPage, setNomPage] = useState('');
 
     async function translate() {
         console.log(navigator.language.split('-')[0])
 
-        let [u1, u2, u3] = await Promise.all([
+        let [u1, u2, u3, u4] = await Promise.all([
             await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+desc+'&lang='+navigator.language.split('-')[0]),
             await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+idea+'&lang='+navigator.language.split('-')[0]),
             await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+create+'&lang='+navigator.language.split('-')[0]),
+            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text=À%20propos%20de%20nous&lang='+navigator.language.split('-')[0]),
+
         ]);
         setDescription(u1.data.text)
         setIdee(u2.data.text)
         setCreation(u3.data.text)
+        setNomPage(u4.data.text)
         setLoading(false)
     }
 
@@ -44,7 +48,7 @@ export default function APropos() {
 
     return (
         <div>
-            <Header page={'À propos de nous'}> </Header>
+            <Header page={nomPage}> </Header>
             {
                 loading === false ?
                     <div className="apropos">
