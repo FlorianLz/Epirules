@@ -1,0 +1,23 @@
+.contenu404{
+  .vague{
+    display: none;
+  }
+  .erreur{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60%;
+    h1{
+      text-align: center;
+      background: -webkit-linear-gradient(#E6E115, #56AF32);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 8rem;
+    }
+    p{
+      font-size: 2rem;
+      text-align: center;
+    }
+  }
+}
