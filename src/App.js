@@ -16,6 +16,7 @@ import AddUrgences from "./AddUrgences";
 import AjoutCategorie from "./AjoutCategorie";
 import QuestionsRecues from "./QuestionsRecues";
 import AjoutQuestion from "./AjoutQuestion";
+import Page404 from "./Page404";
 
 
 function App() {
@@ -38,7 +39,7 @@ function App() {
                   <Route exact={true} path="/a-propos" component={APropos} />
                   <Route exact={true} path="/login" component={Login} />
                   <Route exact={true} path="/admin" component={Admin} />
-                  <Route path="*" component={() => <p>404 not found</p>} />
+                  <Route path="*" component={Page404} />
               </Switch>
           </div>
       </BrowserRouter>
