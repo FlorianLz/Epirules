@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from "./Header";
 import {Redirect, Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
@@ -6,6 +6,7 @@ import * as firebase from "firebase";
 import config from "./Config";
 import ListeQuestions from "./ListeQuestion";
 import ListeCategories from "./ListeCategories";
+import axios from "axios";
 
 export default function Faq() {
     const [cookies] = useCookies(['pays']);
@@ -15,6 +16,11 @@ export default function Faq() {
     const [loading, setLoading] = useState(true);
     const [noReaload, setNoReload] = useState(false);
     const [admin, setAdmin] = useState(false);
+    const [nomPage, setNomPage] = useState('');
+    const [txtRecherche, setTxtRecherche] = useState('Rechercher');
+    const [poser, setPoser] = useState('Poser une question');
+
+
     let pays=cookies.pays;
     let idpays=cookiesID.idpays;
     let jsxListeQuestions=[];
@@ -25,6 +31,8 @@ export default function Faq() {
     const db = firebase.firestore();
 
     function getQuestions(){
+        let langue=navigator.language.split('-')[0];
+        let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
         if (loading === true){
             db.collection("questions").orderBy("timestamp","desc").onSnapshot(function(querySnapshot) {
                 let tab=[];
@@ -41,8 +49,45 @@ export default function Faq() {
                         })
                     }
                 });
-                setListeQuestions(tab);
-                setLoading(false);
+                let newtab = [];
+                if(langue !== 'fr'){
+                    async function translate() {
+                        let states = [txtRecherche,poser,'FAQ'];
+                        let set = [setTxtRecherche,setPoser,setNomPage];
+
+                        for(let i=0; i<states.length; i++){
+                            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+states[i]+'&lang='+langue).then(function (response) {
+                                set[i](response.data.text)
+                            })
+                        }
+
+                        for(let i=0; i<tab.length; i++){
+
+                            let [u1, u2] = await Promise.all([
+                                axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+tab[i].question+'&lang=fr-'+langue),
+                                axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+tab[i].reponse+'&lang=fr-'+langue)
+                            ])
+                            newtab.push({
+                                idpays: tab[i].idpays,
+                                question: u1.data.text,
+                                reponse: u2.data.text,
+                                id: tab[i].id,
+                                admin: admin
+                            })
+                        }
+                    }
+                    translate().then(function(){
+                        setListeQuestions(newtab);
+                        setLoading(false);
+                        console.log(newtab)
+                    }).catch(function (errors) {
+                        setNomPage('FAQ');
+                        setLoading(false)
+                    })
+                }else{
+                    setListeQuestions(tab);
+                    setLoading(false);
+                }
             })
         }
     }
@@ -162,7 +207,9 @@ export default function Faq() {
         });
     }
 
-    getVerif(cookies.login);
+    useEffect(()=>{
+        getVerif(cookies.login);
+    },[])
 
     if(!cookies.pays){
         return (
@@ -200,15 +247,21 @@ export default function Faq() {
 
     return (
         <div>
-            <Header page={'FAQ'}> </Header>
+            <Header page={nomPage}> </Header>
             <div className="questions">
-                <div className="recherche">
-                    <input type="search" placeholder={'Recherche...'} onKeyUp={e=>recherche(e)}/>
-                </div>
-                <div className="demande">
-                    <Link to={'/faq/demande'}><button>Poser une question</button></Link>
-                    {admin ? <Link to={'/faq/ajout'} className={'ajoutadmin'}><button>Ajouter une question</button></Link> : ''}
-                </div>
+                {
+                    loading === false ?
+                        <div className="recherche">
+                            <input type="search" placeholder={txtRecherche+'...'} onKeyUp={e=>recherche(e)}/>
+                        </div>
+                    : ''
+                }
+                {loading === false ?
+                    <div className="demande">
+                        <Link to={'/faq/demande'}><button>{poser}</button></Link>
+                        {admin ? <Link to={'/faq/ajout'} className={'ajoutadmin'}><button>Ajouter une question</button></Link> : ''}
+                    </div>
+                : ''}
                 <div className="questions_liste">
                     { //Check if message failed
                         (noReaload === false)
