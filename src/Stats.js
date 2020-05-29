@@ -97,44 +97,23 @@ export default function Stats() {
                     getPopulation(data.Countries[i].Slug,data.Countries[i].TotalConfirmed,data.Global.TotalConfirmed);
                 }
             }
-            let langue = navigator.language.split('-')[0];
+            let langue=navigator.language.split('-')[0];
+            let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
             if(langue !== 'fr'){
                 async function translate() {
-                    let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
-                    await Promise.all([
-                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+ici1+'&lang='+langue).then(function (response) {
-                            setIci1(response.data.text)
-                        }),
-                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+ici2+'&lang='+langue).then(function (response) {
-                            setIci2(response.data.text)
-                        }),
-                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+msgCas+'&lang='+langue).then(function (response) {
-                            setMsgCas(response.data.text)
-                        }),
-                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+msgDeces+'&lang='+langue).then(function (response) {
-                            setMsgDeces(response.data.text)
-                        }),
-                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+msgGueris+'&lang='+langue).then(function (response) {
-                            setMsgGueris(response.data.text)
-                        }),
-                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+popTouchee+'&lang='+langue).then(function (response) {
-                            setPopTouchee(response.data.text)
-                        }),
-                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+paysSelectionne+'&lang='+langue).then(function (response) {
-                            setPaysSelectionne(response.data.text)
-                        }),
-                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+monde+'&lang='+langue).then(function (response) {
-                            setMonde(response.data.text)
-                        }),
-                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text=Statistiques&lang='+langue).then(function (response) {
-                            setNomPage(response.data.text)
-                        }).catch(function (errors) {
-                            setNomPage('Statistiques')
-                        }),
-                    ]);
-                    setLoading(false);
+                    let states = ['Statistiques',ici1,ici2,msgCas,msgDeces,msgGueris,popTouchee,paysSelectionne,monde];
+                    let set = [setNomPage,setIci1,setIci2,setMsgCas,setMsgDeces,setMsgGueris,setPopTouchee,setPaysSelectionne,setMonde];
+
+                    for(let i=0; i<states.length; i++){
+                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+states[i]+'&lang='+langue).then(function (response) {
+                            set[i](response.data.text)
+                        })
+                    }
                 }
-                translate()
+                translate().then(()=>setLoading(false)).catch(function (errors) {
+                    setNomPage('Statistiques')
+                    setLoading(false)
+                })
             }else{
                 setNomPage('Statistiques')
                 setLoading(false)

@@ -15,6 +15,7 @@ export default function Regles() {
     const [listeRules, setListeRules] = useState([]);
     const [nomPage, setNomPage] = useState('');
     const [loading, setLoading] = useState(true);
+    const [loadRules, setLoadRules] = useState(true);
     const [principales, setPrincipales] = useState('Règles principales');
     const [laverMains,setLaverMains] = useState('Se laver très régulièrement les mains');
     const [tousser,setTousser] = useState('Tousser ou éternuer dans son coude ou dans un mouchoir');
@@ -52,14 +53,15 @@ export default function Regles() {
                 let newtab = [];
                 if (langue !== 'fr'){
                     async function translate() {
-                        let states = [principales,laverMains,tousser,mouchoir,saluer,categorie,'Règles '+pays];
-                        let set = [setPrincipales,setLaverMains,setTousser,setMouchoir,setSaluer,setCategorie,setNomPage];
+                        let states = ['Règles '+pays,principales,laverMains,tousser,mouchoir,saluer,categorie];
+                        let set = [setNomPage,setPrincipales,setLaverMains,setTousser,setMouchoir,setSaluer,setCategorie];
 
                         for(let i=0; i<states.length; i++){
                             await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+states[i]+'&lang='+langue).then(function (response) {
                                 set[i](response.data.text)
                             })
                         }
+                        setLoadRules(false)
 
                         for(let i=0; i<tab.length; i++){
                             await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+tab[i].name+'&lang='+langue).then(function (response) {
@@ -83,6 +85,7 @@ export default function Regles() {
                     })
                 }else{
                     setListeRules(tab);
+                    setLoadRules(false)
                     setNomPage('Règles '+pays)
                     setLoading(false);
                 }
@@ -155,7 +158,85 @@ export default function Regles() {
             }
 
         }
+    }
+    if(loading === true && loadRules === true){
+        return (
+            <div>
+                <Header page={nomPage}> </Header>
+                <div className="lds-roller">
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                </div>
+            </div>
+        );
+    }
 
+    if(loading === true && loadRules === false){
+        return (
+            <div>
+                <Header page={nomPage}> </Header>
+
+                <div className="rules">
+                    {
+                        loadRules === false ?
+                            <div className="mainRules">
+                                <h2 className="titlePart"> {principales} </h2>
+
+                                <div className="liste">
+                                    <div className="onerule">
+                                        <img src={'/images/main.png'} alt={'Fermer le menu'}/>
+                                        <p> {laverMains} </p>
+                                    </div>
+                                    <div className="onerule">
+                                        <img src={'/images/moucher.png'} alt={'Fermer le menu'}/>
+                                        <p> {tousser} </p>
+                                    </div>
+                                    <div className="onerule">
+                                        <img src={'/images/mouchoir.png'} alt={'Fermer le menu'}/>
+                                        <p> {mouchoir} </p>
+                                    </div>
+                                    <div className="onerule">
+                                        <img src={'/images/serrermains.png'} alt={'Fermer le menu'}/>
+                                        <p> {saluer} </p>
+                                    </div>
+                                </div>
+                            </div>
+                            :
+                            ''
+
+                    }
+                    {loading === false && loadRules === false ?
+                        <div>
+                            <div className="categories">
+                                <h2 className="titlePart"> {categorie} </h2>
+                                <div className="liste">
+                                    <div style={{backgroundImage: "url('/images/vague-cat.png')"}}>
+                                        {jsxListeRules}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        :
+                        <div className="lds-roller t-75">
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                        </div>}
+                </div>
+            </div>
+        );
+    }else{
         return (
             <div>
                 <Header page={nomPage}> </Header>
@@ -194,25 +275,6 @@ export default function Regles() {
                 </div>
             </div>
         );
-    }else{
-        return(
-            <div>
-                <Header page={''}> </Header>
-
-                <div className={"content"}>
-                    <div className="lds-roller">
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                    </div>
-                </div>
-            </div>
-
-        )
     }
+
 }

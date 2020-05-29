@@ -19,6 +19,7 @@ export default function Faq() {
     const [nomPage, setNomPage] = useState('');
     const [txtRecherche, setTxtRecherche] = useState('Rechercher');
     const [poser, setPoser] = useState('Poser une question');
+    const [loadSearch,setLoadSearch] = useState(true)
 
 
     let pays=cookies.pays;
@@ -52,14 +53,15 @@ export default function Faq() {
                 let newtab = [];
                 if(langue !== 'fr'){
                     async function translate() {
-                        let states = [txtRecherche,poser,'FAQ'];
-                        let set = [setTxtRecherche,setPoser,setNomPage];
+                        let states = ['FAQ',txtRecherche,poser];
+                        let set = [setNomPage,setTxtRecherche,setPoser];
 
                         for(let i=0; i<states.length; i++){
                             await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+states[i]+'&lang='+langue).then(function (response) {
                                 set[i](response.data.text)
                             })
                         }
+                        setLoadSearch(false)
 
                         for(let i=0; i<tab.length; i++){
 
@@ -85,6 +87,7 @@ export default function Faq() {
                         setLoading(false)
                     })
                 }else{
+                    setLoadSearch(false)
                     setListeQuestions(tab);
                     setLoading(false);
                 }
@@ -250,18 +253,16 @@ export default function Faq() {
             <Header page={nomPage}> </Header>
             <div className="questions">
                 {
-                    loading === false ?
-                        <div className="recherche">
+                    loadSearch === false ?
+                        <div><div className="recherche">
                             <input type="search" placeholder={txtRecherche+'...'} onKeyUp={e=>recherche(e)}/>
                         </div>
+                            <div className="demande">
+                                <Link to={'/faq/demande'}><button>{poser}</button></Link>
+                                {admin ? <Link to={'/faq/ajout'} className={'ajoutadmin'}><button>Ajouter une question</button></Link> : ''}
+                            </div></div>
                     : ''
                 }
-                {loading === false ?
-                    <div className="demande">
-                        <Link to={'/faq/demande'}><button>{poser}</button></Link>
-                        {admin ? <Link to={'/faq/ajout'} className={'ajoutadmin'}><button>Ajouter une question</button></Link> : ''}
-                    </div>
-                : ''}
                 <div className="questions_liste">
                     { //Check if message failed
                         (noReaload === false)
