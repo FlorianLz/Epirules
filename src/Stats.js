@@ -97,10 +97,10 @@ export default function Stats() {
                     getPopulation(data.Countries[i].Slug,data.Countries[i].TotalConfirmed,data.Global.TotalConfirmed);
                 }
             }
-            async function translate() {
-                let langue = navigator.language.split('-')[0];
-                let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
-                if(langue !== 'fr'){
+            let langue = navigator.language.split('-')[0];
+            if(langue !== 'fr'){
+                async function translate() {
+                    let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
                     await Promise.all([
                         await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+ici1+'&lang='+langue).then(function (response) {
                             setIci1(response.data.text)
@@ -133,12 +133,12 @@ export default function Stats() {
                         }),
                     ]);
                     setLoading(false);
-                }else{
-                    setNomPage('Statistiques')
-                    setLoading(false)
                 }
+                translate()
+            }else{
+                setNomPage('Statistiques')
+                setLoading(false)
             }
-            translate()
         }).catch(function (erreur) {
             if(erreur){
                 getData(codepays)
