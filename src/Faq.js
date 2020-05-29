@@ -81,7 +81,6 @@ export default function Faq() {
                     translate().then(function(){
                         setListeQuestions(newtab);
                         setLoading(false);
-                        console.log(newtab)
                     }).catch(function (errors) {
                         setNomPage('FAQ');
                         setLoading(false)
