@@ -41,29 +41,13 @@ export default function Header(props) {
         let langue = navigator.language.split('-')[0];
         let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
         if (langue !== 'fr'){
-            await Promise.all([
-                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu1+'&lang='+langue).then(function (response) {
-                    setMenu1(response.data.text)
-                }),
-                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu2+'&lang='+langue).then(function (response) {
-                    setMenu2(response.data.text)
-                }),
-                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu3+'&lang='+langue).then(function (response) {
-                    setMenu3(response.data.text)
-                }),
-                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu4+'&lang='+langue).then(function (response) {
-                    setMenu4(response.data.text)
-                }),
-                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu5+'&lang='+langue).then(function (response) {
-                    setMenu5(response.data.text)
-                }),
-                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu6+'&lang='+langue).then(function (response) {
-                    setMenu6(response.data.text)
-                }),
-                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu7+'&lang='+langue).then(function (response) {
-                    setMenu7(response.data.text)
-                }),
-            ]);
+            let states = [menu1,menu2,menu3,menu4,menu5,menu6,menu7];
+            let set = [setMenu1,setMenu2,setMenu3,setMenu4,setMenu5,setMenu6,setMenu7];
+            for(let i=0; i<states.length; i++){
+                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+states[i]+'&lang='+langue).then(function (response) {
+                    set[i](response.data.text)
+                })
+            }
             setLoading(false)
         }else{
             setLoading(false)
