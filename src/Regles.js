@@ -5,6 +5,7 @@ import {Redirect} from "react-router-dom";
 import * as firebase from "firebase";
 import ListeRules from "./ListeRules";
 import config from "./Config";
+import axios from "axios";
 
 export default function Regles() {
     const [cookies] = useCookies(['pays']);
@@ -12,7 +13,15 @@ export default function Regles() {
     const [cookiesID] = useCookies(['idpays']);
     const [pseudo,setPseudo] = useState([]);
     const [listeRules, setListeRules] = useState([]);
+    const [nomPage, setNomPage] = useState('');
     const [loading, setLoading] = useState(true);
+    const [principales, setPrincipales] = useState('Règles principales');
+    const [laverMains,setLaverMains] = useState('Se laver très régulièrement les mains');
+    const [tousser,setTousser] = useState('Tousser ou éternuer dans son coude ou dans un mouchoir');
+    const [mouchoir,setMouchoir] = useState('Utiliser un mouchoir à usage unique et le jeter');
+    const [saluer,setSaluer] = useState('Saluer sans se serrer la main, éviter les embrassades');
+    const [categorie,setCategorie] = useState('Sélectionner une catégorie');
+
     let jsxListeRules = [];
     let pays=cookies.pays;
     let idpays=cookiesID.idpays;
@@ -24,6 +33,8 @@ export default function Regles() {
 
     function getRules(){
         if(loading ===true){
+            let langue=navigator.language.split('-')[0];
+            let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
             db.collection("categories").orderBy("name","asc").onSnapshot(function(querySnapshot)  {
                 let tab = [];
                 querySnapshot.forEach(function(doc) {
@@ -38,15 +49,46 @@ export default function Regles() {
                         })
                     }
                 });
-                setListeRules(tab);
-                setLoading(false);
+                let newtab = [];
+                if (langue !== 'fr'){
+                    async function translate() {
+                        let states = [principales,laverMains,tousser,mouchoir,saluer,categorie,'Règles '+pays];
+                        let set = [setPrincipales,setLaverMains,setTousser,setMouchoir,setSaluer,setCategorie,setNomPage];
+
+                        for(let i=0; i<states.length; i++){
+                            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+states[i]+'&lang='+langue).then(function (response) {
+                                set[i](response.data.text)
+                            })
+                        }
+
+                        for(let i=0; i<tab.length; i++){
+                            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+tab[i].name+'&lang='+langue).then(function (response) {
+                                newtab.push({
+                                    idpays: tab[i].idpays,
+                                    name: response.data.text,
+                                    id: tab[i].id,
+                                    log: tab[i].log
+                                })
+                            })
+                            console.log(newtab)
+                        }
+                    }
+                    translate().then(function(){
+                        setListeRules(newtab);
+                        setLoading(false);
+                    })
+                }else{
+                    setListeRules(tab);
+                    setNomPage('Règles '+pays)
+                    setLoading(false);
+                }
             })
         }
     }
 
     useEffect(()=>{
         getRules();
-    });
+    },[]);
 
     function getVerif(uid) {
         db.collection("users").get().then(function(querySnapshot) {
@@ -112,33 +154,33 @@ export default function Regles() {
 
         return (
             <div>
-                <Header page={'Règles '+pays}> </Header>
+                <Header page={nomPage}> </Header>
 
                 <div className="rules">
                     <div className="mainRules">
-                        <h2 className="titlePart"> Règles principales </h2>
+                        <h2 className="titlePart"> {principales} </h2>
 
                         <div className="liste">
                             <div className="onerule">
                                 <img src={'/images/main.png'} alt={'Fermer le menu'}/>
-                                <p> Se laver très régulièrement les mains </p>
+                                <p> {laverMains} </p>
                             </div>
                             <div className="onerule">
                                 <img src={'/images/moucher.png'} alt={'Fermer le menu'}/>
-                                <p> Tousser ou éternuer dans son coude ou dans un mouchoir</p>
+                                <p> {tousser} </p>
                             </div>
                             <div className="onerule">
                                 <img src={'/images/mouchoir.png'} alt={'Fermer le menu'}/>
-                                <p> Utiliser un mouchoir à usage unique et le jeter </p>
+                                <p> {mouchoir} </p>
                             </div>
                             <div className="onerule">
                                 <img src={'/images/serrermains.png'} alt={'Fermer le menu'}/>
-                                <p> Saluer sans se serrer la main, éviter les embrassades </p>
+                                <p> {saluer} </p>
                             </div>
                         </div>
                     </div>
                     <div className="categories">
-                        <h2 className="titlePart"> Sélectionner une catégorie </h2>
+                        <h2 className="titlePart"> {categorie} </h2>
                         <div className="liste">
                             <div style={{backgroundImage: "url('/images/vague-cat.png')"}}>
                                 {jsxListeRules}
@@ -151,7 +193,7 @@ export default function Regles() {
     }else{
         return(
             <div>
-                <Header page={'Règles '+pays}> </Header>
+                <Header page={''}> </Header>
 
                 <div className={"content"}>
                     <div className="lds-roller">
