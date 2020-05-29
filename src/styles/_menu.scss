@@ -18,6 +18,7 @@
     left: 85%;
     width:3rem;
     transition: left 0.3s ease-in-out;
+    cursor: pointer;
   }
 
   .liens{
@@ -65,5 +66,6 @@
   >img{
     left:5%;
     transition: left 0.3s ease-in-out;
+    cursor: pointer;
   }
 }
