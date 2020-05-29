@@ -103,7 +103,7 @@ export default function Urgences() {
     }else{
         return(
             <div>
-                <Header page={''}> </Header>
+                <Header page={nomPage}> </Header>
                 <div className={"content"}>
                     <div className="lds-roller">
                         <div> </div>

@@ -7,6 +7,7 @@ import config from "./Config";
 import ListeRulesCan from "./ListeRulesCan";
 import ListeRulesMust from "./ListeRulesMust";
 import ListeRulesMustnot from "./ListeRulesMustnot";
+import axios from "axios";
 
 export default function Categorie(props) {
     const [cookies] = useCookies(['pays']);
@@ -18,6 +19,10 @@ export default function Categorie(props) {
     const [listeRulesMustnot, setListeRulesMustnot] = useState([]);
     const [nameCategorie, setNameCategorie] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [cat, setCat] = useState('');
+    const [dois, setDois] = useState('Je dois');
+    const [peux, setPeux] = useState('Je peux');
+    const [doisPas, setDoisPas] = useState('Je ne dois pas');
     let jsxListeRulesCan = [];
     let jsxListeRulesMust = [];
     let jsxListeRulesMustnot = [];
@@ -30,7 +35,7 @@ export default function Categorie(props) {
     }
     const db = firebase.firestore();
 
-    function getName(){
+    async function getName(){
         db.collection("categories").onSnapshot(function(querySnapshot)  {
             let tab = [];
             querySnapshot.forEach(function(doc) {
@@ -40,6 +45,7 @@ export default function Categorie(props) {
                         name: doc.data().name,
                         id: doc.id
                     })
+                    nameCat=doc.data().name;
                 }
             });
             setNameCategorie(tab);
@@ -48,7 +54,6 @@ export default function Categorie(props) {
 
     function getRulesinfo(){
       if(loading===true){
-          getName();
           db.collection("regles").onSnapshot(function(querySnapshot) {
               let tabMust = [];
               let tabCan = [];
@@ -90,17 +95,83 @@ export default function Categorie(props) {
 
                   }
               });
-              setListeRulesCan(tabCan);
-              setListeRulesMust(tabMust);
-              setListeRulesMustnot(tabMustnot);
-              setLoading(false);
+
+              let langue=navigator.language.split('-')[0];
+              let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
+              let newtab = [];
+              let newtab1 = [];
+              let newtab2 = [];
+
+              if(langue !== 'fr'){
+                  async function translate() {
+                      let states = ['Catégorie : '+nameCat,dois,peux,doisPas];
+
+                      let set = [setCat,setDois,setPeux,setDoisPas];
+
+                      for(let i=0; i<states.length; i++){
+                          await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+states[i]+'&lang='+langue).then(function (response) {
+                              set[i](response.data.text)
+                          })
+                      }
+
+                      for(let i=0; i<tabMust.length; i++){
+                          await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+tabMust[i].desc+'&lang='+langue).then(function (response) {
+                              newtab.push({
+                                  idpays: tabMust[i].idpays,
+                                  id: tabMust[i].id,
+                                  name: tabMust[i].name,
+                                  desc: response.data.text,
+                                  type: tabMust[i].type,
+                                  log: false
+                              })
+                          })
+                          await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+tabCan[i].desc+'&lang='+langue).then(function (response) {
+                              newtab1.push({
+                                  idpays: tabCan[i].idpays,
+                                  id: tabCan[i].id,
+                                  name: tabCan[i].name,
+                                  desc: response.data.text,
+                                  type: tabCan[i].type,
+                                  log: false
+                              })
+                          })
+                          await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+tabMustnot[i].desc+'&lang='+langue).then(function (response) {
+                              newtab2.push({
+                                  idpays: tabMustnot[i].idpays,
+                                  id: tabMustnot[i].id,
+                                  name: tabMustnot[i].name,
+                                  desc: response.data.text,
+                                  type: tabMustnot[i].type,
+                                  log: false
+                              })
+                          })
+                      }
+                  }
+                  translate().then(function(){
+                      setListeRulesCan(newtab);
+                      setListeRulesMust(newtab1);
+                      setListeRulesMustnot(newtab2);
+                      setLoading(false);
+                  }).catch(function (errors) {
+                      setListeRulesCan(tabCan);
+                      setListeRulesMust(tabMust);
+                      setListeRulesMustnot(tabMustnot);
+                      setLoading(false);
+                  })
+
+              }else{
+                  setListeRulesCan(tabCan);
+                  setListeRulesMust(tabMust);
+                  setListeRulesMustnot(tabMustnot);
+                  setLoading(false);
+              }
           })
       }
     }
 
     useEffect(()=>{
-        getRulesinfo();
-    });
+        getName().then(()=>getRulesinfo())
+    },[]);
 
     //On vérifie que la personne connectée est bien admin dans la bdd
     function getVerif(uid) {
@@ -228,23 +299,23 @@ export default function Categorie(props) {
 
         return (
             <div>
-                <Header page={"Catégorie : "+nameCat}> </Header>
+                <Header page={cat}> </Header>
                 <Link to={'/regles'}><i id={'retour'} className="fas fa-arrow-left retour"> </i></Link>
                 <div className="listeRegles">
                     <div className="indicationRegle">
-                        <h2 className="titleCat"> Je dois </h2>
+                        <h2 className="titleCat"> {dois} </h2>
                         <ul className="must">
                             {jsxListeRulesMust}
                         </ul>
                     </div>
                     <div className="indicationRegle">
-                        <h2 className="titleCat"> Je ne dois pas </h2>
+                        <h2 className="titleCat"> {doisPas} </h2>
                         <ul className="mustnot">
                             {jsxListeRulesMustnot}
                         </ul>
                     </div>
                     <div className="indicationRegle">
-                        <h2 className="titleCat"> Je peux </h2>
+                        <h2 className="titleCat"> {peux} </h2>
                         <ul className="can">
                             {jsxListeRulesCan}
                         </ul>
@@ -255,18 +326,24 @@ export default function Categorie(props) {
 
     }else{
         return(
-            <div className={"content"}>
-                <div className="lds-roller">
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
+            <div>
+                <Header page={cat}> </Header>
+                <Link to={'/regles'}><i id={'retour'} className="fas fa-arrow-left retour"> </i></Link>
+                <div className={"content"}>
+                    <div className="lds-roller">
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                    </div>
                 </div>
             </div>
+
+
         )
     }
 
