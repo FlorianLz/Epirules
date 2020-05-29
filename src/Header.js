@@ -38,29 +38,41 @@ export default function Header(props) {
     }
 
     async function translate() {
-        console.log(navigator.language.split('-')[0])
+        let langue = navigator.language.split('-')[0];
+        let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
+        if (langue !== 'fr'){
+            await Promise.all([
+                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu1+'&lang='+langue).then(function (response) {
+                    setMenu1(response.data.text)
+                }),
+                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu2+'&lang='+langue).then(function (response) {
+                    setMenu2(response.data.text)
+                }),
+                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu3+'&lang='+langue).then(function (response) {
+                    setMenu3(response.data.text)
+                }),
+                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu4+'&lang='+langue).then(function (response) {
+                    setMenu4(response.data.text)
+                }),
+                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu5+'&lang='+langue).then(function (response) {
+                    setMenu5(response.data.text)
+                }),
+                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu6+'&lang='+langue).then(function (response) {
+                    setMenu6(response.data.text)
+                }),
+                await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+menu7+'&lang='+langue).then(function (response) {
+                    setMenu7(response.data.text)
+                }),
+            ]);
+            setLoading(false)
+        }else{
+            setLoading(false)
+        }
 
-        let [u1, u2, u3, u4, u5, u6, u7] = await Promise.all([
-            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+menu1+'&lang='+navigator.language.split('-')[0]),
-            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+menu2+'&lang='+navigator.language.split('-')[0]),
-            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+menu3+'&lang='+navigator.language.split('-')[0]),
-            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+menu4+'&lang='+navigator.language.split('-')[0]),
-            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+menu5+'&lang='+navigator.language.split('-')[0]),
-            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+menu6+'&lang='+navigator.language.split('-')[0]),
-            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+menu7+'&lang='+navigator.language.split('-')[0]),
-        ]);
-        setMenu1(u1.data.text)
-        setMenu2(u2.data.text)
-        setMenu3(u3.data.text)
-        setMenu4(u4.data.text)
-        setMenu5(u5.data.text)
-        setMenu6(u6.data.text)
-        setMenu7(u7.data.text)
-        setLoading(false)
     }
-    if(loading === true){
-        translate();
-    }
+    useEffect(()=>{
+       translate()
+    },[])
 
     return (
         <div>

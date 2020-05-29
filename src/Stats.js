@@ -98,29 +98,45 @@ export default function Stats() {
                 }
             }
             async function translate() {
-                console.log(navigator.language.split('-')[0])
-
-                let [u1, u2, u3, u4, u5, u6, u7, u8, u9] = await Promise.all([
-                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+ici1+'&lang='+navigator.language.split('-')[0]),
-                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+ici2+'&lang='+navigator.language.split('-')[0]),
-                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+msgCas+'&lang='+navigator.language.split('-')[0]),
-                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+msgDeces+'&lang='+navigator.language.split('-')[0]),
-                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+msgGueris+'&lang='+navigator.language.split('-')[0]),
-                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+popTouchee+'&lang='+navigator.language.split('-')[0]),
-                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+paysSelectionne+'&lang='+navigator.language.split('-')[0]),
-                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text='+monde+'&lang='+navigator.language.split('-')[0]),
-                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8&text=Statistiques&lang='+navigator.language.split('-')[0]),
-                ]);
-                setIci1(u1.data.text)
-                setIci2(u2.data.text)
-                setMsgCas(u3.data.text)
-                setMsgDeces(u4.data.text)
-                setMsgGueris(u5.data.text)
-                setPopTouchee(u6.data.text)
-                setPaysSelectionne(u7.data.text)
-                setMonde(u8.data.text)
-                setNomPage(u9.data.text)
-                setLoading(false);
+                let langue = navigator.language.split('-')[0];
+                let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
+                if(langue !== 'fr'){
+                    await Promise.all([
+                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+ici1+'&lang='+langue).then(function (response) {
+                            setIci1(response.data.text)
+                        }),
+                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+ici2+'&lang='+langue).then(function (response) {
+                            setIci2(response.data.text)
+                        }),
+                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+msgCas+'&lang='+langue).then(function (response) {
+                            setMsgCas(response.data.text)
+                        }),
+                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+msgDeces+'&lang='+langue).then(function (response) {
+                            setMsgDeces(response.data.text)
+                        }),
+                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+msgGueris+'&lang='+langue).then(function (response) {
+                            setMsgGueris(response.data.text)
+                        }),
+                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+popTouchee+'&lang='+langue).then(function (response) {
+                            setPopTouchee(response.data.text)
+                        }),
+                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+paysSelectionne+'&lang='+langue).then(function (response) {
+                            setPaysSelectionne(response.data.text)
+                        }),
+                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+monde+'&lang='+langue).then(function (response) {
+                            setMonde(response.data.text)
+                        }),
+                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text=Statistiques&lang='+langue).then(function (response) {
+                            setNomPage(response.data.text)
+                        }).catch(function (errors) {
+                            setNomPage('Statistiques')
+                        }),
+                    ]);
+                    setLoading(false);
+                }else{
+                    setNomPage('Statistiques')
+                    setLoading(false)
+                }
             }
             translate()
         }).catch(function (erreur) {
