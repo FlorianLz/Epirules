@@ -6,11 +6,12 @@
   .recherche{
     input{
       background-color: transparent;
-      border: 0;
+      border: none;
       border-bottom: 0.1rem solid $jaune;
       width: 100%;
       padding: 1rem;
       color: $blanc;
+      font-size: 1.5rem;
     }
     ::placeholder {
       color: $blanc;
@@ -18,13 +19,14 @@
   }
 
   .demande{
-    padding-top: 2rem;
+    margin-top: 7vh;
     text-align: center;
     button{
       background-color: $vert;
       padding: 1rem;
       color: $blanc;
       border: 0;
+      font-size: 1.5rem;
     }
     .ajoutadmin{
       margin-left: 1rem;
@@ -32,7 +34,7 @@
   }
 
   &_liste{
-    padding-top: 2rem;
+    margin-top: 7vh;
     >div{
       display: flex;
       flex-direction: column;
