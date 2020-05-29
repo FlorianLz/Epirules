@@ -5,6 +5,7 @@ import config from "./Config";
 import ListePays from "./ListePays";
 import {Link} from "react-router-dom";
 import {useCookies} from 'react-cookie';
+import axios from "axios";
 
 
 function App() {
@@ -14,6 +15,9 @@ function App() {
     const [cookies, setCookie, removeCookie] = useCookies(['pays']);
     const [cookiesID, setCookieID, removeCookieID] = useCookies(['idpays']);
     const [cookiesCodePays, setCookieCodePays, removeCookieCodePays] = useCookies(['codepays']);
+    const [intro, setIntro] = useState('Go outside with knowledges');
+    const [intro1, setIntro1] = useState('go outside with Epirules');
+    const [choisir, setChoisir] = useState('Choisissez votre pays');
     let jsxListePays=[];
 
     if (!firebase.apps.length) {
@@ -36,8 +40,42 @@ function App() {
                     })
 
                 });
-                setLoading(false); //On indique que le chargement est terminé
-                setListePays(tab);
+                let langue=navigator.language.split('-')[0];
+                let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
+                let newtab = [];
+                if(langue !== 'fr'){
+                    async function translate() {
+                        let states = [intro,intro1,choisir];
+                        let set = [setIntro,setIntro1,setChoisir];
+
+                        for(let i=0; i<states.length; i++){
+                            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+states[i]+'&lang='+langue).then(function (response) {
+                                set[i](response.data.text)
+                            })
+                        }
+
+                        for(let i=0; i<tab.length; i++){
+                            await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+tab[i].nom+'&lang='+langue).then(function (response) {
+                                newtab.push({
+                                    id: tab[i].id,
+                                    nom: response.data.text,
+                                    code: tab[i].code
+                                })
+                            })
+                        }
+                    }
+                    translate().then(function(){
+                        setListePays(newtab)
+                        setLoading(false);
+                    }).catch(function (errors) {
+                        setLoading(false); //On indique que le chargement est terminé
+                        setListePays(tab);
+                    })
+                }else{
+                    setLoading(false); //On indique que le chargement est terminé
+                    setListePays(tab);
+                }
+
             })
         }
     }
@@ -66,15 +104,15 @@ function App() {
 
     useEffect(()=>{
         getPays();
-    });
+    },[]);
 
     if (loading === false){
         return (
         <div className={'container selectCountry'}>
             <img src={'/images/terre.png'} alt={'Illustration'}/>
-            <h1>Go outside with knowledges <br /> go outside with Epirules</h1>
+            <h1>{intro} <br /> {intro1}</h1>
             <select id="ListePays" defaultValue={'choix'} onChange={e=>actualiserChoix(e)}>
-                <option value="choix" hidden>Choisissez votre pays</option>
+                <option value="choix" hidden>{choisir}</option>
                 {jsxListePays}
             </select>
             {choisi ? <Link to={'/regles'}><button>Valider</button></Link> : <Link to={'/regles'}><button className={'masque'}>Valider</button></Link> }

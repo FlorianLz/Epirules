@@ -72,7 +72,6 @@ export default function Regles() {
                                     log: tab[i].log
                                 })
                             })
-                            console.log(newtab)
                         }
                     }
                     translate().then(function(){
