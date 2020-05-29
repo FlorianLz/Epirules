@@ -76,6 +76,10 @@ export default function Regles() {
                     translate().then(function(){
                         setListeRules(newtab);
                         setLoading(false);
+                    }).catch(function (errors) {
+                        setListeRules(tab);
+                        setNomPage('Règles '+pays)
+                        setLoading(false);
                     })
                 }else{
                     setListeRules(tab);
