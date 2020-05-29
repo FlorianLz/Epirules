@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from "./Header";
 import {useCookies} from "react-cookie";
 import {Redirect} from "react-router-dom";
 import * as firebase from "firebase";
 import config from "./Config";
 import ListeNumeros from "./ListeNumeros";
+import axios from "axios";
 
 export default function Urgences() {
     const [cookies] = useCookies(['pays']);
     const [cookiesID] = useCookies(['idpays']);
-    const [listeNumeros] = useState([]);
+    const [listeNumeros,setListeNumeros] = useState([]);
+    const [nomPage, setNomPage] = useState('');
     const [loading, setLoading] = useState(true);
     let jsxListeNumeros = [];
     let pays=cookies.pays;
@@ -21,6 +23,8 @@ export default function Urgences() {
     const db = firebase.firestore();
 
     function getNumeros(){
+        let langue=navigator.language.split('-')[0];
+        let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
         db.collection("numeros").orderBy("numero","asc").get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 // doc.data() is never undefined for query doc snapshots
@@ -33,10 +37,43 @@ export default function Urgences() {
                     })
                 }
             });
-        }).then(()=>setLoading(false));
+            let newtab = [];
+            if(langue !== 'fr'){
+                async function translate() {
+
+                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text=Urgences%20'+pays+'&lang='+langue).then(function (response) {
+                        setNomPage(response.data.text)
+                    }).catch(function (errors) {
+                        setNomPage('Urgences '+pays)
+                    })
+
+                    for(let i=0; i<listeNumeros.length; i++){
+                        await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+listeNumeros[i].desc+'&lang=fr-'+langue).then(function (response) {
+                            newtab.push({
+                                idpays: listeNumeros[i].idpays,
+                                numero: listeNumeros[i].numero,
+                                desc: response.data.text
+                            })
+                        })
+                    }
+                }
+                translate().then(function(){
+                    setListeNumeros(newtab);
+                    setLoading(false);
+                }).catch(function (errors) {
+                    setNomPage('Urgences '+pays);
+                    setLoading(false)
+                })
+            }else{
+                setNomPage('Urgences '+pays);
+                setLoading(false)
+            }
+        });
     }
 
-    getNumeros();
+    useEffect(()=>{
+        getNumeros();
+    },[])
 
     if(!cookies.pays){
         return (
@@ -57,7 +94,7 @@ export default function Urgences() {
 
         return (
             <div>
-                <Header page={'Urgences '+pays}> </Header>
+                <Header page={nomPage}> </Header>
                 <div className="emergency">
                     {jsxListeNumeros}
                 </div>
@@ -66,7 +103,7 @@ export default function Urgences() {
     }else{
         return(
             <div>
-                <Header page={'Urgences '+pays}> </Header>
+                <Header page={''}> </Header>
                 <div className={"content"}>
                     <div className="lds-roller">
                         <div> </div>
