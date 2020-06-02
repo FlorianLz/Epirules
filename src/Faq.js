@@ -86,7 +86,8 @@ export default function Faq() {
                         setLoading(false)
                     })
                 }else{
-                    setLoadSearch(false)
+                    setNomPage('FAQ');
+                    setLoadSearch(false);
                     setListeQuestions(tab);
                     setLoading(false);
                 }

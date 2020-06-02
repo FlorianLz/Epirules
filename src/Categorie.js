@@ -160,6 +160,7 @@ export default function Categorie(props) {
                   })
 
               }else{
+                  setCat('Catégorie : '+nameCat)
                   setListeRulesCan(tabCan);
                   setListeRulesMust(tabMust);
                   setListeRulesMustnot(tabMustnot);
