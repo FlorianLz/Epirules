@@ -5,7 +5,7 @@ function ListeNumeros(props) {
         return (
             <div className="partEmergency">
                 <div className="numero">
-                    <a href={'tel:+'+props.numero}>
+                    <a href={'tel:'+props.numero}>
                         <p> {props.numero} </p>
                     </a>
                 </div>
@@ -21,7 +21,7 @@ function ListeNumeros(props) {
         return (
             <div className="partEmergency">
                 <div className="numero">
-                    <a href={'tel:+'+props.numero}>
+                    <a href={'tel:'+props.numero}>
                         <p> {props.numero} </p>
                     </a>
                 </div>
