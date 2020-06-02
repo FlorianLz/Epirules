@@ -23,6 +23,8 @@ export default function Categorie(props) {
     const [dois, setDois] = useState('Je dois');
     const [peux, setPeux] = useState('Je peux');
     const [doisPas, setDoisPas] = useState('Je ne dois pas');
+    const [vide, setVide] = useState(false);
+    const [msgVide, setMsgVide] = useState('Aucune donnée n\'est disponible pour le moment.');
     let jsxListeRulesCan = [];
     let jsxListeRulesMust = [];
     let jsxListeRulesMustnot = [];
@@ -95,6 +97,9 @@ export default function Categorie(props) {
 
                   }
               });
+              if(tabCan.length === 0 && tabMust.length === 0 && tabMustnot.length === 0){
+                  setVide(true)
+              }
 
               let langue=navigator.language.split('-')[0];
               let cle = 'trnsl.1.1.20130922T110455Z.4a9208e68c61a760.f819c1db302ba637c2bea1befa4db9f784e9fbb8';
@@ -104,9 +109,9 @@ export default function Categorie(props) {
 
               if(langue !== 'fr'){
                   async function translate() {
-                      let states = ['Catégorie : '+nameCat,dois,peux,doisPas];
+                      let states = ['Catégorie : '+nameCat,dois,peux,doisPas,msgVide];
 
-                      let set = [setCat,setDois,setPeux,setDoisPas];
+                      let set = [setCat,setDois,setPeux,setDoisPas,setMsgVide];
 
                       for(let i=0; i<states.length; i++){
                           await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+states[i]+'&lang='+langue).then(function (response) {
@@ -296,6 +301,45 @@ export default function Categorie(props) {
                 />)
             }
 
+        }
+
+        if(vide === true){
+            return (
+                <div>
+                    <Header page={cat}> </Header>
+                    <Link to={'/regles'}><i id={'retour'} className="fas fa-arrow-left retour"> </i></Link>
+                    <div className="listeRegles">
+                        <p className={'msgvide'}>{msgVide}</p>
+                    </div>
+                </div>
+            );
+        }else{
+            return (
+                <div>
+                    <Header page={cat}> </Header>
+                    <Link to={'/regles'}><i id={'retour'} className="fas fa-arrow-left retour"> </i></Link>
+                    <div className="listeRegles">
+                        <div className="indicationRegle">
+                            <h2 className="titleCat"> {dois} </h2>
+                            <ul className="must">
+                                {jsxListeRulesMust}
+                            </ul>
+                        </div>
+                        <div className="indicationRegle">
+                            <h2 className="titleCat"> {doisPas} </h2>
+                            <ul className="mustnot">
+                                {jsxListeRulesMustnot}
+                            </ul>
+                        </div>
+                        <div className="indicationRegle">
+                            <h2 className="titleCat"> {peux} </h2>
+                            <ul className="can">
+                                {jsxListeRulesCan}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            );
         }
 
         return (
