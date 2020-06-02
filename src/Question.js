@@ -37,6 +37,8 @@ export default function Question() {
                     set[i](response.data.text)
                 })
             }
+        }else{
+            setNomPage('Poser une question')
         }
     }
 
