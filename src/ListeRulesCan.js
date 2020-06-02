@@ -4,7 +4,7 @@ function ListeRulesCan(props) {
     if(props.log){
         return (
             <div className="suppRegle">
-                <li> {props.desc} </li>
+                <li suppressContentEditableWarning={true} contentEditable="true" className={'majregle r-'+props.id} data-id={props.id}> {props.desc} </li>
                 <div className="suppr">
                     <p><i className="fas fa-times" data-suppr={props.id} onClick={props.onSuppr}> </i> </p>
                 </div>

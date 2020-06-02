@@ -20,6 +20,7 @@ export default function Categorie(props) {
     const [nameCategorie, setNameCategorie] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cat, setCat] = useState('');
+    const [admin, setAdmin] = useState(false);
     const [dois, setDois] = useState('Je dois');
     const [peux, setPeux] = useState('Je peux');
     const [doisPas, setDoisPas] = useState('Je ne dois pas');
@@ -56,7 +57,7 @@ export default function Categorie(props) {
 
     function getRulesinfo(){
       if(loading===true){
-          db.collection("regles").onSnapshot(function(querySnapshot) {
+          db.collection("regles").get().then(function(querySnapshot) {
               let tabMust = [];
               let tabCan = [];
               let tabMustnot = [];
@@ -71,7 +72,8 @@ export default function Categorie(props) {
                               name: doc.data().name,
                               desc: doc.data().desc,
                               type: doc.data().type,
-                              log: false
+                              log: false,
+                              admin: admin
                           })
                       }
                       if(doc.data().type === "can"){
@@ -81,7 +83,8 @@ export default function Categorie(props) {
                               name: doc.data().name,
                               desc: doc.data().desc,
                               type: doc.data().type,
-                              log: false
+                              log: false,
+                              admin: admin
                           })
                       }
                       if(doc.data().type === "mustnot"){
@@ -91,7 +94,8 @@ export default function Categorie(props) {
                               name: doc.data().name,
                               desc: doc.data().desc,
                               type: doc.data().type,
-                              log: false
+                              log: false,
+                              admin: admin
                           })
                       }
 
@@ -191,6 +195,7 @@ export default function Categorie(props) {
                         removeCookieLogin('login');
                         window.location.href='/login';
                     }else{
+                        setAdmin(true)
                         setPseudo(doc.data().pseudo)
                     }
                 }
@@ -229,6 +234,7 @@ export default function Categorie(props) {
                     type={listeRulesCan[i].type}
                     log={true}
                     onSuppr={e=>supprimer(listeRulesCan[i].id)}
+                    admin={listeRulesCan[i].admin}
 
                 />)
             }
@@ -243,6 +249,7 @@ export default function Categorie(props) {
                     type={listeRulesMust[i].type}
                     log={true}
                     onSuppr={e=>supprimer(listeRulesMust[i].id)}
+                    admin={listeRulesMust[i].admin}
 
                 />)
             }
@@ -257,6 +264,7 @@ export default function Categorie(props) {
                     type={listeRulesMustnot[i].type}
                     log={true}
                     onSuppr={e=>supprimer(listeRulesMustnot[i].id)}
+                    admin={listeRulesMustnot[i].admin}
 
                 />)
             }
@@ -271,6 +279,7 @@ export default function Categorie(props) {
                     desc={listeRulesCan[i].desc}
                     type={listeRulesCan[i].type}
                     log={false}
+                    admin={listeRulesCan[i].admin}
 
                 />)
             }
@@ -284,6 +293,7 @@ export default function Categorie(props) {
                     desc={listeRulesMust[i].desc}
                     type={listeRulesMust[i].type}
                     log={false}
+                    admin={listeRulesMust[i].admin}
 
                 />)
             }
@@ -297,10 +307,25 @@ export default function Categorie(props) {
                     desc={listeRulesMustnot[i].desc}
                     type={listeRulesMustnot[i].type}
                     log={false}
+                    admin={listeRulesMustnot[i].admin}
 
                 />)
             }
 
+        }
+        if(admin === true){
+            let regles = document.querySelectorAll('.majregle');
+            [].forEach.call(regles, function(regle) {
+                regle.addEventListener('input',function (e) {
+                    let iddoc  = e.target.getAttribute('data-id');
+                    let newregle = document.querySelector('.r-'+iddoc).innerText;
+                    db.collection("regles").doc(iddoc).update({
+                        desc: newregle
+                    })
+
+
+                })
+            });
         }
 
         if(vide === true){
