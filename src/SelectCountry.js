@@ -29,7 +29,7 @@ function App() {
     function getPays(){
         //console.log(navigator.language);
         if(loading===true){
-            db.collection("pays").onSnapshot(function(querySnapshot) {
+            db.collection("pays").orderBy('nom','asc').onSnapshot(function(querySnapshot) {
                 let tab=[];
                 querySnapshot.forEach(function(doc) {
                     //console.log(doc.id, " => ", doc.data());
