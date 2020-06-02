@@ -72,6 +72,8 @@ function App() {
                         setListePays(tab);
                     })
                 }else{
+                    setIntro('Sortez intelligemment')
+                    setIntro1('sortez avec Epirules')
                     setLoading(false); //On indique que le chargement est terminé
                     setListePays(tab);
                 }

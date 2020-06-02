@@ -238,32 +238,35 @@ export default function Stats() {
         );
     }else{
         return (
-            <div className={'globalstats'}>
+            <div>
                 <Header page={nomPage}> </Header>
-                <div className="stats">
-                    <div className="intro">
-                        <h2>{ici1}</h2>
+                <div className={'globalstats'}>
+
+                    <div className="stats">
+                        <div className="intro">
+                            <h2>{ici1}</h2>
+                        </div>
+                        <p>{paysSelectionne} : {pays}</p>
+                        <p className={'pays'}>{jsxDate}</p>
+                        <p>{msgCas} : {confirmed}</p>
+                        <p>{msgDeces} : {deaths}</p>
+                        <p>{msgGueris} : {recovered}</p>
+                        <p>{popTouchee} : {population}</p>
                     </div>
-                    <p>{paysSelectionne} : {pays}</p>
-                    <p className={'pays'}>{jsxDate}</p>
-                    <p>{msgCas} : {confirmed}</p>
-                    <p>{msgDeces} : {deaths}</p>
-                    <p>{msgGueris} : {recovered}</p>
-                    <p>{popTouchee} : {population}</p>
-                </div>
-                {h}
-                <div className="stats">
-                    <div className="intro">
-                        <h2>{ici2}</h2>
+                    {h}
+                    <div className="stats">
+                        <div className="intro">
+                            <h2>{ici2}</h2>
+                        </div>
+                        <p>{monde}</p>
+                        <p className={'pays'}>{jsxDateGlobal}</p>
+                        <p>{msgCas} : {globalConfirmed}</p>
+                        <p>{msgDeces} : {globalDeaths}</p>
+                        <p>{msgGueris} : {globalRecovered}</p>
+                        <p>{popTouchee} : {populationGlobale}</p>
                     </div>
-                    <p>{monde}</p>
-                    <p className={'pays'}>{jsxDateGlobal}</p>
-                    <p>{msgCas} : {globalConfirmed}</p>
-                    <p>{msgDeces} : {globalDeaths}</p>
-                    <p>{msgGueris} : {globalRecovered}</p>
-                    <p>{popTouchee} : {populationGlobale}</p>
+                    {g}
                 </div>
-                {g}
             </div>
 
         );

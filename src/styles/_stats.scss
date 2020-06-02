@@ -29,14 +29,14 @@
 }
 .recharts-wrapper{
   text-align: center;
-  width:98vw!important;
+  width:96%!important;
   margin: 3rem 0 0 0;
   svg{
-    width:95vw;
+    width:95%;
     margin: 0 auto;
   }
   .recharts-legend-wrapper{
-    width:98vw!important;
+    width:96%!important;
   }
   .recharts-tooltip-label{
     color: $noir;
@@ -44,4 +44,7 @@
 }
 .globalstats:last-child{
   margin-bottom: 3rem;
+}
+.globalstats{
+  max-width: 100%;
 }
