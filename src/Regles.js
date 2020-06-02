@@ -22,6 +22,7 @@ export default function Regles() {
     const [mouchoir,setMouchoir] = useState('Utiliser un mouchoir à usage unique et le jeter');
     const [saluer,setSaluer] = useState('Saluer sans se serrer la main, éviter les embrassades');
     const [categorie,setCategorie] = useState('Sélectionner une catégorie');
+    const [vide,setVide] = useState(false);
 
     let jsxListeRules = [];
     let pays=cookies.pays;
@@ -50,6 +51,9 @@ export default function Regles() {
                         })
                     }
                 });
+                if(tab.length === 0){
+                    setVide(true)
+                }
                 let newtab = [];
                 if (langue !== 'fr'){
                     async function translate() {
@@ -263,14 +267,16 @@ export default function Regles() {
                             </div>
                         </div>
                     </div>
-                    <div className="categories">
-                        <h2 className="titlePart"> {categorie} </h2>
-                        <div className="liste">
-                            <div style={{backgroundImage: "url('/images/vague-cat.png')"}}>
-                                {jsxListeRules}
+                    {vide === true ?
+                    '' :
+                        <div className="categories">
+                            <h2 className="titlePart"> {categorie} </h2>
+                            <div className="liste">
+                                <div style={{backgroundImage: "url('/images/vague-cat.png')"}}>
+                                    {jsxListeRules}
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </div>}
                 </div>
             </div>
         );

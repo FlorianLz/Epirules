@@ -19,7 +19,9 @@ export default function Faq() {
     const [nomPage, setNomPage] = useState('');
     const [txtRecherche, setTxtRecherche] = useState('Rechercher');
     const [poser, setPoser] = useState('Poser une question');
-    const [loadSearch,setLoadSearch] = useState(true)
+    const [loadSearch,setLoadSearch] = useState(true);
+    const [vide,setVide] = useState(false);
+    const [msgVide,setMsgVide] = useState('Il n\'y a pas encore de questions disponibles, n\'hésitez pas à nous en soumettre.')
 
 
     let pays=cookies.pays;
@@ -50,11 +52,14 @@ export default function Faq() {
                         })
                     }
                 });
+                if(tab.length === 0){
+                    setVide(true)
+                }
                 let newtab = [];
                 if(langue !== 'fr'){
                     async function translate() {
-                        let states = ['FAQ',txtRecherche,poser];
-                        let set = [setNomPage,setTxtRecherche,setPoser];
+                        let states = ['FAQ',txtRecherche,poser,msgVide];
+                        let set = [setNomPage,setTxtRecherche,setPoser,setMsgVide];
 
                         for(let i=0; i<states.length; i++){
                             await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+states[i]+'&lang='+langue).then(function (response) {
@@ -112,7 +117,12 @@ export default function Faq() {
                         })
                     }
                 });
+                if(tab.length === 0){
+                    setVide(true)
+                }
+                setNomPage('FAQ');
                 setListeQuestions(tab);
+                setLoadSearch(false);
                 setLoading(false);
                 setNoReload(true)
             })
@@ -264,6 +274,8 @@ export default function Faq() {
                     : ''
                 }
                 <div className="questions_liste">
+                    {vide === true ?
+                    <p className={'msgvide'}>{msgVide}</p> : ''}
                     { //Check if message failed
                         (noReaload === false)
                             ? (loading === false)

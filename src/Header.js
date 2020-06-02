@@ -61,7 +61,7 @@ export default function Header(props) {
     return (
         <div>
             <div className={'header'}>
-                <a href={'/regles'}><img src={'/images/epirules.png'} alt={'Epirules'}/></a>
+                <Link to={'/regles'}><img src={'/images/epirules.png'} alt={'Epirules'}/></Link>
             </div>
             <div className="header_titre">
                 <div className="vague">

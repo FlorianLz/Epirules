@@ -13,6 +13,8 @@ export default function Urgences() {
     const [listeNumeros,setListeNumeros] = useState([]);
     const [nomPage, setNomPage] = useState('');
     const [loading, setLoading] = useState(true);
+    const [vide,setVide] = useState(false);
+    const [msgVide,setMsgVide] = useState('Aucun numéro disponible pour le moment.')
     let jsxListeNumeros = [];
     let pays=cookies.pays;
     let idpays=cookiesID.idpays;
@@ -45,6 +47,9 @@ export default function Urgences() {
                     }
                 }
             });
+            if(listeNumeros.length === 0){
+                setVide(true)
+            }
             let newtab = [];
             if(langue !== 'fr'){
                 async function translate() {
@@ -53,6 +58,12 @@ export default function Urgences() {
                         setNomPage(response.data.text)
                     }).catch(function (errors) {
                         setNomPage('Urgences '+pays)
+                    })
+
+                    await axios.get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='+cle+'&text='+msgVide+'&lang='+langue).then(function (response) {
+                        setMsgVide(response.data.text)
+                    }).catch(function (errors) {
+                        setMsgVide('Aucun numéro disponible pour le moment.')
                     })
 
                     for(let i=0; i<listeNumeros.length; i++){
@@ -103,9 +114,10 @@ export default function Urgences() {
         return (
             <div>
                 <Header page={nomPage}> </Header>
-                <div className="emergency">
+                {vide === true ? <p className={'msgVideUrgences'}>{msgVide}</p>:
+                    <div className="emergency">
                     {jsxListeNumeros}
-                </div>
+                </div>}
             </div>
         )
     }else{
