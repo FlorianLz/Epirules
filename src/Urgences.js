@@ -30,11 +30,19 @@ export default function Urgences() {
                 // doc.data() is never undefined for query doc snapshots
                 //console.log(doc.id, " => ", doc.data());
                 if (doc.data().idpays === idpays){
-                    listeNumeros.push({
-                        idpays: doc.data().idpays,
-                        numero: doc.data().numero,
-                        desc: doc.data().desc
-                    })
+                    if(doc.data().zero){
+                        listeNumeros.push({
+                            idpays: doc.data().idpays,
+                            numero: '0'+doc.data().numero,
+                            desc: doc.data().desc
+                        })
+                    }else{
+                        listeNumeros.push({
+                            idpays: doc.data().idpays,
+                            numero: doc.data().numero,
+                            desc: doc.data().desc
+                        })
+                    }
                 }
             });
             let newtab = [];

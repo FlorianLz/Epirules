@@ -49,24 +49,42 @@ export default function AddUrgences() {
             document.querySelector('p.status_ok').innerHTML = '';
             document.querySelector('p.status').innerHTML = 'Merci de remplir tous les champs.';
         }else{
-
-            db.collection("numeros").add({
-                desc: desc,
-                idpays: idpays,
-                numero: parseInt(numero)
-            })
-                .then(function(docRef) {
+            if(numero.substr(0,1) == 0){
+                db.collection("numeros").add({
+                    desc: desc,
+                    idpays: idpays,
+                    numero: parseInt(numero),
+                    zero: true
+                }).then(function(docRef) {
                     //console.log("Document written with ID: ", docRef.id);
                     document.querySelector("form[name='formnumero']").reset();
                     document.querySelector('p.status').innerHTML = '';
                     document.querySelector('p.status_ok').innerHTML = 'Numéro ajouté !';
 
                 })
-                .catch(function(error) {
-                    console.log(error)
-                    document.querySelector('p.status').innerHTML = 'Erreur lors de l\'ajout du numéro !';
-                    document.querySelector('p.status_ok').innerHTML = '';
-                });
+                    .catch(function(error) {
+                        console.log(error)
+                        document.querySelector('p.status').innerHTML = 'Erreur lors de l\'ajout du numéro !';
+                        document.querySelector('p.status_ok').innerHTML = '';
+                    });
+            }else{
+                db.collection("numeros").add({
+                    desc: desc,
+                    idpays: idpays,
+                    numero: parseInt(numero)
+                }).then(function(docRef) {
+                    //console.log("Document written with ID: ", docRef.id);
+                    document.querySelector("form[name='formnumero']").reset();
+                    document.querySelector('p.status').innerHTML = '';
+                    document.querySelector('p.status_ok').innerHTML = 'Numéro ajouté !';
+
+                })
+                    .catch(function(error) {
+                        console.log(error)
+                        document.querySelector('p.status').innerHTML = 'Erreur lors de l\'ajout du numéro !';
+                        document.querySelector('p.status_ok').innerHTML = '';
+                    });
+            }
         }
 
     }
@@ -79,12 +97,21 @@ export default function AddUrgences() {
                     // doc.data() is never undefined for query doc snapshots
                     //console.log(doc.id, " => ", doc.data());
                     if (doc.data().idpays === idpays){
-                        tab.push({
-                            idpays: doc.data().idpays,
-                            numero: doc.data().numero,
-                            desc: doc.data().desc,
-                            suppr: doc.id
-                        })
+                        if(doc.data().zero){
+                            tab.push({
+                                idpays: doc.data().idpays,
+                                numero: '0'+doc.data().numero,
+                                desc: doc.data().desc,
+                                suppr: doc.id
+                            })
+                        }else{
+                            tab.push({
+                                idpays: doc.data().idpays,
+                                numero: doc.data().numero,
+                                desc: doc.data().desc,
+                                suppr: doc.id
+                            })
+                        }
                     }
                 });
                 setListeNumeros(tab)
