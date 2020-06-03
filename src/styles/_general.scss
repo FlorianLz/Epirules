@@ -52,3 +52,31 @@ code {
   font-style: normal;
   src: url('../fonts/Luciole-Bold.ttf');
 }
+
+@media only screen and (orientation:landscape){
+  #root {
+    display:none;
+  }
+  body{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+  .msgportrait{
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 1.8rem;
+    width: max-content;
+  }
+}
+@media only screen and (orientation:portrait){
+  #root {
+    display: block;
+  }
+  .msgportrait{
+    display: none;
+  }
+}
